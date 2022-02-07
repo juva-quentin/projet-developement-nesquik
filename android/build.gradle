@@ -3,11 +3,22 @@ buildscript {
     repositories {
         google()
         mavenCentral()
+        jcenter()
+
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:4.1.0'
+        classpath 'com.android.tools.build:gradle:7.1.1'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        // To benefit from the latest Performance Monitoring plugin features,
+        // update your Android Gradle Plugin dependency to at least v3.4.0
+
+
+        classpath 'com.google.gms:google-services:4.3.10'  // Google Services plugin
+
+        // Add the dependency for the Performance Monitoring plugin
+        classpath 'com.google.firebase:perf-plugin:1.4.1'  // Performance Monitoring plugin
+
     }
 }
 
