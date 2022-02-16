@@ -75,6 +75,13 @@
                 android:value="com.google.firebase.components.ComponentRegistrar" />
         </service>
 
+        <uses-library
+            android:name="androidx.window.extensions"
+            android:required="false" />
+        <uses-library
+            android:name="androidx.window.sidecar"
+            android:required="false" />
+
         <activity
             android:name="com.google.firebase.auth.internal.GenericIdpActivity"
             android:excludeFromRecents="true"
