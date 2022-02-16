@@ -1,10 +1,10 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\thoma\\Desktop\\projet dev\\projet-developement-nesquik\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-kn\\values-kn.xml",
+            "outputFile": "C:\\Users\\celia\\Flutter Repo test\\projet-developement-nesquik\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-kn\\values-kn.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\thoma\\.gradle\\caches\\transforms-3\\57ffc934382861652cff85320c98c54d\\transformed\\jetified-play-services-base-17.1.0\\res\\values-kn\\values.xml",
+                    "source": "C:\\Users\\celia\\.gradle\\caches\\transforms-3\\2210dd89ebc417fa8d1f970f3f009eb9\\transformed\\jetified-play-services-base-17.1.0\\res\\values-kn\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20",
                         "startColumns": "0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\thoma\\.gradle\\caches\\transforms-3\\49b517880ec6130bc3a471dbf7c15b8c\\transformed\\core-1.6.0\\res\\values-kn\\values-kn.xml",
+                    "source": "C:\\Users\\celia\\.gradle\\caches\\transforms-3\\0d4543f8c852374a0dead6b5e672ef9d\\transformed\\core-1.6.0\\res\\values-kn\\values-kn.xml",
                     "from": {
                         "startLines": "2",
                         "startColumns": "4",
@@ -38,7 +38,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\thoma\\.gradle\\caches\\transforms-3\\f7458429d9fcd75e1f1ec9e294410b63\\transformed\\jetified-play-services-basement-17.1.0\\res\\values-kn\\values.xml",
+                    "source": "C:\\Users\\celia\\.gradle\\caches\\transforms-3\\09a6524f1b95cf4fa8856a72dfed790f\\transformed\\jetified-play-services-basement-17.1.0\\res\\values-kn\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
