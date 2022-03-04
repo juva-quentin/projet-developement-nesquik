@@ -1,7 +1,7 @@
 # This is a generated file; do not edit or check into version control.
-firebase_auth=C:\\Users\\celia\\Documents\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_auth-3.3.6\\
-firebase_auth_web=C:\\Users\\celia\\Documents\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_auth_web-3.3.7\\
-firebase_core=C:\\Users\\celia\\Documents\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_core-1.12.0\\
-firebase_core_web=C:\\Users\\celia\\Documents\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_core_web-1.5.4\\
-flutter_plugin_android_lifecycle=C:\\Users\\celia\\Documents\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_plugin_android_lifecycle-2.0.5\\
-google_maps_flutter=C:\\Users\\celia\\Documents\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\google_maps_flutter-2.1.1\\
+firebase_auth=/Users/quentinjuvet/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-3.3.9/
+firebase_auth_web=/Users/quentinjuvet/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth_web-3.3.9/
+firebase_core=/Users/quentinjuvet/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.13.1/
+firebase_core_web=/Users/quentinjuvet/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core_web-1.6.1/
+flutter_plugin_android_lifecycle=/Users/quentinjuvet/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.5/
+google_maps_flutter=/Users/quentinjuvet/development/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.1.2/
