@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:overlay/overlay.dart';
 import 'package:projet_developement_nesquik/build/home_page/build_google_ap.dart';
 
 class MapSample extends StatefulWidget {
@@ -11,10 +11,12 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
+  // ignore: prefer_final_fields
   Completer<GoogleMapController> _controller = Completer();
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unnecessary_new
     return new Scaffold(
       body: _buildGoogleMap(context),
       floatingActionButton: Stack(
@@ -87,8 +89,23 @@ class MapSampleState extends State<MapSample> {
         height: 55,
         // margin: EdgeInsets.all(10),
         child: FloatingActionButton.extended(
-          onPressed: () {},
-          label: Text("My Profil"),
+          onPressed: () {
+            CustomOverlay(
+              context: context,
+              // Using overlayWidget
+              overlayWidget: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  child: Padding(
+                    padding: EdgeInsets.all(8),
+                    child: Text(
+                        'This widget is passed to the overlay using overlayWidget so there is no close button, but you can always close this overlay by tapping anywhere in the darker areas.'),
+                  ),
+                ),
+              ),
+            );
+          },
+          label: const Text("My Profil"),
           icon: Icon(Icons.account_box_rounded),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
