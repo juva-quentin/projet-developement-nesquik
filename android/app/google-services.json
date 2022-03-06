@@ -1,18 +1,27 @@
 {
   "project_info": {
     "project_number": "344615134676",
+    "firebase_url": "https://projet-dev-neskique-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "projet-dev-neskique",
     "storage_bucket": "projet-dev-neskique.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:344615134676:android:b7e103811b8e7b78652241",
+        "mobilesdk_app_id": "1:344615134676:android:2891b6b413fbb253652241",
         "android_client_info": {
-          "package_name": "com.nesquik.com.projet_developement_nesquik"
+          "package_name": "com.flutterflow.projetdev"
         }
       },
       "oauth_client": [
+        {
+          "client_id": "344615134676-jdjupqpfh440qncmdol4dsbhlebl3sds.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.flutterflow.projetdev",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
         {
           "client_id": "344615134676-qp279n5f4dl71hjbdplliaq5s5avqab8.apps.googleusercontent.com",
           "client_type": 3
@@ -31,10 +40,54 @@
               "client_type": 3
             },
             {
-              "client_id": "344615134676-57llaok21bi8sj1hpnsklp4m18ampd5j.apps.googleusercontent.com",
+              "client_id": "344615134676-000led2ehrsomqld6q8td1c9vnnk9f1h.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.flutterApplication1"
+                "bundle_id": "com.nesquik.com.projetDevelopementNesquik"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:344615134676:android:b7e103811b8e7b78652241",
+        "android_client_info": {
+          "package_name": "com.nesquik.com.projet_developement_nesquik"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "344615134676-23nn3c8s685agd3ndbj9vs6jj69m5tfr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.nesquik.com.projet_developement_nesquik",
+            "certificate_hash": "9bbb3186b2189ef16d8f272bdab59362c395cbb4"
+          }
+        },
+        {
+          "client_id": "344615134676-qp279n5f4dl71hjbdplliaq5s5avqab8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAzg1hUmJLXQqu3yBqodW0lkRaz5YuchVM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "344615134676-qp279n5f4dl71hjbdplliaq5s5avqab8.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "344615134676-000led2ehrsomqld6q8td1c9vnnk9f1h.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.nesquik.com.projetDevelopementNesquik"
               }
             }
           ]
