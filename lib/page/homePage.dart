@@ -90,19 +90,9 @@ class MapSampleState extends State<MapSample> {
         // margin: EdgeInsets.all(10),
         child: FloatingActionButton.extended(
           onPressed: () {
-            CustomOverlay(
-              context: context,
-              // Using overlayWidget
-              overlayWidget: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Card(
-                  child: Padding(
-                    padding: EdgeInsets.all(8),
-                    child: Text(
-                        'This widget is passed to the overlay using overlayWidget so there is no close button, but you can always close this overlay by tapping anywhere in the darker areas.'),
-                  ),
-                ),
-              ),
+            Navigator.pushNamed(
+              context,
+              '/profilPage',
             );
           },
           label: const Text("My Profil"),
