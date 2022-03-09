@@ -38,6 +38,9 @@ dependencies:
   google_maps_flutter: ^2.1.1
   fl_chart: ^0.45.1
   overlay: ^0.0.1
+  font_awesome_flutter: ^9.2.0
+  percent_indicator: ^3.4.0
+  google_fonts: ^2.3.1
 
 dev_dependencies:
   flutter_test:
