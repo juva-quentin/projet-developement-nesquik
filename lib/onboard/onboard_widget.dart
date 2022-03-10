@@ -72,7 +72,7 @@ class _OnboardWidgetState extends State<OnboardWidget>
     'textOnPageLoadAnimation2': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
       duration: 600,
-      delay: 1100,
+      delay: 1310,
       fadeIn: true,
       initialState: AnimationState(
         offset: Offset(0, 100),
@@ -80,6 +80,22 @@ class _OnboardWidgetState extends State<OnboardWidget>
       ),
       finalState: AnimationState(
         offset: Offset(0, 0),
+        opacity: 1,
+      ),
+    ),
+    'textOnPageLoadAnimation3': AnimationInfo(
+      trigger: AnimationTrigger.onPageLoad,
+      duration: 600,
+      delay: 1410,
+      fadeIn: true,
+      initialState: AnimationState(
+        offset: Offset(0, 0),
+        scale: 1,
+        opacity: 0,
+      ),
+      finalState: AnimationState(
+        offset: Offset(0, 0),
+        scale: 1,
         opacity: 1,
       ),
     ),
@@ -153,7 +169,7 @@ class _OnboardWidgetState extends State<OnboardWidget>
                 'Welcome to',
                 style: FlutterFlowTheme.of(context).title2.override(
                       fontFamily: 'Sen',
-                      color: FlutterFlowTheme.of(context).primaryBackground,
+                      color: Colors.white,
                       fontSize: 25,
                     ),
               ).animated([animationsMap['textOnPageLoadAnimation1']]),
@@ -162,7 +178,7 @@ class _OnboardWidgetState extends State<OnboardWidget>
               'Theo\'file',
               style: FlutterFlowTheme.of(context).title1.override(
                     fontFamily: 'Sen',
-                    color: FlutterFlowTheme.of(context).primaryBackground,
+                    color: Colors.white,
                     fontSize: 35,
                   ),
             ).animated([animationsMap['textOnPageLoadAnimation2']]),
@@ -172,10 +188,10 @@ class _OnboardWidgetState extends State<OnboardWidget>
                 'tracker',
                 style: FlutterFlowTheme.of(context).title3.override(
                       fontFamily: 'Sen',
-                      color: FlutterFlowTheme.of(context).primaryBackground,
+                      color: Colors.white,
                       fontSize: 20,
                     ),
-              ),
+              ).animated([animationsMap['textOnPageLoadAnimation3']]),
             ),
             Padding(
               padding: EdgeInsetsDirectional.fromSTEB(0, 180, 0, 0),
@@ -184,7 +200,7 @@ class _OnboardWidgetState extends State<OnboardWidget>
                 radius: 50,
                 lineWidth: 15,
                 animation: true,
-                progressColor: Color(0xFF72B0EA),
+                progressColor: Color(0xFF0669A9),
                 backgroundColor: Color(0xFFF1F4F8),
               ).animated([animationsMap['progressBarOnPageLoadAnimation']]),
             ),

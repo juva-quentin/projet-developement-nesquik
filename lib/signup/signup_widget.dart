@@ -47,7 +47,7 @@ class _SignupWidgetState extends State<SignupWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: scaffoldKey,
-      backgroundColor: FlutterFlowTheme.of(context).primaryBackground,
+      backgroundColor: Colors.white,
       body: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
         child: Stack(
@@ -62,14 +62,24 @@ class _SignupWidgetState extends State<SignupWidget> {
                         color: Colors.transparent,
                         elevation: 3,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                          borderRadius: BorderRadius.only(
+                            bottomLeft: Radius.circular(30),
+                            bottomRight: Radius.circular(30),
+                            topLeft: Radius.circular(0),
+                            topRight: Radius.circular(0),
+                          ),
                         ),
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: MediaQuery.of(context).size.height * 0.26,
                           decoration: BoxDecoration(
                             color: Color(0xFF72B0EA),
-                            borderRadius: BorderRadius.circular(30),
+                            borderRadius: BorderRadius.only(
+                              bottomLeft: Radius.circular(30),
+                              bottomRight: Radius.circular(30),
+                              topLeft: Radius.circular(0),
+                              topRight: Radius.circular(0),
+                            ),
                             shape: BoxShape.rectangle,
                           ),
                           child: Stack(
@@ -608,7 +618,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                     ),
                                   ),
                                   Align(
-                                    alignment: AlignmentDirectional(-0.05, 0),
+                                    alignment: AlignmentDirectional(-0.1, 0),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           20, 35, 0, 0),
@@ -763,8 +773,10 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                     color: Color(0xFF72B0EA),
                                                     fontWeight: FontWeight.w500,
                                                   ),
+                                          elevation: 0,
                                           borderSide: BorderSide(
                                             color: Colors.transparent,
+                                            width: 0,
                                           ),
                                           borderRadius: 0,
                                         ),
