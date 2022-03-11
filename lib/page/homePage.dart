@@ -2,11 +2,9 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
 import 'package:projet_developement_nesquik/build/home_page/build_google_ap.dart';
-import 'package:projet_developement_nesquik/page/profilPage.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class MapSample extends StatefulWidget {
@@ -626,13 +624,13 @@ class TutorialOverlay extends ModalRoute<void> {
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
+    const begin = Offset(0.0, -0.95);
+    const end = Offset.zero;
     // You can add your own animations for the overlay content
-    return FadeTransition(
-      opacity: animation,
-      child: ScaleTransition(
-        scale: animation,
-        child: child,
-      ),
+    var tween = Tween(begin: begin, end: end);
+    return SlideTransition(
+      position: animation.drive(tween),
+      child: child,
     );
   }
 }
