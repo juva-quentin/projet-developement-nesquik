@@ -5,16 +5,23 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:projet_developement_nesquik/build/home_page/build_google_ap.dart';
 
+import 'package:projet_developement_nesquik/page/profilPage.dart';
+
 class MapSample extends StatefulWidget {
   @override
   State<MapSample> createState() => MapSampleState();
 }
 
 class MapSampleState extends State<MapSample> {
+  // ignore: prefer_final_fields
   Completer<GoogleMapController> _controller = Completer();
+  void _showOverlay(BuildContext context) {
+    Navigator.of(context).push(ProfilOverlay());
+  }
 
   @override
   Widget build(BuildContext context) {
+    // ignore: unnecessary_new
     return new Scaffold(
       body: _buildGoogleMap(context),
       floatingActionButton: Stack(
@@ -22,7 +29,6 @@ class MapSampleState extends State<MapSample> {
         children: [
           _buildCommunityBtn(),
           _buildProfilBtn(),
-          // _buildPopUp(0),
           _buildShadowOptionBox(),
           _buildOptionsBtn(),
           _buildGoBtn(),
@@ -87,8 +93,10 @@ class MapSampleState extends State<MapSample> {
         height: 55,
         // margin: EdgeInsets.all(10),
         child: FloatingActionButton.extended(
-          onPressed: () {},
-          label: Text("My Profil"),
+          onPressed: () {
+            _showOverlay(context);
+          },
+          label: const Text("My Profil"),
           icon: Icon(Icons.account_box_rounded),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
