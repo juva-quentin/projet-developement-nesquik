@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="GradleMigrationSettings" migrationVersion="1" />
   <component name="GradleSettings">
     <option name="linkedExternalProjectsSettings">
       <GradleProjectSettings>
@@ -10,6 +11,18 @@
           <set>
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/app" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/git/dart_packages-ab18d53a80e0a4bb90f1ad84f37f1b408930f28d/packages/sign_in_with_apple/sign_in_with_apple/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_auth-3.2.0/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/firebase_core-1.12.0/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/flutter_plugin_android_lifecycle-2.0.5/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/google_api_headers-1.1.1/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/google_maps_flutter-2.1.2/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/google_sign_in-5.2.1/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/package_info_plus-1.4.0/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/path_provider_android-2.0.12/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/shared_preferences_android-2.0.11/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/sqflite-2.0.2/android" />
+            <option value="$USER_HOME$/development/flutter/.pub-cache/hosted/pub.dartlang.org/url_launcher-6.0.15/android" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>344615134676-000led2ehrsomqld6q8td1c9vnnk9f1h.apps.googleusercontent.com</string>
+	<string>344615134676-nal6gmrsb94u9i5lp3sc00ftegf0tpfo.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.344615134676-000led2ehrsomqld6q8td1c9vnnk9f1h</string>
+	<string>com.googleusercontent.apps.344615134676-nal6gmrsb94u9i5lp3sc00ftegf0tpfo</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>344615134676-23nn3c8s685agd3ndbj9vs6jj69m5tfr.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyDLqVAimTnSiaK611SG3dFXJV-Yg3AoT8U</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.nesquik.com.projetDevelopementNesquik</string>
+	<string>com.nesquik.projetDevelopementNesquik</string>
 	<key>PROJECT_ID</key>
 	<string>projet-dev-neskique</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,8 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:344615134676:ios:707e96e1f0b9d268652241</string>
+	<string>1:344615134676:ios:a6824afbc6e3bd1e652241</string>
+	<key>DATABASE_URL</key>
+	<string>https://projet-dev-neskique-default-rtdb.europe-west1.firebasedatabase.app</string>
 </dict>
 </plist>
