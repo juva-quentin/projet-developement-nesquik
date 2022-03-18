@@ -1,3 +1,5 @@
+import 'package:projet_developement_nesquik/page/homePage.dart';
+
 import '../auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
@@ -418,7 +420,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     context,
                                                     MaterialPageRoute(
                                                       builder: (context) =>
-                                                          HomePageWidget(),
+                                                          MapSample(),
                                                     ),
                                                     (r) => false,
                                                   );
