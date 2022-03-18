@@ -1,10 +1,11 @@
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
+import '../home_page/home_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:percent_indicator/percent_indicator.dart';
-import '../login_page/login_page_widget.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OnboardWidget extends StatefulWidget {
   const OnboardWidget({Key key}) : super(key: key);
@@ -69,8 +70,8 @@ class _OnboardWidgetState extends State<OnboardWidget>
     ),
     'textOnPageLoadAnimation2': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
-      duration: 600,
-      delay: 1310,
+      duration: 700,
+      delay: 1100,
       fadeIn: true,
       initialState: AnimationState(
         offset: Offset(0, 100),
@@ -83,24 +84,8 @@ class _OnboardWidgetState extends State<OnboardWidget>
     ),
     'textOnPageLoadAnimation3': AnimationInfo(
       trigger: AnimationTrigger.onPageLoad,
-      duration: 600,
-      delay: 1410,
-      fadeIn: true,
-      initialState: AnimationState(
-        offset: Offset(0, 0),
-        scale: 1,
-        opacity: 0,
-      ),
-      finalState: AnimationState(
-        offset: Offset(0, 0),
-        scale: 1,
-        opacity: 1,
-      ),
-    ),
-    'progressBarOnPageLoadAnimation': AnimationInfo(
-      curve: Curves.bounceOut,
-      trigger: AnimationTrigger.onPageLoad,
-      duration: 600,
+      duration: 800,
+      delay: 1100,
       fadeIn: true,
       initialState: AnimationState(
         offset: Offset(0, 0),
@@ -190,17 +175,6 @@ class _OnboardWidgetState extends State<OnboardWidget>
                       fontSize: 20,
                     ),
               ).animated([animationsMap['textOnPageLoadAnimation3']]),
-            ),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 180, 0, 0),
-              child: CircularPercentIndicator(
-                percent: 0,
-                radius: 50,
-                lineWidth: 15,
-                animation: true,
-                progressColor: Color(0xFF0669A9),
-                backgroundColor: Color(0xFFF1F4F8),
-              ).animated([animationsMap['progressBarOnPageLoadAnimation']]),
             ),
           ],
         ).animated([animationsMap['columnOnPageLoadAnimation']]),
