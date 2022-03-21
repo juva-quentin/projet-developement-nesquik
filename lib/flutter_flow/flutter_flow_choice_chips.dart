@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 const double _kChoiceChipsHeight = 40.0;
@@ -34,6 +35,7 @@ class FlutterFlowChoiceChips extends StatefulWidget {
     this.unselectedChipStyle,
     this.chipSpacing,
     this.multiselect,
+    this.initialized = true,
   });
 
   final List<String> initiallySelected;
@@ -43,6 +45,7 @@ class FlutterFlowChoiceChips extends StatefulWidget {
   final ChipStyle unselectedChipStyle;
   final double chipSpacing;
   final bool multiselect;
+  final bool initialized;
 
   @override
   State<FlutterFlowChoiceChips> createState() => _FlutterFlowChoiceChipsState();
@@ -55,6 +58,11 @@ class _FlutterFlowChoiceChipsState extends State<FlutterFlowChoiceChips> {
   void initState() {
     super.initState();
     choiceChipValues = widget.initiallySelected ?? [];
+    if (!widget.initialized && choiceChipValues.isNotEmpty) {
+      SchedulerBinding.instance.addPostFrameCallback(
+        (_) => widget.onChanged(choiceChipValues),
+      );
+    }
   }
 
   @override

@@ -93,6 +93,7 @@ class MapSampleState extends State<MapSample> {
         height: 55,
         // margin: EdgeInsets.all(10),
         child: FloatingActionButton.extended(
+          heroTag: "profil",
           onPressed: () {
             _showOverlay(context);
           },
@@ -128,6 +129,7 @@ class MapSampleState extends State<MapSample> {
                 ),
               ),
               child: FloatingActionButton.extended(
+                heroTag: "pressbt1",
                 onPressed: () {
                   print("pressBt1");
                   goToSainteConsorce();
@@ -157,6 +159,7 @@ class MapSampleState extends State<MapSample> {
                 ),
               ),
               child: FloatingActionButton.extended(
+                heroTag: "pressbt2",
                 onPressed: () {
                   print("pressBt2");
                   goToLyon();
@@ -186,6 +189,7 @@ class MapSampleState extends State<MapSample> {
                 ),
               ),
               child: FloatingActionButton.extended(
+                heroTag: "pressbt3",
                 onPressed: () {
                   print("pressBt3");
                 },
@@ -209,6 +213,7 @@ class MapSampleState extends State<MapSample> {
             bottom: 75,
             child: Container(
               child: FloatingActionButton.extended(
+                heroTag: "pressbt4",
                 onPressed: () {
                   print("pressBt4");
                   /*_buildPopUp(1);*/
@@ -261,6 +266,7 @@ class MapSampleState extends State<MapSample> {
       child: Container(
         width: 150,
         child: FloatingActionButton.extended(
+          heroTag: "go",
           onPressed: () {},
           label: Text("GO"),
           backgroundColor: Color.fromRGBO(114, 176, 234, 1),

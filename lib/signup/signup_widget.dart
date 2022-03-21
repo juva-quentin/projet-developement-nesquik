@@ -1,17 +1,12 @@
 import '../auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_choice_chips.dart';
-import '../flutter_flow/flutter_flow_place_picker.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../flutter_flow/place.dart';
-
-import 'dart:io';
+import '../home_page/home_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../login_page/login_page_widget.dart';
 
 class SignupWidget extends StatefulWidget {
   const SignupWidget({Key key}) : super(key: key);
@@ -24,8 +19,6 @@ class _SignupWidgetState extends State<SignupWidget> {
   String choiceChipsValue;
   TextEditingController emailAddressController1;
   TextEditingController emailAddressController2;
-  TextEditingController emailAddressController3;
-  var placePickerValue = FFPlace();
   TextEditingController mdpController;
   bool mdpVisibility;
   TextEditingController mdpconfirmController;
@@ -38,7 +31,6 @@ class _SignupWidgetState extends State<SignupWidget> {
     super.initState();
     emailAddressController1 = TextEditingController();
     emailAddressController2 = TextEditingController();
-    emailAddressController3 = TextEditingController();
     mdpController = TextEditingController();
     mdpVisibility = false;
     mdpconfirmController = TextEditingController();
@@ -293,139 +285,6 @@ class _SignupWidgetState extends State<SignupWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         10, 0, 0, 0),
                                     child: Text(
-                                      'Date de naissance',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 20,
-                                          ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 40, 0, 0),
-                                    child: TextFormField(
-                                      controller: emailAddressController3,
-                                      obscureText: false,
-                                      decoration: InputDecoration(
-                                        labelText: 'Date de Naissance',
-                                        labelStyle: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Color(0xFF57636C),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                        hintText: 'JJ/MM/AAAA',
-                                        hintStyle: FlutterFlowTheme.of(context)
-                                            .bodyText1
-                                            .override(
-                                              fontFamily: 'Lexend Deca',
-                                              color: Color(0xFF57636C),
-                                              fontSize: 14,
-                                              fontWeight: FontWeight.normal,
-                                            ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFFDBE2E7),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xFFDBE2E7),
-                                            width: 2,
-                                          ),
-                                          borderRadius:
-                                              BorderRadius.circular(8),
-                                        ),
-                                        filled: true,
-                                        fillColor: Colors.white,
-                                        contentPadding:
-                                            EdgeInsetsDirectional.fromSTEB(
-                                                24, 24, 20, 24),
-                                      ),
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Lexend Deca',
-                                            color: Color(0xFF1D2429),
-                                            fontSize: 14,
-                                            fontWeight: FontWeight.normal,
-                                          ),
-                                      keyboardType: TextInputType.datetime,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(15, 30, 15, 0),
-                              child: Stack(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        10, 0, 0, 0),
-                                    child: Text(
-                                      'Ville',
-                                      style: FlutterFlowTheme.of(context)
-                                          .bodyText1
-                                          .override(
-                                            fontFamily: 'Poppins',
-                                            fontSize: 20,
-                                          ),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        0, 35, 0, 0),
-                                    child: FlutterFlowPlacePicker(
-                                      iOSGoogleMapsApiKey: '',
-                                      androidGoogleMapsApiKey: '',
-                                      webGoogleMapsApiKey: '',
-                                      onSelect: (place) => setState(
-                                          () => placePickerValue = place),
-                                      defaultText: 'Choisir ma ville',
-                                      icon: Icon(
-                                        Icons.place,
-                                        color: Colors.white,
-                                        size: 16,
-                                      ),
-                                      buttonOptions: FFButtonOptions(
-                                        width: 500,
-                                        height: 40,
-                                        color: Color(0xFF72B0EA),
-                                        textStyle: FlutterFlowTheme.of(context)
-                                            .subtitle2
-                                            .override(
-                                              fontFamily: 'Poppins',
-                                              color: Colors.white,
-                                            ),
-                                        borderSide: BorderSide(
-                                          color: Colors.transparent,
-                                          width: 1,
-                                        ),
-                                        borderRadius: 12,
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding:
-                                  EdgeInsetsDirectional.fromSTEB(15, 30, 15, 0),
-                              child: Stack(
-                                children: [
-                                  Padding(
-                                    padding: EdgeInsetsDirectional.fromSTEB(
-                                        10, 0, 0, 0),
-                                    child: Text(
                                       'Mot de passe',
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
@@ -623,7 +482,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                     alignment: AlignmentDirectional(-0.1, 0),
                                     child: Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          20, 35, 0, 0),
+                                          30, 35, 0, 0),
                                       child: FlutterFlowChoiceChips(
                                         initiallySelected: [choiceChipsValue],
                                         options: [
@@ -708,7 +567,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                 Duration(milliseconds: 300),
                                             reverseDuration:
                                                 Duration(milliseconds: 300),
-                                            child: SignupWidget(),
+                                            child: HomePageWidget(),
                                           ),
                                         );
                                       },
