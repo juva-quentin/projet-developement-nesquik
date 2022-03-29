@@ -5,8 +5,7 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
 import '../home_page/home_page_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class SignupWidget extends StatefulWidget {
   const SignupWidget({Key key}) : super(key: key);
@@ -18,11 +17,12 @@ class SignupWidget extends StatefulWidget {
 class _SignupWidgetState extends State<SignupWidget> {
   String choiceChipsValue;
   TextEditingController emailAddressController1;
-  TextEditingController emailAddressController2;
+  TextEditingController pseudoController;
   TextEditingController mdpController;
   bool mdpVisibility;
   TextEditingController mdpconfirmController;
   bool mdpconfirmVisibility;
+  // CollectionReference users = FirebaseFirestore.instance.collection('users');
   final formKey = GlobalKey<FormState>();
   final scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -30,7 +30,7 @@ class _SignupWidgetState extends State<SignupWidget> {
   void initState() {
     super.initState();
     emailAddressController1 = TextEditingController();
-    emailAddressController2 = TextEditingController();
+    pseudoController = TextEditingController();
     mdpController = TextEditingController();
     mdpVisibility = false;
     mdpconfirmController = TextEditingController();
@@ -220,7 +220,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                     padding: EdgeInsetsDirectional.fromSTEB(
                                         0, 40, 0, 0),
                                     child: TextFormField(
-                                      controller: emailAddressController2,
+                                      controller: pseudoController,
                                       obscureText: false,
                                       decoration: InputDecoration(
                                         labelText: 'Pseudo',
@@ -556,6 +556,12 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         );
                                         if (user == null) {
                                           return;
+                                        } else {
+                                          addNewUsertoDataBase(
+                                              user,
+                                              emailAddressController1.text,
+                                              pseudoController.text,
+                                              choiceChipsValue);
                                         }
 
                                         await Navigator.push(
