@@ -3,30 +3,41 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-import 'package:projet_developement_nesquik/build/home_page/build_google_ap.dart';
+import 'package:projet_developement_nesquik/page/map.dart';
 
 import 'package:projet_developement_nesquik/page/profilPage.dart';
 
 class MapSample extends StatefulWidget {
   @override
-  State<MapSample> createState() => MapSampleState();
+  MapSampleState createState() => MapSampleState();
 }
 
 class MapSampleState extends State<MapSample> {
-  // ignore: prefer_final_fields
   Completer<GoogleMapController> _controller = Completer();
+
   void _showOverlay(BuildContext context) {
     Navigator.of(context).push(ProfilOverlay());
   }
 
+  Set<Polyline> lines = {};
+  Set<Marker> points = {};
+
+  @override
+  void initState() {
+    super.initState();
+    tt();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // ignore: unnecessary_new
-    return new Scaffold(
+    return Scaffold(
       body: _buildGoogleMap(context),
       floatingActionButton: Stack(
         fit: StackFit.expand,
         children: [
+          _build1Btn(),
+          _build2Btn(),
+          _build3Btn(),
           _buildCommunityBtn(),
           _buildProfilBtn(),
           _buildShadowOptionBox(),
@@ -37,24 +48,77 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-  //-----
+//build
 
   Widget _buildGoogleMap(BuildContext context) {
     return Container(
       child: GoogleMap(
-        mapType: MapType.normal,
-        initialCameraPosition: kLyon,
         zoomControlsEnabled: false,
-        markers: {
-          markSainte,
-          markLyon,
-        },
-        polylines: {
-          k1erTrajet,
-        },
+        mapType: MapType.normal,
+        myLocationEnabled: true,
+        initialCameraPosition: kPositionnementInitial,
+        markers: points,
+        polylines: lines,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
+      ),
+    );
+  }
+
+  Widget _build1Btn() {
+    return Positioned(
+      left: 40,
+      top: 150,
+      child: Container(
+        width: 50,
+        height: 55,
+        child: FloatingActionButton.extended(
+          heroTag: "private",
+          onPressed: () {
+            affichagePrivate();
+          },
+          label: Text("1"),
+          backgroundColor: Color.fromRGBO(114, 176, 234, 1),
+        ),
+      ),
+    );
+  }
+
+  Widget _build2Btn() {
+    return Positioned(
+      left: 150,
+      top: 150,
+      child: Container(
+        width: 50,
+        height: 55,
+        child: FloatingActionButton.extended(
+          heroTag: "protected",
+          onPressed: () {
+            affichageProtected();
+          },
+          label: Text("2"),
+          backgroundColor: Color.fromARGB(255, 224, 78, 78),
+        ),
+      ),
+    );
+  }
+
+  Widget _build3Btn() {
+    return Positioned(
+      left: 250,
+      top: 150,
+      child: Container(
+        width: 50,
+        height: 55,
+        child: FloatingActionButton.extended(
+          heroTag: "public",
+          onPressed: () {
+            affichagePublic();
+          },
+          label: Text("3"),
+          backgroundColor: Color.fromARGB(255, 79, 219, 51),
+        ),
       ),
     );
   }
@@ -129,10 +193,9 @@ class MapSampleState extends State<MapSample> {
                 ),
               ),
               child: FloatingActionButton.extended(
-                heroTag: "pressbt1",
                 onPressed: () {
                   print("pressBt1");
-                  goToSainteConsorce();
+                  // calculDistance();
                 },
                 icon: Icon(Icons.pedal_bike),
                 label: Text("1"),
@@ -159,10 +222,9 @@ class MapSampleState extends State<MapSample> {
                 ),
               ),
               child: FloatingActionButton.extended(
-                heroTag: "pressbt2",
                 onPressed: () {
                   print("pressBt2");
-                  goToLyon();
+                  // calculDistance();
                 },
                 icon: Icon(Icons.lock),
                 label: Text("2"),
@@ -189,7 +251,6 @@ class MapSampleState extends State<MapSample> {
                 ),
               ),
               child: FloatingActionButton.extended(
-                heroTag: "pressbt3",
                 onPressed: () {
                   print("pressBt3");
                 },
@@ -213,10 +274,8 @@ class MapSampleState extends State<MapSample> {
             bottom: 75,
             child: Container(
               child: FloatingActionButton.extended(
-                heroTag: "pressbt4",
                 onPressed: () {
                   print("pressBt4");
-                  /*_buildPopUp(1);*/
                 },
                 label: Text("4"),
                 extendedTextStyle: TextStyle(color: Colors.black),
@@ -266,7 +325,6 @@ class MapSampleState extends State<MapSample> {
       child: Container(
         width: 150,
         child: FloatingActionButton.extended(
-          heroTag: "go",
           onPressed: () {},
           label: Text("GO"),
           backgroundColor: Color.fromRGBO(114, 176, 234, 1),
@@ -297,15 +355,60 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
-//-------------
-
-  Future<void> goToSainteConsorce() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(kSainteConsorce));
+  void affichagePrivate() {
+    if (lines.isNotEmpty) {
+      for (var i = 0; i < lines.length; i++) {
+        lines.remove(lines.first);
+        for (var y = 0; y < points.length; y++) {
+          points.remove(points.first);
+        }
+      }
+    }
+    setState(() {
+      for (var item in listPolylinePrivate) {
+        lines.add(item);
+        for (var item2 in listMarkerPrivate) {
+          points.add(item2);
+        }
+      }
+    });
   }
 
-  Future<void> goToLyon() async {
-    final GoogleMapController controller = await _controller.future;
-    controller.animateCamera(CameraUpdate.newCameraPosition(kLyon));
+  void affichageProtected() {
+    if (lines.isNotEmpty) {
+      for (var i = 0; i < lines.length; i++) {
+        lines.remove(lines.first);
+        for (var y = 0; y < points.length; y++) {
+          points.remove(points.first);
+        }
+      }
+    }
+    setState(() {
+      for (var item in listPolylineProtected) {
+        lines.add(item);
+        for (var item2 in listMarkerProtected) {
+          points.add(item2);
+        }
+      }
+    });
+  }
+
+  void affichagePublic() {
+    if (lines.isNotEmpty) {
+      for (var i = 0; i < lines.length; i++) {
+        lines.remove(lines.first);
+        for (var y = 0; y < points.length; y++) {
+          points.remove(points.first);
+        }
+      }
+    }
+    setState(() {
+      for (var item in listPolylinePublic) {
+        lines.add(item);
+        for (var item2 in listMarkerPublic) {
+          points.add(item2);
+        }
+      }
+    });
   }
 }
