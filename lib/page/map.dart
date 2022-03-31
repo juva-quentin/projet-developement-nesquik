@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'Parcour.dart';
@@ -82,6 +83,14 @@ Future getProtectedFromApi() async {
 }
 
 Future getPublicFromApi() async {
+  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+      .collection('parcours')
+      .where('type', isEqualTo: "public")
+      .snapshots();
+
+  print("mdr");
+  print(_usersStream);
+
   for (var i = 0; i < urls_Public.length; i++) {
     var response = await http.get(Uri.parse(urls_Public[i]));
     if (response.statusCode == 200) {

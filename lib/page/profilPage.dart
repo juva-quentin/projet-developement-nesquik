@@ -77,10 +77,9 @@ Widget _buildFinalTopOverlayContent(BuildContext context) {
     Positioned(
       top: MediaQuery.of(context).size.height * 0.04,
       child: IconButton(
-        hoverColor: Colors.transparent,
         icon: Icon(
           Icons.keyboard_arrow_up,
-          color: Colors.black,
+          color: Color.fromARGB(255, 255, 255, 255),
           size: 40,
         ),
         onPressed: () => Navigator.pop(context),
@@ -137,11 +136,11 @@ Widget _buildNameOverlay() {
                   child: Icon(Icons.account_circle_rounded, size: 40),
                 ),
                 Container(
-                    margin: EdgeInsets.only(left: 5),
+                    margin: EdgeInsets.only(left: 7),
                     child: Text("${data['pseudo']}",
                         style: GoogleFonts.sen(
                             textStyle: TextStyle(
-                          color: Color(0xFF121212),
+                          color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 17,
                           fontWeight: FontWeight.normal,
                         ))))
@@ -285,7 +284,7 @@ Widget _buildBottomOverlay(BuildContext context) {
                 child: new Text(item,
                     style: GoogleFonts.sen(
                         textStyle: TextStyle(
-                      color: Color(0xFF121212),
+                      color: Color.fromARGB(255, 255, 255, 255),
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                     ))))))
