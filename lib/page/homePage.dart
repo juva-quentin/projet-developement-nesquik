@@ -26,6 +26,7 @@ class MapSampleState extends State<MapSample> {
   void initState() {
     super.initState();
     tt();
+    var flag = 0;
   }
 
   @override
@@ -355,60 +356,71 @@ class MapSampleState extends State<MapSample> {
     );
   }
 
+  var flag = 0;
+
   void affichagePrivate() {
-    if (lines.isNotEmpty) {
-      for (var i = 0; i < lines.length; i++) {
-        lines.remove(lines.first);
-        for (var y = 0; y < points.length; y++) {
-          points.remove(points.first);
+    if (flag != 1) {
+      if (lines.isNotEmpty) {
+        for (var i = 0; i < lines.length; i++) {
+          lines.remove(lines.first);
+          for (var y = 0; y < points.length; y++) {
+            points.remove(points.first);
+          }
         }
       }
+      setState(() {
+        for (var item in listPolylinePrivate) {
+          lines.add(item);
+          for (var item2 in listMarkerPrivate) {
+            points.add(item2);
+          }
+        }
+      });
     }
-    setState(() {
-      for (var item in listPolylinePrivate) {
-        lines.add(item);
-        for (var item2 in listMarkerPrivate) {
-          points.add(item2);
-        }
-      }
-    });
+    flag = 1;
   }
 
   void affichageProtected() {
-    if (lines.isNotEmpty) {
-      for (var i = 0; i < lines.length; i++) {
-        lines.remove(lines.first);
-        for (var y = 0; y < points.length; y++) {
-          points.remove(points.first);
+    if (flag != 2) {
+      if (lines.isNotEmpty) {
+        for (var i = 0; i < lines.length; i++) {
+          lines.remove(lines.first);
+          for (var y = 0; y < points.length; y++) {
+            points.remove(points.first);
+          }
         }
       }
+      setState(() {
+        for (var item in listPolylineProtected) {
+          lines.add(item);
+          for (var item2 in listMarkerProtected) {
+            points.add(item2);
+          }
+        }
+      });
     }
-    setState(() {
-      for (var item in listPolylineProtected) {
-        lines.add(item);
-        for (var item2 in listMarkerProtected) {
-          points.add(item2);
-        }
-      }
-    });
+    flag = 2;
   }
 
   void affichagePublic() {
-    if (lines.isNotEmpty) {
-      for (var i = 0; i < lines.length; i++) {
-        lines.remove(lines.first);
-        for (var y = 0; y < points.length; y++) {
-          points.remove(points.first);
+    if (flag != 3) {
+      if (lines.isNotEmpty) {
+        for (var i = 0; i < lines.length; i++) {
+          lines.remove(lines.first);
+          for (var y = 0; y < points.length; y++) {
+            points.remove(points.first);
+          }
         }
       }
+      setState(() {
+        for (var item in listPolylinePublic) {
+          lines.add(item);
+          for (var item2 in listMarkerPublic) {
+            points.add(item2);
+          }
+        }
+      });
     }
-    setState(() {
-      for (var item in listPolylinePublic) {
-        lines.add(item);
-        for (var item2 in listMarkerPublic) {
-          points.add(item2);
-        }
-      }
-    });
+    flag = 3;
   }
 }
