@@ -39,8 +39,8 @@ Future getPrivateFromApi() async {
         positions.add(LatLng(lat, lng));
       }
       listMarkerPrivate.add(setMarker(
-        MarkerId("start"),
-        InfoWindow.noText,
+        MarkerId(i.toString()),
+        InfoWindow(title: calculDistance(positions)),
         BitmapDescriptor.defaultMarker,
         LatLng(positions.first.latitude, positions.first.longitude),
       ));
@@ -67,8 +67,8 @@ Future getProtectedFromApi() async {
         positions.add(LatLng(lat, lng));
       }
       listMarkerProtected.add(setMarker(
-        MarkerId("start"),
-        InfoWindow.noText,
+        MarkerId((i + 2).toString()),
+        InfoWindow(title: calculDistance(positions)),
         BitmapDescriptor.defaultMarker,
         LatLng(positions.first.latitude, positions.first.longitude),
       ));
@@ -95,8 +95,8 @@ Future getPublicFromApi() async {
         positions.add(LatLng(lat, lng));
       }
       listMarkerPublic.add(setMarker(
-        MarkerId("start"),
-        InfoWindow.noText,
+        MarkerId((i + 3).toString()),
+        InfoWindow(title: calculDistance(positions)),
         BitmapDescriptor.defaultMarker,
         LatLng(positions.first.latitude, positions.first.longitude),
       ));
@@ -148,27 +148,29 @@ List listMarkerPrivate = [];
 List listMarkerProtected = [];
 List listMarkerPublic = [];
 
-//calcul distance
+// calcul distance
 
-// Future<void> calculDistance(List<LatLng> listCoord) async {
-//   double result = 0;
-//   List<LatLng> listCoordoRad = List.empty(growable: true);
+String calculDistance(List<LatLng> listCoord) {
+  double result = 0;
+  List<LatLng> listCoordoRad = List.empty(growable: true);
 
-//   for (var y = 0; y < listCoordo.length; y++) {
-//     listCoordoRad.add(LatLng(listCoordo[y].latitude * passageRad,
-//         listCoordo[y].longitude * passageRad));
-//   }
+  for (var y = 0; y < listCoord.length; y++) {
+    listCoordoRad.add(LatLng(listCoord[y].latitude * (3.14 / 180),
+        listCoord[y].longitude * (3.14 / 180)));
+  }
 
-//   for (var i = 0; i < listCoordoRad.length - 1; i++) {
-//     result += acos(sin(listCoordoRad[i].latitude) *
-//                 sin(listCoordoRad[i + 1].latitude) +
-//             cos(listCoordoRad[i].latitude) *
-//                 cos(listCoordoRad[i + 1].latitude) *
-//                 cos(listCoordoRad[i + 1].longitude -
-//                     listCoordoRad[i].longitude)) *
-//         6371;
-//   }
+  for (var i = 0; i < listCoordoRad.length - 1; i++) {
+    result += acos(sin(listCoordoRad[i].latitude) *
+                sin(listCoordoRad[i + 1].latitude) +
+            cos(listCoordoRad[i].latitude) *
+                cos(listCoordoRad[i + 1].latitude) *
+                cos(listCoordoRad[i + 1].longitude -
+                    listCoordoRad[i].longitude)) *
+        6371;
+  }
+
+  return result.toString();
   // result =
   //     acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(lon2 - lon1)) *
   //         6371;
-// }
+}
