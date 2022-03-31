@@ -35,6 +35,7 @@ class MapSampleState extends State<MapSample> {
   Set<Polyline> lines = {};
   Set<Marker> points = {};
 
+  var _visible = true;
   @override
   void initState() {
     super.initState();
@@ -195,185 +196,191 @@ class MapSampleState extends State<MapSample> {
   }
 
   Widget _buildOptionsBtn() {
-    return Stack(
-      children: [
-        Positioned(
-            width: 130,
-            height: 55,
-            left: 85,
-            bottom: 130,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(width: 0.65, color: Colors.black),
-                  bottom: BorderSide(width: 0.7, color: Colors.black),
-                ),
-              ),
-              child: FloatingActionButton.extended(
-                heroTag: "OptionBtn1",
-                onPressed: () {
-                  print("pressBt1");
-                  // calculDistance();
-                },
-                icon: Icon(Icons.pedal_bike),
-                label: Text("1"),
-                elevation: 0,
-                backgroundColor: Color.fromARGB(255, 183, 190, 197),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(0),
-                      bottomRight: Radius.circular(0),
-                      bottomLeft: Radius.circular(0)),
-                ),
-              ),
-            )),
-        Positioned(
-            width: 130,
-            height: 55,
-            left: 215,
-            bottom: 130,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(width: 0.7, color: Colors.black),
-                ),
-              ),
-              child: FloatingActionButton.extended(
-                heroTag: "OptionBtn2",
-                onPressed: () {
-                  print("pressBt2");
-                  // calculDistance();
-                },
-                icon: Icon(Icons.lock),
-                label: Text("2"),
-                elevation: 0,
-                backgroundColor: Color.fromARGB(255, 183, 190, 197),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(0),
-                      bottomLeft: Radius.circular(0)),
-                ),
-              ),
-            )),
-        Positioned(
-            width: 130,
-            height: 55,
-            left: 85,
-            bottom: 75,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(width: 0.65, color: Colors.black),
-                ),
-              ),
-              child: FloatingActionButton.extended(
-                heroTag: "OptionBtn3",
-                onPressed: () {
-                  print("pressBt3");
-                },
-                label: Text("3"),
-                icon: Icon(Icons.wifi),
-                elevation: 0,
-                backgroundColor: Color.fromARGB(255, 183, 190, 197),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(0),
-                      bottomRight: Radius.circular(0),
-                      bottomLeft: Radius.circular(20)),
-                ),
-              ),
-            )),
-        Positioned(
-            width: 130,
-            height: 55,
-            left: 215,
-            bottom: 75,
-            child: Container(
-              child: FloatingActionButton.extended(
-                heroTag: "OptionBtn4",
-                onPressed: () {
-                  getCurrentLocation();
-                },
-                label: Text("4"),
-                extendedTextStyle: TextStyle(color: Colors.black),
-                icon: Icon(Icons.location_searching),
-                elevation: 0,
-                backgroundColor: Color.fromARGB(255, 183, 190, 197),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(0),
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(0)),
-                ),
-              ),
-            )),
-      ],
-    );
+    return Visibility(
+        visible: _visible,
+        child: Stack(
+          children: [
+            Positioned(
+                width: 260,
+                height: 55,
+                left: 85,
+                bottom: 130,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      // right: BorderSide(width: 0.65, color: Colors.black),
+                      bottom: BorderSide(width: 0.7, color: Colors.black),
+                    ),
+                  ),
+                  child: FloatingActionButton.extended(
+                    heroTag: "OptionBtn1",
+                    onPressed: () {
+                      print("pressBt1");
+                      // calculDistance();
+                    },
+                    icon: Icon(Icons.pedal_bike),
+                    label: Text("1"),
+                    elevation: 0,
+                    backgroundColor: Color.fromARGB(255, 183, 190, 197),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(0),
+                          bottomLeft: Radius.circular(0)),
+                    ),
+                  ),
+                )),
+            Positioned(
+                width: 130,
+                height: 55,
+                left: 215,
+                bottom: 75,
+                child: Container(
+                  decoration: BoxDecoration(
+                      // border: Border(
+                      //   bottom: BorderSide(width: 0.7, color: Colors.black),
+                      // ),
+                      ),
+                  child: FloatingActionButton.extended(
+                    heroTag: "OptionBtn2",
+                    onPressed: () {
+                      print("pressBt2");
+                      // calculDistance();
+                    },
+                    icon: Icon(Icons.lock),
+                    label: Text("2"),
+                    elevation: 0,
+                    backgroundColor: Color.fromARGB(255, 183, 190, 197),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(0),
+                          topRight: Radius.circular(0),
+                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(0)),
+                    ),
+                  ),
+                )),
+            Positioned(
+                width: 130,
+                height: 55,
+                left: 85,
+                bottom: 75,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      right: BorderSide(width: 0.65, color: Colors.black),
+                    ),
+                  ),
+                  child: FloatingActionButton.extended(
+                    heroTag: "OptionBtn3",
+                    onPressed: () {
+                      print("pressBt3");
+                    },
+                    label: Text("3"),
+                    icon: Icon(Icons.wifi),
+                    elevation: 0,
+                    backgroundColor: Color.fromARGB(255, 183, 190, 197),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(0),
+                          topRight: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
+                          bottomLeft: Radius.circular(20)),
+                    ),
+                  ),
+                )),
+            // Positioned(
+            //     width: 130,
+            //     height: 55,
+            //     left: 215,
+            //     bottom: 75,
+            //     child: Container(
+            //       child: FloatingActionButton.extended(
+            //         heroTag: "OptionBtn4",
+            //         onPressed: () {
+            //           getCurrentLocation();
+            //         },
+            //         label: Text("4"),
+            //         extendedTextStyle: TextStyle(color: Colors.black),
+            //         icon: Icon(Icons.location_searching),
+            //         elevation: 0,
+            //         backgroundColor: Color.fromARGB(255, 183, 190, 197),
+            //         shape: const RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.only(
+            //               topLeft: Radius.circular(0),
+            //               topRight: Radius.circular(0),
+            //               bottomRight: Radius.circular(20),
+            //               bottomLeft: Radius.circular(0)),
+            //         ),
+            //       ),
+            //     )),
+          ],
+        ));
   }
 
   Widget _buildShadowOptionBox() {
-    return Positioned(
-      height: 110,
-      width: 260,
-      bottom: 75,
-      left: 85,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Color.fromARGB(255, 183, 190, 197),
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromARGB(255, 139, 139, 139),
-              blurRadius: 8,
-              offset: Offset(4, 4),
+    return Visibility(
+        visible: _visible,
+        child: Positioned(
+          height: 110,
+          width: 260,
+          bottom: 75,
+          left: 85,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Color.fromARGB(255, 183, 190, 197),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 139, 139, 139),
+                  blurRadius: 8,
+                  offset: Offset(4, 4),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   Widget _buildGoBtn() {
-    return Positioned(
-      width: 300,
-      left: 65,
-      bottom: 10,
-      child: Container(
-        width: 150,
-        child: FloatingActionButton.extended(
-          onPressed: () {},
-          label: Text("GO"),
-          backgroundColor: Color.fromRGBO(114, 176, 234, 1),
-          extendedTextStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 28,
-          ),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-              bottomRight: Radius.circular(15),
-              bottomLeft: Radius.circular(15),
+    return Visibility(
+        visible: _visible,
+        child: Positioned(
+          width: 300,
+          left: 65,
+          bottom: 10,
+          child: Container(
+            width: 150,
+            child: FloatingActionButton.extended(
+              onPressed: () {},
+              label: Text("GO"),
+              backgroundColor: Color.fromRGBO(114, 176, 234, 1),
+              extendedTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+              ),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                ),
+              ),
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 139, 139, 139),
+                  blurRadius: 8,
+                  offset: Offset(4, 4),
+                ),
+              ],
             ),
           ),
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromARGB(255, 139, 139, 139),
-              blurRadius: 8,
-              offset: Offset(4, 4),
-            ),
-          ],
-        ),
-      ),
-    );
+        ));
   }
 
   void affichagePrivate() {
