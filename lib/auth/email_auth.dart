@@ -28,6 +28,8 @@ Future<void> addNewUsertoDataBase(
         "pseudo": pseudo,
         "email": email,
         "genre": genre,
+        "objectif": 0,
+        "tdp": 0
       })
       .then((value) => print("User Added"))
       .catchError((error) => print("Failed to add user: $error"));
