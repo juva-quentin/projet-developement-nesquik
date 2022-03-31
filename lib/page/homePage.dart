@@ -131,6 +131,7 @@ class MapSampleState extends State<MapSample> {
         width: 160,
         height: 55,
         child: FloatingActionButton.extended(
+          heroTag: "CommunityBtn",
           onPressed: () {},
           label: Text("Community"),
           icon: Icon(Icons.connect_without_contact_sharp),
@@ -193,6 +194,7 @@ class MapSampleState extends State<MapSample> {
                 ),
               ),
               child: FloatingActionButton.extended(
+                heroTag: "OptionBtn1",
                 onPressed: () {
                   print("pressBt1");
                   // calculDistance();
@@ -222,6 +224,7 @@ class MapSampleState extends State<MapSample> {
                 ),
               ),
               child: FloatingActionButton.extended(
+                heroTag: "OptionBtn2",
                 onPressed: () {
                   print("pressBt2");
                   // calculDistance();
@@ -251,6 +254,7 @@ class MapSampleState extends State<MapSample> {
                 ),
               ),
               child: FloatingActionButton.extended(
+                heroTag: "OptionBtn3",
                 onPressed: () {
                   print("pressBt3");
                 },
@@ -274,6 +278,7 @@ class MapSampleState extends State<MapSample> {
             bottom: 75,
             child: Container(
               child: FloatingActionButton.extended(
+                heroTag: "OptionBtn4",
                 onPressed: () {
                   print("pressBt4");
                 },

@@ -35,18 +35,12 @@ dependencies:
   flutter_spinkit: ^5.1.0
   font_awesome_flutter: ^10.1.0
   google_fonts: ^2.3.1
-  google_sign_in: ^5.2.4
   intl: ^0.17.0
   json_path: ^0.4.0
   page_transition: ^2.0.5
   percent_indicator: ^4.0.0
   rxdart: 0.26.0
   shared_preferences: ^2.0.13
-  sign_in_with_apple:
-    git:
-      url: https://github.com/asmengistu/dart_packages
-      ref: ab18d53a80e0a4bb90f1ad84f37f1b408930f28d
-      path: packages/sign_in_with_apple/sign_in_with_apple/
   timeago: ^3.2.2
   url_launcher: ^6.0.20
  
