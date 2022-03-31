@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:projet_developement_nesquik/auth/auth_util.dart';
 import 'package:intl/intl.dart';
+
+import '../home_page/home_page_widget.dart';
 
 class ProfilOverlay extends ModalRoute<void> {
   @override
@@ -74,6 +77,27 @@ Widget _buildFinalTopOverlayContent(BuildContext context) {
       MediaQuery.of(context).size.height * 0.13 / 2;
   return Stack(clipBehavior: Clip.none, alignment: Alignment.center, children: [
     _buildTopOverlay(context),
+    Positioned(
+      top: MediaQuery.of(context).size.height * 0.05,
+      right: MediaQuery.of(context).size.height * 0.01,
+      child: IconButton(
+          icon: Icon(
+            Icons.logout_outlined,
+            color: Color.fromARGB(255, 255, 255, 255),
+            size: 35,
+          ),
+          onPressed: () async {
+            signOut();
+            await Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  child: HomePageWidget(),
+                ));
+          }),
+    ),
     Positioned(
       top: MediaQuery.of(context).size.height * 0.04,
       child: IconButton(
