@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
+import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
 import 'dart:convert';
 import 'Parcour.dart';
 import 'dart:math';
@@ -7,18 +8,9 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-List<String> urls_Protected = [
-  "https://firebasestorage.googleapis.com/v0/b/projet-dev-neskique.appspot.com/o/parcoursProtected%2Fprotected1.txt?alt=media&token=9d8382fd-3c5b-49b9-893c-9ecd722e2157",
-  "https://firebasestorage.googleapis.com/v0/b/projet-dev-neskique.appspot.com/o/parcoursProtected%2Fprotected2.txt?alt=media&token=ea972a28-9735-4de8-9203-f5a5e8b0707a"
-];
-List<String> urls_Private = [
-  "https://firebasestorage.googleapis.com/v0/b/projet-dev-neskique.appspot.com/o/parcoursPrivate%2Fprivate2.txt?alt=media&token=95ee2051-0b68-4ba3-b8b3-6d0112af6572",
-  "https://firebasestorage.googleapis.com/v0/b/projet-dev-neskique.appspot.com/o/parcoursPrivate%2Fprivate1.txt?alt=media&token=4a5bc54f-5a8f-4f81-9550-2cc400bf68f1"
-];
-List<String> urls_Public = [
-  "https://firebasestorage.googleapis.com/v0/b/projet-dev-neskique.appspot.com/o/parcoursPublic%2Fpublic2.txt?alt=media&token=c5b9a195-ee76-48e3-9bb5-a37eb68cd1fc",
-  "https://firebasestorage.googleapis.com/v0/b/projet-dev-neskique.appspot.com/o/parcoursPublic%2Fpublic3.txt?alt=media&token=dce5b713-17ca-48d6-a378-a8630b0ccf3b"
-];
+List<String> urls_Protected = [];
+List<String> urls_Private = [];
+List<String> urls_Public = [];
 
 Future tt() async {
   getProtectedFromApi().then((value) => print("Protected_FromApi_Add"));
@@ -27,6 +19,16 @@ Future tt() async {
 }
 
 Future getPrivateFromApi() async {
+  await FirebaseFirestore.instance
+      .collection('parcours')
+      .where('owner', isEqualTo: currentUser.user.uid)
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    querySnapshot.docs.forEach((doc) {
+      var address = doc['address'];
+      urls_Protected.add(address);
+    });
+  });
   for (var i = 0; i < urls_Private.length; i++) {
     var response = await http.get(Uri.parse(urls_Private[i]));
     if (response.statusCode == 200) {
@@ -55,6 +57,16 @@ Future getPrivateFromApi() async {
 }
 
 Future getProtectedFromApi() async {
+  await FirebaseFirestore.instance
+      .collection('parcours')
+      .where('shareTo', arrayContains: currentUser.user.uid)
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    querySnapshot.docs.forEach((doc) {
+      var address = doc['address'];
+      urls_Protected.add(address);
+    });
+  });
   for (var i = 0; i < urls_Protected.length; i++) {
     var response = await http.get(Uri.parse(urls_Protected[i]));
     if (response.statusCode == 200) {
@@ -83,13 +95,16 @@ Future getProtectedFromApi() async {
 }
 
 Future getPublicFromApi() async {
-  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+  await FirebaseFirestore.instance
       .collection('parcours')
       .where('type', isEqualTo: "public")
-      .snapshots();
-
-  print("mdr");
-  print(_usersStream);
+      .get()
+      .then((QuerySnapshot querySnapshot) {
+    querySnapshot.docs.forEach((doc) {
+      var address = doc['address'];
+      urls_Public.add(address);
+    });
+  });
 
   for (var i = 0; i < urls_Public.length; i++) {
     var response = await http.get(Uri.parse(urls_Public[i]));
