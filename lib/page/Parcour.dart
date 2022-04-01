@@ -1,3 +1,5 @@
+import 'package:projet_developement_nesquik/backend/schema/getParcours.dart';
+
 class Parcour {
   Gpx gpx;
 

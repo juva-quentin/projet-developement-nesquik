@@ -10,9 +10,14 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-List<String> urls_Protected = [];
+List<String> urls_Protected = [
+  "https://firebasestorage.googleapis.com/v0/b/projet-dev-neskique.appspot.com/o/parcoursProtected%2Fprotected1.txt?alt=media&token=9d8382fd-3c5b-49b9-893c-9ecd722e2157"
+];
 List<String> urls_Private = [];
-List<String> urls_Public = [];
+List<String> urls_Public = [
+  "https://firebasestorage.googleapis.com/v0/b/projet-dev-neskique.appspot.com/o/parcoursPublic%2Fpublic2.txt?alt=media&token=c5b9a195-ee76-48e3-9bb5-a37eb68cd1fc"
+];
+final courses = FirebaseFirestore.instance.collection('parcours');
 
 Future tt() async {
   getProtectedFromApi().then((value) => print("Protected_FromApi_Add"));
@@ -20,17 +25,40 @@ Future tt() async {
   getPublicFromApi().then((value) => print("Public_FromApi_Add"));
 }
 
-Future getPrivateFromApi() async {
-  await FirebaseFirestore.instance
-      .collection('parcours')
-      .where('owner', isEqualTo: currentUser.user.uid)
-      .get()
-      .then((QuerySnapshot querySnapshot) {
-    querySnapshot.docs.forEach((doc) {
-      var address = doc['address'];
-      urls_Private.add(address);
+getParcours() async {
+  await courses.get().then((QuerySnapshot snapshot) {
+    snapshot.docs.forEach((DocumentSnapshot doc) {
+      var miam = Map<String, dynamic>.from(doc.data());
+      switch (miam['type']) {
+        case "public":
+          {
+            urls_Public.add(miam['address']);
+            break;
+          }
+        case "protected":
+          {
+            if (miam['shareTo'].contains(currentUser.user.uid)) {
+              urls_Protected.add(miam['address']);
+            }
+            break;
+          }
+        case "private":
+          {
+            if (miam['owner'] == currentUser.user.uid) {
+              urls_Private.add(miam['address']);
+            }
+            break;
+          }
+
+          break;
+        default:
+      }
     });
+    tt();
   });
+}
+
+Future getPrivateFromApi() async {
   for (var i = 0; i < urls_Private.length; i++) {
     var response = await http.get(Uri.parse(urls_Private[i]));
     if (response.statusCode == 200) {
@@ -67,16 +95,6 @@ Future getPrivateFromApi() async {
 }
 
 Future getProtectedFromApi() async {
-  await FirebaseFirestore.instance
-      .collection('parcours')
-      .where('shareTo', arrayContains: currentUser.user.uid)
-      .get()
-      .then((QuerySnapshot querySnapshot) {
-    querySnapshot.docs.forEach((doc) {
-      var address = doc['address'];
-      urls_Protected.add(address);
-    });
-  });
   for (var i = 0; i < urls_Protected.length; i++) {
     var response = await http.get(Uri.parse(urls_Protected[i]));
     if (response.statusCode == 200) {
@@ -109,17 +127,6 @@ Future getProtectedFromApi() async {
 }
 
 Future getPublicFromApi() async {
-  await FirebaseFirestore.instance
-      .collection('parcours')
-      .where('type', isEqualTo: "public")
-      .get()
-      .then((QuerySnapshot querySnapshot) {
-    querySnapshot.docs.forEach((doc) {
-      var address = doc['address'];
-      urls_Public.add(address);
-    });
-  });
-
   for (var i = 0; i < urls_Public.length; i++) {
     var response = await http.get(Uri.parse(urls_Public[i]));
     if (response.statusCode == 200) {

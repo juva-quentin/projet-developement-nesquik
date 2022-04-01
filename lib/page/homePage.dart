@@ -38,9 +38,11 @@ class MapSampleState extends State<MapSample> {
 
   var _visible = true;
   @override
-  void initState() {
+  Future initState() {
+    getParcours();
+
     super.initState();
-    tt();
+
     var flag = 0;
   }
 
