@@ -495,7 +495,7 @@ class MapSampleState extends State<MapSample> {
                     bearing: newLocalData.heading,
                     target:
                         LatLng(newLocalData.latitude, newLocalData.longitude),
-                    zoom: 22.00)));
+                    zoom: 18.00)));
             updateMarkerAndCircle(newLocalData);
           }
         });
