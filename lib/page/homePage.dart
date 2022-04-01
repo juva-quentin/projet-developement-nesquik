@@ -27,6 +27,7 @@ class MapSampleState extends State<MapSample> {
   Marker marker;
   Circle circle;
   bool geoloc = false;
+  bool geoloc2 = false;
   final loc.Location location = loc.Location();
 
   void _showOverlay(BuildContext context) {
@@ -249,7 +250,6 @@ class MapSampleState extends State<MapSample> {
                     heroTag: "OptionBtn2",
                     onPressed: () {
                       print("pressBt2");
-                      // calculDistance();
                     },
                     icon: Icon(Icons.lock),
                     label: Text("2"),
@@ -371,7 +371,20 @@ class MapSampleState extends State<MapSample> {
           child: Container(
             width: 150,
             child: FloatingActionButton.extended(
-              onPressed: () {},
+              onPressed: () {
+                print("pressBt3");
+                if (geoloc2 == false) {
+                  setState(() {
+                    geoloc2 = true;
+                  });
+                  getCoordoFromPos();
+                } else {
+                  setState(() {
+                    geoloc2 = false;
+                  });
+                  getCoordoFromPos();
+                }
+              },
               label: Text("GO"),
               backgroundColor: Color.fromRGBO(114, 176, 234, 1),
               extendedTextStyle: TextStyle(
@@ -406,12 +419,8 @@ class MapSampleState extends State<MapSample> {
   void affichagePrivate() {
     if (flag != 1) {
       if (lines.isNotEmpty) {
-        for (var i = 0; i < lines.length; i++) {
-          lines.remove(lines.first);
-        }
-        for (var y = 0; y < points.length; y++) {
-          points.remove(points.first);
-        }
+        lines.clear();
+        points.clear();
       }
       setState(() {
         for (var item in listPolylinePrivate) {
@@ -428,12 +437,8 @@ class MapSampleState extends State<MapSample> {
   void affichageProtected() {
     if (flag != 2) {
       if (lines.isNotEmpty) {
-        for (var i = 0; i < lines.length; i++) {
-          lines.remove(lines.first);
-        }
-        for (var y = 0; y < points.length; y++) {
-          points.remove(points.first);
-        }
+        lines.clear();
+        points.clear();
       }
       setState(() {
         for (var item in listPolylineProtected) {
@@ -450,12 +455,8 @@ class MapSampleState extends State<MapSample> {
   void affichagePublic() {
     if (flag != 3) {
       if (lines.isNotEmpty) {
-        for (var i = 0; i < lines.length; i++) {
-          lines.remove(lines.first);
-        }
-        for (var y = 0; y < points.length; y++) {
-          points.remove(points.first);
-        }
+        lines.clear();
+        points.clear();
       }
       setState(() {
         for (var item in listPolylinePublic) {
@@ -517,6 +518,26 @@ class MapSampleState extends State<MapSample> {
           debugPrint("Permission Denied");
         }
       }
+    }
+  }
+
+  List test = [];
+
+  void getCoordoFromPos() async {
+    if (geoloc2 == false) {
+      for (var item in test) {
+        print(item);
+      }
+      test.clear();
+      for (var item in test) {
+        print(item);
+      }
+      _locationSubscription.cancel();
+    } else {
+      _locationSubscription =
+          _locationTracker.onLocationChanged.listen((newLocalData) {
+        test.add(LatLng(newLocalData.latitude, newLocalData.longitude));
+      });
     }
   }
 
