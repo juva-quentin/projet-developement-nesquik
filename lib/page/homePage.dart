@@ -468,7 +468,7 @@ class MapSampleState extends State<MapSample> {
           flat: true,
           anchor: Offset(0.5, 0.5));
       circle = Circle(
-          circleId: CircleId("car"),
+          circleId: CircleId("circle"),
           radius: newLocalData.accuracy,
           zIndex: 1,
           strokeColor: Colors.blue,
@@ -478,7 +478,6 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getCurrentLocation() async {
-    print(geoloc);
     if (geoloc == false) {
       _locationSubscription.cancel();
     } else {
@@ -487,20 +486,16 @@ class MapSampleState extends State<MapSample> {
 
         updateMarkerAndCircle(location);
 
-        if (_locationSubscription != null) {
-          _locationSubscription.cancel();
-        }
-
         _locationSubscription =
             _locationTracker.onLocationChanged.listen((newLocalData) {
           if (_controller != null) {
+            print("object");
             _controller.animateCamera(CameraUpdate.newCameraPosition(
                 new CameraPosition(
-                    bearing: 192.8334901395799,
+                    bearing: newLocalData.heading,
                     target:
                         LatLng(newLocalData.latitude, newLocalData.longitude),
-                    tilt: 0,
-                    zoom: 18.00)));
+                    zoom: 22.00)));
             updateMarkerAndCircle(newLocalData);
           }
         });
