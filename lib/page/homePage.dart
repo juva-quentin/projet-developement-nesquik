@@ -27,6 +27,7 @@ class MapSampleState extends State<MapSample> {
   Marker marker;
   Circle circle;
   bool geoloc = false;
+  int _protection = 1;
   final loc.Location location = loc.Location();
 
   void _showOverlay(BuildContext context) {
@@ -38,11 +39,9 @@ class MapSampleState extends State<MapSample> {
 
   var _visible = true;
   @override
-  Future initState() {
-    getParcours();
-
+  void initState() {
     super.initState();
-
+    tt();
     var flag = 0;
   }
 
@@ -53,9 +52,6 @@ class MapSampleState extends State<MapSample> {
       floatingActionButton: Stack(
         fit: StackFit.expand,
         children: [
-          _build1Btn(),
-          _build2Btn(),
-          _build3Btn(),
           _buildCommunityBtn(),
           _buildProfilBtn(),
           _buildShadowOptionBox(),
@@ -79,68 +75,11 @@ class MapSampleState extends State<MapSample> {
         },
         zoomControlsEnabled: false,
         mapType: MapType.normal,
-        myLocationEnabled: true,
+        myLocationEnabled: false,
         mapToolbarEnabled: false,
         initialCameraPosition: kPositionnementInitial,
         markers: points,
         polylines: lines,
-      ),
-    );
-  }
-
-  Widget _build1Btn() {
-    return Positioned(
-      left: 100,
-      bottom: 200,
-      child: Container(
-        width: 50,
-        height: 55,
-        child: FloatingActionButton.extended(
-          heroTag: "private",
-          onPressed: () {
-            affichagePrivate();
-          },
-          label: Text("1"),
-          backgroundColor: Color.fromRGBO(114, 176, 234, 1),
-        ),
-      ),
-    );
-  }
-
-  Widget _build2Btn() {
-    return Positioned(
-      left: 180,
-      bottom: 200,
-      child: Container(
-        width: 50,
-        height: 55,
-        child: FloatingActionButton.extended(
-          heroTag: "protected",
-          onPressed: () {
-            affichageProtected();
-          },
-          label: Text("2"),
-          backgroundColor: Color.fromARGB(255, 224, 78, 78),
-        ),
-      ),
-    );
-  }
-
-  Widget _build3Btn() {
-    return Positioned(
-      right: 85,
-      bottom: 200,
-      child: Container(
-        width: 50,
-        height: 55,
-        child: FloatingActionButton.extended(
-          heroTag: "public",
-          onPressed: () {
-            affichagePublic();
-          },
-          label: Text("3"),
-          backgroundColor: Color.fromARGB(255, 79, 219, 51),
-        ),
       ),
     );
   }
@@ -250,13 +189,40 @@ class MapSampleState extends State<MapSample> {
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn2",
                     onPressed: () {
-                      print("pressBt2");
-                      // calculDistance();
+                      print(_protection);
+                      if (_protection == 1) {
+                        affichagePublic();
+                        setState(() {
+                          _protection = 2;
+                        });
+                      } else if (_protection == 2) {
+                        affichageProtected();
+                        setState(() {
+                          _protection = 3;
+                        });
+                      } else {
+                        affichagePrivate();
+                        setState(() {
+                          _protection = 1;
+                        });
+                      }
                     },
-                    icon: Icon(Icons.lock),
-                    label: Text("2"),
+                    icon: _protection == 1
+                        ? Icon(Icons.lock_open)
+                        : _protection == 2
+                            ? Icon(Icons.shield)
+                            : Icon(Icons.lock),
+                    label: _protection == 1
+                        ? Text("Public")
+                        : _protection == 2
+                            ? Text("Protected")
+                            : Text("Private"),
                     elevation: 0,
-                    backgroundColor: Color.fromARGB(255, 183, 190, 197),
+                    backgroundColor: _protection == 1
+                        ? Color.fromARGB(255, 40, 151, 60)
+                        : _protection == 2
+                            ? Color.fromARGB(255, 185, 187, 65)
+                            : Color.fromARGB(255, 143, 11, 11),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0),
@@ -280,7 +246,6 @@ class MapSampleState extends State<MapSample> {
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn3",
                     onPressed: () {
-                      print("pressBt3");
                       if (geoloc == false) {
                         setState(() {
                           geoloc = true;
@@ -504,7 +469,6 @@ class MapSampleState extends State<MapSample> {
         _locationSubscription =
             _locationTracker.onLocationChanged.listen((newLocalData) {
           if (_controller != null) {
-            print("object");
             _controller.animateCamera(CameraUpdate.newCameraPosition(
                 new CameraPosition(
                     bearing: newLocalData.heading,
