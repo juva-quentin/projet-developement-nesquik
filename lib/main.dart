@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:projet_developement_nesquik/page/addParcour.dart';
 import 'package:projet_developement_nesquik/page/homePage.dart';
 import 'auth/firebase_user_provider.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
@@ -63,20 +64,22 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: _themeMode,
-      home: initialUser == null || displaySplashImage
-          ? Center(
-              child: SizedBox(
-                width: 50,
-                height: 50,
-                child: SpinKitRing(
-                  color: Color(0xFF72B0EA),
-                  size: 50,
-                ),
-              ),
-            )
-          : currentUser.loggedIn
-              ? MapSample()
-              : OnboardWidget(),
+      home:
+          // AddParcour(),
+          initialUser == null || displaySplashImage
+              ? Center(
+                  child: SizedBox(
+                    width: 50,
+                    height: 50,
+                    child: SpinKitRing(
+                      color: Color(0xFF72B0EA),
+                      size: 50,
+                    ),
+                  ),
+                )
+              : currentUser.loggedIn
+                  ? MapSample()
+                  : OnboardWidget(),
     );
   }
 }
