@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:projet_developement_nesquik/auth/auth_util.dart';
 import 'package:intl/intl.dart';
+
+import '../home_page/home_page_widget.dart';
 
 class ProfilOverlay extends ModalRoute<void> {
   @override
@@ -75,12 +78,32 @@ Widget _buildFinalTopOverlayContent(BuildContext context) {
   return Stack(clipBehavior: Clip.none, alignment: Alignment.center, children: [
     _buildTopOverlay(context),
     Positioned(
+      top: MediaQuery.of(context).size.height * 0.05,
+      right: MediaQuery.of(context).size.height * 0.01,
+      child: IconButton(
+          icon: Icon(
+            Icons.logout_outlined,
+            color: Color.fromARGB(255, 255, 255, 255),
+            size: 35,
+          ),
+          onPressed: () async {
+            signOut();
+            await Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  child: HomePageWidget(),
+                ));
+          }),
+    ),
+    Positioned(
       top: MediaQuery.of(context).size.height * 0.04,
       child: IconButton(
-        hoverColor: Colors.transparent,
         icon: Icon(
           Icons.keyboard_arrow_up,
-          color: Colors.black,
+          color: Color.fromARGB(255, 255, 255, 255),
           size: 40,
         ),
         onPressed: () => Navigator.pop(context),
@@ -137,11 +160,11 @@ Widget _buildNameOverlay() {
                   child: Icon(Icons.account_circle_rounded, size: 40),
                 ),
                 Container(
-                    margin: EdgeInsets.only(left: 5),
+                    margin: EdgeInsets.only(left: 7),
                     child: Text("${data['pseudo']}",
                         style: GoogleFonts.sen(
                             textStyle: TextStyle(
-                          color: Color(0xFF121212),
+                          color: Color.fromARGB(255, 255, 255, 255),
                           fontSize: 17,
                           fontWeight: FontWeight.normal,
                         ))))
@@ -285,7 +308,7 @@ Widget _buildBottomOverlay(BuildContext context) {
                 child: new Text(item,
                     style: GoogleFonts.sen(
                         textStyle: TextStyle(
-                      color: Color(0xFF121212),
+                      color: Color.fromARGB(255, 255, 255, 255),
                       fontSize: 24,
                       fontWeight: FontWeight.w700,
                     ))))))

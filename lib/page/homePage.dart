@@ -1,10 +1,18 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:async';
+import 'dart:typed_data';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
-
+import 'package:location/location.dart' as loc;
 import 'package:projet_developement_nesquik/page/profilPage.dart';
 
 class MapSample extends StatefulWidget {
@@ -13,7 +21,12 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
-  Completer<GoogleMapController> _controller = Completer();
+  GoogleMapController _controller;
+  StreamSubscription _locationSubscription;
+  Location _locationTracker = Location();
+  Marker marker;
+  Circle circle;
+  final loc.Location location = loc.Location();
 
   void _showOverlay(BuildContext context) {
     Navigator.of(context).push(ProfilOverlay());
@@ -22,6 +35,7 @@ class MapSampleState extends State<MapSample> {
   Set<Polyline> lines = {};
   Set<Marker> points = {};
 
+  var _visible = true;
   @override
   void initState() {
     super.initState();
@@ -54,15 +68,18 @@ class MapSampleState extends State<MapSample> {
   Widget _buildGoogleMap(BuildContext context) {
     return Container(
       child: GoogleMap(
+        onMapCreated: (controller) {
+          //method called when map is created
+          setState(() {
+            _controller = controller;
+          });
+        },
         zoomControlsEnabled: false,
         mapType: MapType.normal,
         myLocationEnabled: true,
         initialCameraPosition: kPositionnementInitial,
         markers: points,
         polylines: lines,
-        onMapCreated: (GoogleMapController controller) {
-          _controller.complete(controller);
-        },
       ),
     );
   }
@@ -132,6 +149,7 @@ class MapSampleState extends State<MapSample> {
         width: 160,
         height: 55,
         child: FloatingActionButton.extended(
+          heroTag: "CommunityBtn",
           onPressed: () {},
           label: Text("Community"),
           icon: Icon(Icons.connect_without_contact_sharp),
@@ -179,181 +197,191 @@ class MapSampleState extends State<MapSample> {
   }
 
   Widget _buildOptionsBtn() {
-    return Stack(
-      children: [
-        Positioned(
-            width: 130,
-            height: 55,
-            left: 85,
-            bottom: 130,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(width: 0.65, color: Colors.black),
-                  bottom: BorderSide(width: 0.7, color: Colors.black),
-                ),
-              ),
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  print("pressBt1");
-                  // calculDistance();
-                },
-                icon: Icon(Icons.pedal_bike),
-                label: Text("1"),
-                elevation: 0,
-                backgroundColor: Color.fromARGB(255, 183, 190, 197),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(20),
-                      topRight: Radius.circular(0),
-                      bottomRight: Radius.circular(0),
-                      bottomLeft: Radius.circular(0)),
-                ),
-              ),
-            )),
-        Positioned(
-            width: 130,
-            height: 55,
-            left: 215,
-            bottom: 130,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  bottom: BorderSide(width: 0.7, color: Colors.black),
-                ),
-              ),
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  print("pressBt2");
-                  // calculDistance();
-                },
-                icon: Icon(Icons.lock),
-                label: Text("2"),
-                elevation: 0,
-                backgroundColor: Color.fromARGB(255, 183, 190, 197),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(20),
-                      bottomRight: Radius.circular(0),
-                      bottomLeft: Radius.circular(0)),
-                ),
-              ),
-            )),
-        Positioned(
-            width: 130,
-            height: 55,
-            left: 85,
-            bottom: 75,
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border(
-                  right: BorderSide(width: 0.65, color: Colors.black),
-                ),
-              ),
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  print("pressBt3");
-                },
-                label: Text("3"),
-                icon: Icon(Icons.wifi),
-                elevation: 0,
-                backgroundColor: Color.fromARGB(255, 183, 190, 197),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(0),
-                      bottomRight: Radius.circular(0),
-                      bottomLeft: Radius.circular(20)),
-                ),
-              ),
-            )),
-        Positioned(
-            width: 130,
-            height: 55,
-            left: 215,
-            bottom: 75,
-            child: Container(
-              child: FloatingActionButton.extended(
-                onPressed: () {
-                  print("pressBt4");
-                },
-                label: Text("4"),
-                extendedTextStyle: TextStyle(color: Colors.black),
-                icon: Icon(Icons.location_searching),
-                elevation: 0,
-                backgroundColor: Color.fromARGB(255, 183, 190, 197),
-                shape: const RoundedRectangleBorder(
-                  borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(0),
-                      topRight: Radius.circular(0),
-                      bottomRight: Radius.circular(20),
-                      bottomLeft: Radius.circular(0)),
-                ),
-              ),
-            )),
-      ],
-    );
+    return Visibility(
+        visible: _visible,
+        child: Stack(
+          children: [
+            Positioned(
+                width: 260,
+                height: 55,
+                left: 85,
+                bottom: 130,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      // right: BorderSide(width: 0.65, color: Colors.black),
+                      bottom: BorderSide(width: 0.7, color: Colors.black),
+                    ),
+                  ),
+                  child: FloatingActionButton.extended(
+                    heroTag: "OptionBtn1",
+                    onPressed: () {
+                      print("pressBt1");
+                      // calculDistance();
+                    },
+                    icon: Icon(Icons.pedal_bike),
+                    label: Text("1"),
+                    elevation: 0,
+                    backgroundColor: Color.fromARGB(255, 183, 190, 197),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(20),
+                          topRight: Radius.circular(20),
+                          bottomRight: Radius.circular(0),
+                          bottomLeft: Radius.circular(0)),
+                    ),
+                  ),
+                )),
+            Positioned(
+                width: 130,
+                height: 55,
+                left: 215,
+                bottom: 75,
+                child: Container(
+                  decoration: BoxDecoration(
+                      // border: Border(
+                      //   bottom: BorderSide(width: 0.7, color: Colors.black),
+                      // ),
+                      ),
+                  child: FloatingActionButton.extended(
+                    heroTag: "OptionBtn2",
+                    onPressed: () {
+                      print("pressBt2");
+                      // calculDistance();
+                    },
+                    icon: Icon(Icons.lock),
+                    label: Text("2"),
+                    elevation: 0,
+                    backgroundColor: Color.fromARGB(255, 183, 190, 197),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(0),
+                          topRight: Radius.circular(0),
+                          bottomRight: Radius.circular(20),
+                          bottomLeft: Radius.circular(0)),
+                    ),
+                  ),
+                )),
+            Positioned(
+                width: 130,
+                height: 55,
+                left: 85,
+                bottom: 75,
+                child: Container(
+                  decoration: BoxDecoration(
+                    border: Border(
+                      right: BorderSide(width: 0.65, color: Colors.black),
+                    ),
+                  ),
+                  child: FloatingActionButton.extended(
+                    heroTag: "OptionBtn3",
+                    onPressed: () {
+                      print("pressBt3");
+                    },
+                    label: Text("3"),
+                    icon: Icon(Icons.wifi),
+                    elevation: 0,
+                    backgroundColor: Color.fromARGB(255, 183, 190, 197),
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(0),
+                          topRight: Radius.circular(0),
+                          bottomRight: Radius.circular(0),
+                          bottomLeft: Radius.circular(20)),
+                    ),
+                  ),
+                )),
+            // Positioned(
+            //     width: 130,
+            //     height: 55,
+            //     left: 215,
+            //     bottom: 75,
+            //     child: Container(
+            //       child: FloatingActionButton.extended(
+            //         heroTag: "OptionBtn4",
+            //         onPressed: () {
+            //           getCurrentLocation();
+            //         },
+            //         label: Text("4"),
+            //         extendedTextStyle: TextStyle(color: Colors.black),
+            //         icon: Icon(Icons.location_searching),
+            //         elevation: 0,
+            //         backgroundColor: Color.fromARGB(255, 183, 190, 197),
+            //         shape: const RoundedRectangleBorder(
+            //           borderRadius: BorderRadius.only(
+            //               topLeft: Radius.circular(0),
+            //               topRight: Radius.circular(0),
+            //               bottomRight: Radius.circular(20),
+            //               bottomLeft: Radius.circular(0)),
+            //         ),
+            //       ),
+            //     )),
+          ],
+        ));
   }
 
   Widget _buildShadowOptionBox() {
-    return Positioned(
-      height: 110,
-      width: 260,
-      bottom: 75,
-      left: 85,
-      child: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          color: Color.fromARGB(255, 183, 190, 197),
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromARGB(255, 139, 139, 139),
-              blurRadius: 8,
-              offset: Offset(4, 4),
+    return Visibility(
+        visible: _visible,
+        child: Positioned(
+          height: 110,
+          width: 260,
+          bottom: 75,
+          left: 85,
+          child: Container(
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              color: Color.fromARGB(255, 183, 190, 197),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 139, 139, 139),
+                  blurRadius: 8,
+                  offset: Offset(4, 4),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
-    );
+          ),
+        ));
   }
 
   Widget _buildGoBtn() {
-    return Positioned(
-      width: 300,
-      left: 65,
-      bottom: 10,
-      child: Container(
-        width: 150,
-        child: FloatingActionButton.extended(
-          onPressed: () {},
-          label: Text("GO"),
-          backgroundColor: Color.fromRGBO(114, 176, 234, 1),
-          extendedTextStyle: TextStyle(
-            fontWeight: FontWeight.bold,
-            fontSize: 28,
-          ),
-          shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.only(
-              topLeft: Radius.circular(15),
-              topRight: Radius.circular(15),
-              bottomRight: Radius.circular(15),
-              bottomLeft: Radius.circular(15),
+    return Visibility(
+        visible: _visible,
+        child: Positioned(
+          width: 300,
+          left: 65,
+          bottom: 10,
+          child: Container(
+            width: 150,
+            child: FloatingActionButton.extended(
+              onPressed: () {},
+              label: Text("GO"),
+              backgroundColor: Color.fromRGBO(114, 176, 234, 1),
+              extendedTextStyle: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 28,
+              ),
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(15),
+                  topRight: Radius.circular(15),
+                  bottomRight: Radius.circular(15),
+                  bottomLeft: Radius.circular(15),
+                ),
+              ),
+            ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(15),
+              boxShadow: [
+                BoxShadow(
+                  color: Color.fromARGB(255, 139, 139, 139),
+                  blurRadius: 8,
+                  offset: Offset(4, 4),
+                ),
+              ],
             ),
           ),
-        ),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(15),
-          boxShadow: [
-            BoxShadow(
-              color: Color.fromARGB(255, 139, 139, 139),
-              blurRadius: 8,
-              offset: Offset(4, 4),
-            ),
-          ],
-        ),
-      ),
-    );
+        ));
   }
 
   var flag = 0;
@@ -422,5 +450,63 @@ class MapSampleState extends State<MapSample> {
       });
     }
     flag = 3;
+  }
+
+  void updateMarkerAndCircle(LocationData newLocalData) {
+    LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
+    this.setState(() {
+      marker = Marker(
+          markerId: MarkerId("home"),
+          position: latlng,
+          rotation: newLocalData.heading,
+          draggable: false,
+          zIndex: 2,
+          flat: true,
+          anchor: Offset(0.5, 0.5));
+      circle = Circle(
+          circleId: CircleId("car"),
+          radius: newLocalData.accuracy,
+          zIndex: 1,
+          strokeColor: Colors.blue,
+          center: latlng,
+          fillColor: Colors.blue.withAlpha(70));
+    });
+  }
+
+  void getCurrentLocation() async {
+    try {
+      var location = await _locationTracker.getLocation();
+
+      updateMarkerAndCircle(location);
+
+      if (_locationSubscription != null) {
+        _locationSubscription.cancel();
+      }
+
+      _locationSubscription =
+          _locationTracker.onLocationChanged.listen((newLocalData) {
+        if (_controller != null) {
+          _controller.animateCamera(CameraUpdate.newCameraPosition(
+              new CameraPosition(
+                  bearing: 192.8334901395799,
+                  target: LatLng(newLocalData.latitude, newLocalData.longitude),
+                  tilt: 0,
+                  zoom: 18.00)));
+          updateMarkerAndCircle(newLocalData);
+        }
+      });
+    } on PlatformException catch (e) {
+      if (e.code == 'PERMISSION_DENIED') {
+        debugPrint("Permission Denied");
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    if (_locationSubscription != null) {
+      _locationSubscription.cancel();
+    }
+    super.dispose();
   }
 }
