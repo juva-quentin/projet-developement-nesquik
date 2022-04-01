@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
+import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
 import 'dart:convert';
 import 'Parcour.dart';
 import 'dart:math';
@@ -9,9 +10,13 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-List<String> urls_Protected = [];
+List<String> urls_Protected = [
+  "https://firebasestorage.googleapis.com/v0/b/projet-dev-neskique.appspot.com/o/parcoursProtected%2Fprotected1.txt?alt=media&token=9d8382fd-3c5b-49b9-893c-9ecd722e2157"
+];
 List<String> urls_Private = [];
-List<String> urls_Public = [];
+List<String> urls_Public = [
+  "https://firebasestorage.googleapis.com/v0/b/projet-dev-neskique.appspot.com/o/parcoursPublic%2Fpublic2.txt?alt=media&token=c5b9a195-ee76-48e3-9bb5-a37eb68cd1fc"
+];
 final courses = FirebaseFirestore.instance.collection('parcours');
 
 Future tt() async {
@@ -32,15 +37,24 @@ getParcours() async {
           }
         case "protected":
           {
-            urls_Public.add(miam['address']);
+            if (miam['shareTo'].contains(currentUser.user.uid)) {
+              urls_Protected.add(miam['address']);
+            }
+            break;
+          }
+        case "private":
+          {
+            if (miam['owner'] == currentUser.user.uid) {
+              urls_Private.add(miam['address']);
+            }
             break;
           }
 
           break;
         default:
       }
-      print(miam['type']);
     });
+    tt();
   });
 }
 
