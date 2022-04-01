@@ -40,8 +40,9 @@ class MapSampleState extends State<MapSample> {
   var _visible = true;
   @override
   void initState() {
+    getParcours();
     super.initState();
-    tt();
+
     var flag = 0;
   }
 
@@ -374,10 +375,12 @@ class MapSampleState extends State<MapSample> {
     if (flag != 1) {
       if (lines.isNotEmpty) {
         for (var i = 0; i < lines.length; i++) {
-          lines.remove(lines.first);
+          // lines.remove(lines.first);
+          lines.clear();
         }
         for (var y = 0; y < points.length; y++) {
-          points.remove(points.first);
+          // points.remove(points.first);
+          points.clear();
         }
       }
       setState(() {
@@ -396,10 +399,12 @@ class MapSampleState extends State<MapSample> {
     if (flag != 2) {
       if (lines.isNotEmpty) {
         for (var i = 0; i < lines.length; i++) {
-          lines.remove(lines.first);
+          // lines.remove(lines.first);
+          lines.clear();
         }
         for (var y = 0; y < points.length; y++) {
-          points.remove(points.first);
+          // points.remove(points.first);
+          points.clear();
         }
       }
       setState(() {
@@ -418,10 +423,12 @@ class MapSampleState extends State<MapSample> {
     if (flag != 3) {
       if (lines.isNotEmpty) {
         for (var i = 0; i < lines.length; i++) {
-          lines.remove(lines.first);
+          // lines.remove(lines.first);
+          lines.clear();
         }
         for (var y = 0; y < points.length; y++) {
-          points.remove(points.first);
+          // points.remove(points.first);
+          points.clear();
         }
       }
       setState(() {
