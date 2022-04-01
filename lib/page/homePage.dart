@@ -26,6 +26,7 @@ class MapSampleState extends State<MapSample> {
   Location _locationTracker = Location();
   Marker marker;
   Circle circle;
+  bool geoloc = false;
   final loc.Location location = loc.Location();
 
   void _showOverlay(BuildContext context) {
@@ -277,11 +278,26 @@ class MapSampleState extends State<MapSample> {
                     heroTag: "OptionBtn3",
                     onPressed: () {
                       print("pressBt3");
+                      if (geoloc == false) {
+                        setState(() {
+                          geoloc = true;
+                        });
+                        getCurrentLocation();
+                      } else {
+                        setState(() {
+                          geoloc = false;
+                        });
+                        getCurrentLocation();
+                      }
                     },
-                    label: Text("3"),
-                    icon: Icon(Icons.wifi),
+                    label: !geoloc ? Text("OFF") : Text("ON"),
+                    icon: !geoloc
+                        ? Icon(Icons.location_off)
+                        : Icon(Icons.location_on),
                     elevation: 0,
-                    backgroundColor: Color.fromARGB(255, 183, 190, 197),
+                    backgroundColor: !geoloc
+                        ? Color.fromARGB(255, 143, 11, 11)
+                        : Color.fromARGB(255, 40, 151, 60),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0),
@@ -464,7 +480,7 @@ class MapSampleState extends State<MapSample> {
           flat: true,
           anchor: Offset(0.5, 0.5));
       circle = Circle(
-          circleId: CircleId("car"),
+          circleId: CircleId("circle"),
           radius: newLocalData.accuracy,
           zIndex: 1,
           strokeColor: Colors.blue,
@@ -474,30 +490,31 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getCurrentLocation() async {
-    try {
-      var location = await _locationTracker.getLocation();
+    if (geoloc == false) {
+      _locationSubscription.cancel();
+    } else {
+      try {
+        var location = await _locationTracker.getLocation();
 
-      updateMarkerAndCircle(location);
+        updateMarkerAndCircle(location);
 
-      if (_locationSubscription != null) {
-        _locationSubscription.cancel();
-      }
-
-      _locationSubscription =
-          _locationTracker.onLocationChanged.listen((newLocalData) {
-        if (_controller != null) {
-          _controller.animateCamera(CameraUpdate.newCameraPosition(
-              new CameraPosition(
-                  bearing: 192.8334901395799,
-                  target: LatLng(newLocalData.latitude, newLocalData.longitude),
-                  tilt: 0,
-                  zoom: 18.00)));
-          updateMarkerAndCircle(newLocalData);
+        _locationSubscription =
+            _locationTracker.onLocationChanged.listen((newLocalData) {
+          if (_controller != null) {
+            print("object");
+            _controller.animateCamera(CameraUpdate.newCameraPosition(
+                new CameraPosition(
+                    bearing: newLocalData.heading,
+                    target:
+                        LatLng(newLocalData.latitude, newLocalData.longitude),
+                    zoom: 18.00)));
+            updateMarkerAndCircle(newLocalData);
+          }
+        });
+      } on PlatformException catch (e) {
+        if (e.code == 'PERMISSION_DENIED') {
+          debugPrint("Permission Denied");
         }
-      });
-    } on PlatformException catch (e) {
-      if (e.code == 'PERMISSION_DENIED') {
-        debugPrint("Permission Denied");
       }
     }
   }
