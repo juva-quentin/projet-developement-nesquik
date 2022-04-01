@@ -26,7 +26,7 @@ Future getPrivateFromApi() async {
       .then((QuerySnapshot querySnapshot) {
     querySnapshot.docs.forEach((doc) {
       var address = doc['address'];
-      urls_Protected.add(address);
+      urls_Private.add(address);
     });
   });
   for (var i = 0; i < urls_Private.length; i++) {
@@ -50,7 +50,7 @@ Future getPrivateFromApi() async {
       listPolylinePrivate.add(setPolyline(
         i.toString(),
         positions,
-        Color.fromARGB(255, 161, 20, 79),
+        Color.fromRGBO(114, 176, 234, 1),
       ));
     }
   }
@@ -88,7 +88,7 @@ Future getProtectedFromApi() async {
       listPolylineProtected.add(setPolyline(
         i.toString(),
         positions,
-        Color.fromARGB(255, 23, 73, 211),
+        Color.fromARGB(255, 224, 78, 78),
       ));
     }
   }
@@ -112,7 +112,6 @@ Future getPublicFromApi() async {
       List<LatLng> positions = [];
       var resp = json.decode(response.body);
       var parcours = Parcour.fromJson(resp);
-
       for (var y = 0; y < parcours.gpx.trk.trkseg.trkpt.length; y++) {
         double lat = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lat);
         double lng = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lon);
@@ -127,7 +126,7 @@ Future getPublicFromApi() async {
       listPolylinePublic.add(setPolyline(
         i.toString(),
         positions,
-        Color.fromARGB(255, 102, 15, 173),
+        Color.fromARGB(255, 79, 219, 51),
       ));
     }
   }

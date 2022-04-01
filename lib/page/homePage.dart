@@ -8,9 +8,9 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import 'package:location/location.dart' as loc;
 import 'package:projet_developement_nesquik/page/profilPage.dart';
@@ -86,8 +86,8 @@ class MapSampleState extends State<MapSample> {
 
   Widget _build1Btn() {
     return Positioned(
-      left: 40,
-      top: 150,
+      left: 100,
+      bottom: 200,
       child: Container(
         width: 50,
         height: 55,
@@ -105,8 +105,8 @@ class MapSampleState extends State<MapSample> {
 
   Widget _build2Btn() {
     return Positioned(
-      left: 150,
-      top: 150,
+      left: 180,
+      bottom: 200,
       child: Container(
         width: 50,
         height: 55,
@@ -124,8 +124,8 @@ class MapSampleState extends State<MapSample> {
 
   Widget _build3Btn() {
     return Positioned(
-      left: 250,
-      top: 150,
+      right: 85,
+      bottom: 200,
       child: Container(
         width: 50,
         height: 55,
@@ -391,17 +391,17 @@ class MapSampleState extends State<MapSample> {
       if (lines.isNotEmpty) {
         for (var i = 0; i < lines.length; i++) {
           lines.remove(lines.first);
-          for (var y = 0; y < points.length; y++) {
-            points.remove(points.first);
-          }
+        }
+        for (var y = 0; y < points.length; y++) {
+          points.remove(points.first);
         }
       }
       setState(() {
         for (var item in listPolylinePrivate) {
           lines.add(item);
-          for (var item2 in listMarkerPrivate) {
-            points.add(item2);
-          }
+        }
+        for (var item2 in listMarkerPrivate) {
+          points.add(item2);
         }
       });
     }
@@ -413,17 +413,17 @@ class MapSampleState extends State<MapSample> {
       if (lines.isNotEmpty) {
         for (var i = 0; i < lines.length; i++) {
           lines.remove(lines.first);
-          for (var y = 0; y < points.length; y++) {
-            points.remove(points.first);
-          }
+        }
+        for (var y = 0; y < points.length; y++) {
+          points.remove(points.first);
         }
       }
       setState(() {
         for (var item in listPolylineProtected) {
           lines.add(item);
-          for (var item2 in listMarkerProtected) {
-            points.add(item2);
-          }
+        }
+        for (var item2 in listMarkerProtected) {
+          points.add(item2);
         }
       });
     }
@@ -435,17 +435,17 @@ class MapSampleState extends State<MapSample> {
       if (lines.isNotEmpty) {
         for (var i = 0; i < lines.length; i++) {
           lines.remove(lines.first);
-          for (var y = 0; y < points.length; y++) {
-            points.remove(points.first);
-          }
+        }
+        for (var y = 0; y < points.length; y++) {
+          points.remove(points.first);
         }
       }
       setState(() {
         for (var item in listPolylinePublic) {
           lines.add(item);
-          for (var item2 in listMarkerPublic) {
-            points.add(item2);
-          }
+        }
+        for (var item2 in listMarkerPublic) {
+          points.add(item2);
         }
       });
     }
