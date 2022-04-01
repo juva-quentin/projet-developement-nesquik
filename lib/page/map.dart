@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
@@ -33,20 +35,28 @@ Future getPrivateFromApi() async {
     var response = await http.get(Uri.parse(urls_Private[i]));
     if (response.statusCode == 200) {
       List<LatLng> positions = [];
+      List<double> eles = [];
       var resp = json.decode(response.body);
       var parcours = Parcour.fromJson(resp);
 
       for (var y = 0; y < parcours.gpx.trk.trkseg.trkpt.length; y++) {
         double lat = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lat);
         double lng = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lon);
+        double ele = double.parse(parcours.gpx.trk.trkseg.trkpt[y].ele);
         positions.add(LatLng(lat, lng));
       }
-      listMarkerPrivate.add(setMarker(
-        MarkerId(i.toString()),
-        InfoWindow(title: calculDistance(positions)),
-        BitmapDescriptor.defaultMarker,
-        LatLng(positions.first.latitude, positions.first.longitude),
-      ));
+      listMarkerPrivate.add(
+        setMarker(
+          MarkerId(i.toString()),
+          InfoWindow(
+            title: "${parcours.gpx.trk.name}",
+            snippet:
+                "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
+          ),
+          BitmapDescriptor.defaultMarker,
+          LatLng(positions.first.latitude, positions.first.longitude),
+        ),
+      );
       listPolylinePrivate.add(setPolyline(
         i.toString(),
         positions,
@@ -81,7 +91,11 @@ Future getProtectedFromApi() async {
       }
       listMarkerProtected.add(setMarker(
         MarkerId((i + 2).toString()),
-        InfoWindow(title: calculDistance(positions)),
+        InfoWindow(
+          title: "${parcours.gpx.trk.name}",
+          snippet:
+              "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
+        ),
         BitmapDescriptor.defaultMarker,
         LatLng(positions.first.latitude, positions.first.longitude),
       ));
@@ -119,7 +133,11 @@ Future getPublicFromApi() async {
       }
       listMarkerPublic.add(setMarker(
         MarkerId((i + 3).toString()),
-        InfoWindow(title: calculDistance(positions)),
+        InfoWindow(
+          title: "${parcours.gpx.trk.name}",
+          snippet:
+              "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
+        ),
         BitmapDescriptor.defaultMarker,
         LatLng(positions.first.latitude, positions.first.longitude),
       ));
@@ -142,7 +160,8 @@ final CameraPosition kPositionnementInitial = CameraPosition(
 //marker
 
 Marker setMarker(
-    MarkerId markid, InfoWindow infowin, BitmapDescriptor ico, LatLng pos) {
+    MarkerId markid, InfoWindow infowin, BitmapDescriptor ico, LatLng pos,
+    {bool consumeTapEvents, bool mapToolbarEnabled}) {
   return Marker(
     markerId: markid,
     infoWindow: infowin,
@@ -173,7 +192,7 @@ List listMarkerPublic = [];
 
 // calcul distance
 
-String calculDistance(List<LatLng> listCoord) {
+double calculDistance(List<LatLng> listCoord) {
   double result = 0;
   List<LatLng> listCoordoRad = List.empty(growable: true);
 
@@ -192,7 +211,7 @@ String calculDistance(List<LatLng> listCoord) {
         6371;
   }
 
-  return result.toString();
+  return result;
   // result =
   //     acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(lon2 - lon1)) *
   //         6371;

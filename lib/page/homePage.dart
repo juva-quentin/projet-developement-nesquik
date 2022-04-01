@@ -78,6 +78,7 @@ class MapSampleState extends State<MapSample> {
         zoomControlsEnabled: false,
         mapType: MapType.normal,
         myLocationEnabled: true,
+        mapToolbarEnabled: false,
         initialCameraPosition: kPositionnementInitial,
         markers: points,
         polylines: lines,
