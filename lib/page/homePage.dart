@@ -43,7 +43,6 @@ class MapSampleState extends State<MapSample> {
   void initState() {
     getParcours();
     super.initState();
-
     var flag = 0;
   }
 
