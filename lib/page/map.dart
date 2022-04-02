@@ -186,6 +186,7 @@ Polyline setPolyline(String polID, List<LatLng> listCoord, Color colo) {
 List listPolylinePrivate = [];
 List listPolylineProtected = [];
 List listPolylinePublic = [];
+List<LatLng> parcourCreat = [];
 
 List listMarkerPrivate = [];
 List listMarkerProtected = [];
