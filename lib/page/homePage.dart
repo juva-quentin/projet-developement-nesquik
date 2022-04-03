@@ -27,6 +27,7 @@ class MapSampleState extends State<MapSample> {
   Marker marker;
   Circle circle;
   bool geoloc = false;
+  bool geoloc2 = false;
   int _protection = 1;
   final loc.Location location = loc.Location();
 
@@ -42,7 +43,6 @@ class MapSampleState extends State<MapSample> {
   void initState() {
     getParcours();
     super.initState();
-
     var flag = 0;
   }
 
@@ -76,7 +76,8 @@ class MapSampleState extends State<MapSample> {
         },
         zoomControlsEnabled: false,
         mapType: MapType.normal,
-        myLocationEnabled: false,
+        myLocationEnabled: true,
+        myLocationButtonEnabled: false,
         mapToolbarEnabled: false,
         initialCameraPosition: kPositionnementInitial,
         markers: points,
@@ -94,7 +95,9 @@ class MapSampleState extends State<MapSample> {
         height: 55,
         child: FloatingActionButton.extended(
           heroTag: "CommunityBtn",
-          onPressed: () {},
+          onPressed: () {
+            print(listPolylinePrivate.length);
+          },
           label: Text("Community"),
           icon: Icon(Icons.connect_without_contact_sharp),
           shape: const RoundedRectangleBorder(
@@ -209,21 +212,21 @@ class MapSampleState extends State<MapSample> {
                       }
                     },
                     icon: _protection == 1
-                        ? Icon(Icons.lock_open)
+                        ? Icon(Icons.lock)
                         : _protection == 2
                             ? Icon(Icons.shield)
-                            : Icon(Icons.lock),
+                            : Icon(Icons.lock_open),
                     label: _protection == 1
-                        ? Text("Public")
+                        ? Text("Private")
                         : _protection == 2
                             ? Text("Protected")
-                            : Text("Private"),
+                            : Text("Public"),
                     elevation: 0,
                     backgroundColor: _protection == 1
-                        ? Color.fromARGB(255, 40, 151, 60)
+                        ? Color.fromARGB(255, 143, 11, 11)
                         : _protection == 2
                             ? Color.fromARGB(255, 185, 187, 65)
-                            : Color.fromARGB(255, 143, 11, 11),
+                            : Color.fromARGB(255, 40, 151, 60),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0),
@@ -247,6 +250,8 @@ class MapSampleState extends State<MapSample> {
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn3",
                     onPressed: () {
+                      print(
+                          "------------------------------:listPolylinePrivate.length");
                       if (geoloc == false) {
                         setState(() {
                           geoloc = true;
@@ -339,9 +344,25 @@ class MapSampleState extends State<MapSample> {
           child: Container(
             width: 150,
             child: FloatingActionButton.extended(
-              onPressed: () {},
-              label: Text("GO"),
-              backgroundColor: Color.fromRGBO(114, 176, 234, 1),
+              onPressed: () {
+                print("pressGO");
+                if (geoloc2 == false) {
+                  setState(() {
+                    geoloc2 = true;
+                  });
+                  getCoordoFromPos();
+                } else {
+                  setState(() {
+                    geoloc2 = false;
+                  });
+                  getCoordoFromPos();
+                }
+              },
+              label: !geoloc2 ? Text("GO") : Text("GO"),
+              elevation: 0,
+              backgroundColor: !geoloc2
+                  ? Color.fromRGBO(114, 176, 234, 1)
+                  : Color.fromARGB(255, 190, 69, 69),
               extendedTextStyle: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 28,
@@ -369,78 +390,51 @@ class MapSampleState extends State<MapSample> {
         ));
   }
 
-  var flag = 0;
-
   void affichagePrivate() {
-    if (flag != 1) {
-      if (lines.isNotEmpty) {
-        for (var i = 0; i < lines.length; i++) {
-          // lines.remove(lines.first);
-          lines.clear();
-        }
-        for (var y = 0; y < points.length; y++) {
-          // points.remove(points.first);
-          points.clear();
-        }
-      }
-      setState(() {
-        for (var item in listPolylinePrivate) {
-          lines.add(item);
-        }
-        for (var item2 in listMarkerPrivate) {
-          points.add(item2);
-        }
-      });
+    if (lines.isNotEmpty) {
+      lines.clear();
+      points.clear();
     }
-    flag = 1;
+
+    setState(() {
+      for (var item in listPolylinePrivate) {
+        lines.add(item);
+        print(lines.last.polylineId);
+      }
+      for (var item2 in listMarkerPrivate) {
+        points.add(item2);
+      }
+    });
   }
 
   void affichageProtected() {
-    if (flag != 2) {
-      if (lines.isNotEmpty) {
-        for (var i = 0; i < lines.length; i++) {
-          // lines.remove(lines.first);
-          lines.clear();
-        }
-        for (var y = 0; y < points.length; y++) {
-          // points.remove(points.first);
-          points.clear();
-        }
-      }
-      setState(() {
-        for (var item in listPolylineProtected) {
-          lines.add(item);
-        }
-        for (var item2 in listMarkerProtected) {
-          points.add(item2);
-        }
-      });
+    if (lines.isNotEmpty) {
+      lines.clear();
+      points.clear();
     }
-    flag = 2;
+    setState(() {
+      for (var item in listPolylineProtected) {
+        lines.add(item);
+      }
+      for (var item2 in listMarkerProtected) {
+        points.add(item2);
+      }
+    });
   }
 
   void affichagePublic() {
-    if (flag != 3) {
-      if (lines.isNotEmpty) {
-        for (var i = 0; i < lines.length; i++) {
-          // lines.remove(lines.first);
-          lines.clear();
-        }
-        for (var y = 0; y < points.length; y++) {
-          // points.remove(points.first);
-          points.clear();
-        }
-      }
-      setState(() {
-        for (var item in listPolylinePublic) {
-          lines.add(item);
-        }
-        for (var item2 in listMarkerPublic) {
-          points.add(item2);
-        }
-      });
+    if (lines.isNotEmpty) {
+      lines.clear();
+      points.clear();
     }
-    flag = 3;
+    setState(() {
+      for (var item in listPolylinePublic) {
+        lines.add(item);
+      }
+      for (var item2 in listMarkerPublic) {
+        points.add(item2);
+      }
+    });
   }
 
   void updateMarkerAndCircle(LocationData newLocalData) {
@@ -490,6 +484,38 @@ class MapSampleState extends State<MapSample> {
           debugPrint("Permission Denied");
         }
       }
+    }
+  }
+
+  void getCoordoFromPos() async {
+    if (geoloc2 == false) {
+      for (var item in parcourCreat) {
+        print(item);
+      }
+      listPolylinePrivate.add(setPolyline(
+        "romuald",
+        parcourCreat,
+        Color.fromARGB(255, 224, 78, 78),
+      ));
+      listMarkerPrivate.add(
+        setMarker(
+          MarkerId("romuald"),
+          InfoWindow(
+            title: "romuald",
+            snippet:
+                "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+          ),
+          BitmapDescriptor.defaultMarker,
+          LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
+        ),
+      );
+      parcourCreat.clear();
+      _locationSubscription.cancel();
+    } else {
+      _locationSubscription =
+          _locationTracker.onLocationChanged.listen((newLocalData) {
+        parcourCreat.add(LatLng(newLocalData.latitude, newLocalData.longitude));
+      });
     }
   }
 
