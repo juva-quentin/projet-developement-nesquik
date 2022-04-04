@@ -175,14 +175,12 @@ class MapSampleState extends State<MapSample> {
                         });
                       }
                     },
-                    label: !activitie ? Text("Bike") : Text("Motor"),
+                    label: !activitie ? Text("Bike") : Text("Motorbike"),
                     icon: !activitie
                         ? Icon(Icons.pedal_bike)
                         : Icon(Icons.motorcycle_rounded),
                     elevation: 0,
-                    backgroundColor: !activitie
-                        ? Color.fromARGB(255, 143, 11, 11)
-                        : Color.fromARGB(255, 40, 151, 60),
+                    backgroundColor: Color.fromRGBO(114, 176, 234, 1),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -236,10 +234,10 @@ class MapSampleState extends State<MapSample> {
                             : Text("Public"),
                     elevation: 0,
                     backgroundColor: _protection == 1
-                        ? Color.fromARGB(255, 143, 11, 11)
+                        ? Color.fromARGB(255, 190, 69, 69)
                         : _protection == 2
-                            ? Color.fromARGB(255, 185, 187, 65)
-                            : Color.fromARGB(255, 40, 151, 60),
+                            ? Color.fromARGB(255, 109, 192, 103)
+                            : Color.fromRGBO(114, 176, 234, 1),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0),
@@ -283,8 +281,8 @@ class MapSampleState extends State<MapSample> {
                         : Icon(Icons.location_on),
                     elevation: 0,
                     backgroundColor: !geoloc
-                        ? Color.fromARGB(255, 143, 11, 11)
-                        : Color.fromARGB(255, 40, 151, 60),
+                        ? Color.fromARGB(255, 190, 69, 69)
+                        : Color.fromRGBO(114, 176, 234, 1),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0),
@@ -346,7 +344,7 @@ class MapSampleState extends State<MapSample> {
                   getCoordoFromPos();
                 }
               },
-              label: !geoloc2 ? Text("GO") : Text("GO"),
+              label: !geoloc2 ? Text("GO") : Text("STOP"),
               elevation: 0,
               backgroundColor: !geoloc2
                   ? Color.fromRGBO(114, 176, 234, 1)
