@@ -475,35 +475,71 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
+  // void getCoordoFromPos() async {
+  //   if (geoloc2 == false) {
+  //     _locationForRecord.cancel();
+  //     for (var item in parcourCreat) {
+  //       print(item);
+  //     }
+  //     listPolylinePrivate.add(setPolyline(
+  //       "romuald",
+  //       parcourCreat,
+  //       Color.fromARGB(255, 224, 78, 78),
+  //     ));
+  //     listMarkerPrivate.add(
+  //       setMarker(
+  //         MarkerId("paul "),
+  //         InfoWindow(
+  //           title: "romualdTrack",
+  //           snippet:
+  //               "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+  //         ),
+  //         BitmapDescriptor.defaultMarker,
+  //         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
+  //       ),
+  //     );
+  //     parcourCreat.clear();
+  //   } else {
+  //     _locationForRecord = _locationTracker.onLocationChanged.listen((result) {
+  //       parcourCreat.add(LatLng(result.latitude, result.longitude));
+  //     });
+  //   }
+  // }
+
   void getCoordoFromPos() async {
     if (geoloc2 == false) {
       _locationForRecord.cancel();
-      for (var item in parcourCreat) {
-        print(item);
-      }
-      listPolylinePrivate.add(setPolyline(
-        "romuald",
-        parcourCreat,
-        Color.fromARGB(255, 224, 78, 78),
-      ));
-      listMarkerPrivate.add(
-        setMarker(
-          MarkerId("paul "),
-          InfoWindow(
-            title: "romualdTrack",
-            snippet:
-                "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
-          ),
-          BitmapDescriptor.defaultMarker,
-          LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-        ),
-      );
-      parcourCreat.clear();
+      validateCoordo();
     } else {
-      _locationForRecord = _locationTracker.onLocationChanged.listen((result) {
-        parcourCreat.add(LatLng(result.latitude, result.longitude));
+      parcourCreat.clear();
+      _locationForRecord =
+          _locationTracker.onLocationChanged.listen((newLocalData) {
+        parcourCreat.add(LatLng(newLocalData.latitude, newLocalData.longitude));
       });
     }
+  }
+
+  void validateCoordo() async {
+    for (var item in parcourCreat) {
+      print(item);
+    }
+    listPolylinePrivate.add(setPolyline(
+      "romuald",
+      parcourCreat,
+      Color.fromARGB(255, 224, 78, 78),
+    ));
+    listMarkerPrivate.add(
+      setMarker(
+        MarkerId("romuald"),
+        InfoWindow(
+          title: "romuald",
+          snippet:
+              "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+        ),
+        BitmapDescriptor.defaultMarker,
+        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
+      ),
+    );
   }
 
   @override
