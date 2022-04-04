@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 import 'dart:typed_data';
@@ -11,9 +12,12 @@ import 'package:flutter/material.dart';
 import 'package:location/location.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:projet_developement_nesquik/page/addParcour.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import 'package:location/location.dart' as loc;
 import 'package:projet_developement_nesquik/page/profilPage.dart';
+
+import '../flutter_flow/flutter_flow_util.dart';
 
 class MapSample extends StatefulWidget {
   @override
@@ -352,13 +356,14 @@ class MapSampleState extends State<MapSample> {
                   });
                   getCoordoFromPos();
                 } else {
+                  print("object");
                   setState(() {
                     geoloc2 = false;
                   });
                   getCoordoFromPos();
                 }
               },
-              label: !geoloc2 ? Text("GO") : Text("GO"),
+              label: !geoloc2 ? Text("GO") : Text("Stop"),
               elevation: 0,
               backgroundColor: !geoloc2
                   ? Color.fromRGBO(114, 176, 234, 1)
@@ -438,7 +443,8 @@ class MapSampleState extends State<MapSample> {
   }
 
   void updateMarkerAndCircle(LocationData newLocalData) {
-    LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
+    google.LatLng latlng =
+        google.LatLng(newLocalData.latitude, newLocalData.longitude);
     this.setState(() {
       marker = Marker(
           markerId: MarkerId("home"),
@@ -473,8 +479,8 @@ class MapSampleState extends State<MapSample> {
             _controller.animateCamera(CameraUpdate.newCameraPosition(
                 new CameraPosition(
                     bearing: newLocalData.heading,
-                    target:
-                        LatLng(newLocalData.latitude, newLocalData.longitude),
+                    target: google.LatLng(
+                        newLocalData.latitude, newLocalData.longitude),
                     zoom: 18.00)));
             updateMarkerAndCircle(newLocalData);
           }
@@ -490,6 +496,7 @@ class MapSampleState extends State<MapSample> {
   void getCoordoFromPos() async {
     if (geoloc2 == false) {
       for (var item in parcourCreat) {
+        print("ok");
         print(item);
       }
       listPolylinePrivate.add(setPolyline(
@@ -506,15 +513,25 @@ class MapSampleState extends State<MapSample> {
                 "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
           ),
           BitmapDescriptor.defaultMarker,
-          LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
+          google.LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
         ),
       );
       parcourCreat.clear();
       _locationSubscription.cancel();
+      Navigator.push(
+        context,
+        PageTransition(
+          type: PageTransitionType.topToBottom,
+          duration: Duration(milliseconds: 300),
+          reverseDuration: Duration(milliseconds: 300),
+          child: AddParcour(),
+        ),
+      );
     } else {
       _locationSubscription =
           _locationTracker.onLocationChanged.listen((newLocalData) {
-        parcourCreat.add(LatLng(newLocalData.latitude, newLocalData.longitude));
+        parcourCreat
+            .add(google.LatLng(newLocalData.latitude, newLocalData.longitude));
       });
     }
   }
