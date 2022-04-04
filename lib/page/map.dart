@@ -11,35 +11,47 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 List<String> urls_Protected = [];
 List<String> urls_Private = [];
 List<String> urls_Public = [];
+
+List<LatLng> parcourCreat = [];
+List listPolylinePrivate = [];
+List listPolylineProtected = [];
+List listPolylinePublic = [];
+
+List listMarkerPrivate = [];
+List listMarkerProtected = [];
+List listMarkerPublic = [];
+
 final courses = FirebaseFirestore.instance.collection('parcours');
 
-Future tt() async {
+//Parcours
+
+Future getAllParcoursFromApi() async {
   getProtectedFromApi().then((value) => print("Protected_FromApi_Add"));
   getPrivateFromApi().then((value) => print("Private_FromApi_Add"));
   getPublicFromApi().then((value) => print("Public_FromApi_Add"));
 }
 
-getParcours() async {
+getLinksStorageParcours() async {
   await courses.get().then((QuerySnapshot snapshot) {
     snapshot.docs.forEach((DocumentSnapshot doc) {
-      var miam = Map<String, dynamic>.from(doc.data());
-      switch (miam['type']) {
+      var mapCourseFireBase = Map<String, dynamic>.from(doc.data());
+      switch (mapCourseFireBase['type']) {
         case "public":
           {
-            urls_Public.add(miam['address']);
+            urls_Public.add(mapCourseFireBase['address']);
             break;
           }
         case "protected":
           {
-            if (miam['shareTo'].contains(currentUser.user.uid)) {
-              urls_Protected.add(miam['address']);
+            if (mapCourseFireBase['shareTo'].contains(currentUser.user.uid)) {
+              urls_Protected.add(mapCourseFireBase['address']);
             }
             break;
           }
         case "private":
           {
-            if (miam['owner'] == currentUser.user.uid) {
-              urls_Private.add(miam['address']);
+            if (mapCourseFireBase['owner'] == currentUser.user.uid) {
+              urls_Private.add(mapCourseFireBase['address']);
             }
             break;
           }
@@ -48,7 +60,7 @@ getParcours() async {
         default:
       }
     });
-    tt();
+    getAllParcoursFromApi();
   });
 }
 
@@ -182,15 +194,6 @@ Polyline setPolyline(String polID, List<LatLng> listCoord, Color colo) {
     onTap: () {},
   );
 }
-
-List listPolylinePrivate = [];
-List listPolylineProtected = [];
-List listPolylinePublic = [];
-List<LatLng> parcourCreat = [];
-
-List listMarkerPrivate = [];
-List listMarkerProtected = [];
-List listMarkerPublic = [];
 
 // calcul distance
 
