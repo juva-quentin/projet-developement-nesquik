@@ -23,11 +23,13 @@ class MapSample extends StatefulWidget {
 class MapSampleState extends State<MapSample> {
   GoogleMapController _controller;
   StreamSubscription _locationSubscription;
+  StreamSubscription _locationForRecord;
   Location _locationTracker = Location();
   Marker marker;
   Circle circle;
   bool geoloc = false;
   bool geoloc2 = false;
+  bool activitie = false;
   int _protection = 1;
   final loc.Location location = loc.Location();
 
@@ -41,9 +43,8 @@ class MapSampleState extends State<MapSample> {
   var _visible = true;
   @override
   void initState() {
-    getParcours();
+    getLinksStorageParcours();
     super.initState();
-    var flag = 0;
   }
 
   @override
@@ -164,12 +165,24 @@ class MapSampleState extends State<MapSample> {
                     heroTag: "OptionBtn1",
                     onPressed: () {
                       print("pressBt1");
-                      // calculDistance();
+                      if (activitie == false) {
+                        setState(() {
+                          activitie = true;
+                        });
+                      } else {
+                        setState(() {
+                          activitie = false;
+                        });
+                      }
                     },
-                    icon: Icon(Icons.pedal_bike),
-                    label: Text("1"),
+                    label: !activitie ? Text("Bike") : Text("Motor"),
+                    icon: !activitie
+                        ? Icon(Icons.pedal_bike)
+                        : Icon(Icons.motorcycle_rounded),
                     elevation: 0,
-                    backgroundColor: Color.fromARGB(255, 183, 190, 197),
+                    backgroundColor: !activitie
+                        ? Color.fromARGB(255, 143, 11, 11)
+                        : Color.fromARGB(255, 40, 151, 60),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -281,31 +294,6 @@ class MapSampleState extends State<MapSample> {
                     ),
                   ),
                 )),
-            // Positioned(
-            //     width: 130,
-            //     height: 55,
-            //     left: 215,
-            //     bottom: 75,
-            //     child: Container(
-            //       child: FloatingActionButton.extended(
-            //         heroTag: "OptionBtn4",
-            //         onPressed: () {
-            //           getCurrentLocation();
-            //         },
-            //         label: Text("4"),
-            //         extendedTextStyle: TextStyle(color: Colors.black),
-            //         icon: Icon(Icons.location_searching),
-            //         elevation: 0,
-            //         backgroundColor: Color.fromARGB(255, 183, 190, 197),
-            //         shape: const RoundedRectangleBorder(
-            //           borderRadius: BorderRadius.only(
-            //               topLeft: Radius.circular(0),
-            //               topRight: Radius.circular(0),
-            //               bottomRight: Radius.circular(20),
-            //               bottomLeft: Radius.circular(0)),
-            //         ),
-            //       ),
-            //     )),
           ],
         ));
   }
@@ -489,6 +477,7 @@ class MapSampleState extends State<MapSample> {
 
   void getCoordoFromPos() async {
     if (geoloc2 == false) {
+      _locationForRecord.cancel();
       for (var item in parcourCreat) {
         print(item);
       }
@@ -499,9 +488,9 @@ class MapSampleState extends State<MapSample> {
       ));
       listMarkerPrivate.add(
         setMarker(
-          MarkerId("romuald"),
+          MarkerId("paul "),
           InfoWindow(
-            title: "romuald",
+            title: "romualdTrack",
             snippet:
                 "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
           ),
@@ -510,11 +499,9 @@ class MapSampleState extends State<MapSample> {
         ),
       );
       parcourCreat.clear();
-      _locationSubscription.cancel();
     } else {
-      _locationSubscription =
-          _locationTracker.onLocationChanged.listen((newLocalData) {
-        parcourCreat.add(LatLng(newLocalData.latitude, newLocalData.longitude));
+      _locationForRecord = _locationTracker.onLocationChanged.listen((result) {
+        parcourCreat.add(LatLng(result.latitude, result.longitude));
       });
     }
   }
