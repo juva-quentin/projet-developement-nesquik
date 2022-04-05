@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
-
 import '../flutter_flow/flutter_flow_choice_chips.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 
@@ -75,7 +73,6 @@ class MyCustomFormState extends State<MyCustomForm> {
                       style: TextStyle(fontSize: 40, color: Colors.white70)))),
           SizedBox(height: 10),
           Container(
-              padding: EdgeInsets.all(20),
               color: Colors.green,
               alignment: Alignment.center,
               child: Column(children: [
@@ -87,47 +84,56 @@ class MyCustomFormState extends State<MyCustomForm> {
                       fontWeight: FontWeight.normal,
                     ))),
                 SizedBox(height: 20),
-                Table(
-                  border: TableBorder.all(
-                      width: 1.0, color: Color.fromARGB(179, 0, 0, 0)),
-                  children: [
-                    TableRow(children: [
-                      TableCell(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                            Text("Temps total du trajet"),
-                            Text("Miam")
-                          ])),
-                    ]),
-                    TableRow(children: [
-                      TableCell(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                            Text("Temps total du trajet"),
-                            Text("Miam")
-                          ])),
-                    ]),
-                    TableRow(children: [
-                      TableCell(
-                          child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
-                              children: <Widget>[
-                            Text("Temps total du trajet"),
-                            Text("Miam")
-                          ])),
-                    ])
-                  ],
-                ),
+                Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.red,
+                    child: Column(children: [
+                      Wrap(
+                        spacing: 20,
+                        children: [
+                          Container(
+                            color: Colors.yellow,
+                            width: 170,
+                            height: 50,
+                            child: Column(
+                              children: [Text("Temps")],
+                            ),
+                          ),
+                          Container(
+                            color: Color.fromARGB(255, 89, 52, 52),
+                            width: 170,
+                            height: 50,
+                            child: Column(
+                              children: [Text("Distance")],
+                            ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      Wrap(
+                        spacing: 20,
+                        children: [
+                          Container(
+                            color: Colors.yellow,
+                            width: 150,
+                            height: 50,
+                          ),
+                          Container(
+                            color: Color.fromARGB(255, 153, 54, 54),
+                            width: 150,
+                            height: 50,
+                          )
+                        ],
+                      ),
+                    ])),
                 Padding(
-                  padding: EdgeInsetsDirectional.fromSTEB(35, 30, 0, 0),
+                  padding: EdgeInsetsDirectional.fromSTEB(37, 30, 0, 0),
                   child: FlutterFlowChoiceChips(
                     initiallySelected: [choiceChipsValue],
                     options: [
-                      ChipData('Homme'),
-                      ChipData('Femme'),
-                      ChipData('Autres')
+                      ChipData('Privée'),
+                      ChipData('Protégée'),
+                      ChipData('Public')
                     ],
                     onChanged: (val) =>
                         setState(() => choiceChipsValue = val.first),
