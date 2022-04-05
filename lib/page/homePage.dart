@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
@@ -18,8 +17,6 @@ import 'package:projet_developement_nesquik/page/addParcour.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import 'package:location/location.dart' as loc;
 import 'package:projet_developement_nesquik/page/profilPage.dart';
-
-import '../flutter_flow/flutter_flow_util.dart';
 
 class MapSample extends StatefulWidget {
   @override
@@ -36,7 +33,6 @@ class MapSampleState extends State<MapSample> {
   bool geoloc = false;
   bool geoloc2 = false;
   bool activitie = false;
-
   int kCooldownLong_ms = 700;
   double kButtonSize = 100;
   int _counter = 0;
@@ -48,7 +44,6 @@ class MapSampleState extends State<MapSample> {
       _counter++;
     });
   }
-
 
   int _protection = 1;
   final loc.Location location = loc.Location();
@@ -195,15 +190,12 @@ class MapSampleState extends State<MapSample> {
                         });
                       }
                     },
-
-
+                    label: !activitie ? Text("Bike") : Text("Motorbike"),
                     icon: !activitie
                         ? Icon(Icons.pedal_bike)
                         : Icon(Icons.motorcycle_rounded),
                     elevation: 0,
-
                     backgroundColor: Color.fromRGBO(114, 176, 234, 1),
-
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -263,7 +255,11 @@ class MapSampleState extends State<MapSample> {
                             : Text("Privé"),
                     elevation: 0,
                     backgroundColor: _protection == 1
-  shape: const RoundedRectangleBorder(
+                        ? Color.fromARGB(255, 40, 151, 60)
+                        : _protection == 2
+                            ? Color.fromARGB(255, 185, 187, 65)
+                            : Color.fromARGB(255, 143, 11, 11),
+                    shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0),
                           topRight: Radius.circular(0),
@@ -283,7 +279,6 @@ class MapSampleState extends State<MapSample> {
                       right: BorderSide(width: 0.65, color: Colors.black),
                     ),
                   ),
-
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn3",
                     onPressed: () {
@@ -318,7 +313,6 @@ class MapSampleState extends State<MapSample> {
                     ),
                   ),
                 )),
-
           ],
         ));
   }
@@ -379,9 +373,7 @@ class MapSampleState extends State<MapSample> {
                   }
                 }
               },
-
               label: !geoloc2 ? Text("GO") : Text("STOP"),
-
               elevation: 0,
               backgroundColor: !geoloc2
                   ? Color.fromRGBO(114, 176, 234, 1)
@@ -544,10 +536,8 @@ class MapSampleState extends State<MapSample> {
 
   void getCoordoFromPos() async {
     if (geoloc2 == false) {
-
       _locationForRecord.cancel();
       validateCoordo();
-
     } else {
       parcourCreat.clear();
       _locationForRecord =
