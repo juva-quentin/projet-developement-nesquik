@@ -9,7 +9,9 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter/services.dart';
+import 'map.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import 'package:location/location.dart' as loc;
@@ -30,6 +32,18 @@ class MapSampleState extends State<MapSample> {
   bool geoloc = false;
   bool geoloc2 = false;
   bool activitie = false;
+  int kCooldownLong_ms = 700;
+  double kButtonSize = 100;
+  int _counter = 0;
+  double _cooldown = 0;
+  int _cooldownStarted = DateTime.now().millisecondsSinceEpoch;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
   int _protection = 1;
   final loc.Location location = loc.Location();
 
@@ -204,41 +218,43 @@ class MapSampleState extends State<MapSample> {
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn2",
                     onPressed: () {
-                      print(_protection);
-                      if (_protection == 1) {
+                      if (_protection == 3) {
                         affichagePublic();
-                        setState(() {
-                          _protection = 2;
-                        });
-                      } else if (_protection == 2) {
-                        affichageProtected();
-                        setState(() {
-                          _protection = 3;
-                        });
-                      } else {
-                        affichagePrivate();
+                        print("affichagePublic()");
+
                         setState(() {
                           _protection = 1;
                         });
+                        print(_protection);
+                      } else if (_protection == 1) {
+                        affichageProtected();
+                        print("affichageProtected()");
+                        setState(() {
+                          _protection = 2;
+                        });
+                        print(_protection);
+                      } else if (_protection == 2) {
+                        affichagePrivate();
+                        print("affichagePrivate()");
+                        setState(() {
+                          _protection = 3;
+                        });
+                        print(_protection);
                       }
                     },
                     icon: _protection == 1
-                        ? Icon(Icons.lock)
+                        ? Icon(Icons.lock_open)
                         : _protection == 2
                             ? Icon(Icons.shield)
-                            : Icon(Icons.lock_open),
+                            : Icon(Icons.lock),
                     label: _protection == 1
-                        ? Text("Private")
+                        ? Text("Public")
                         : _protection == 2
-                            ? Text("Protected")
-                            : Text("Public"),
+                            ? Text("Protégé")
+                            : Text("Privé"),
                     elevation: 0,
                     backgroundColor: _protection == 1
-                        ? Color.fromARGB(255, 190, 69, 69)
-                        : _protection == 2
-                            ? Color.fromARGB(255, 109, 192, 103)
-                            : Color.fromRGBO(114, 176, 234, 1),
-                    shape: const RoundedRectangleBorder(
+  shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0),
                           topRight: Radius.circular(0),
@@ -258,6 +274,7 @@ class MapSampleState extends State<MapSample> {
                       right: BorderSide(width: 0.65, color: Colors.black),
                     ),
                   ),
+
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn3",
                     onPressed: () {
@@ -292,6 +309,7 @@ class MapSampleState extends State<MapSample> {
                     ),
                   ),
                 )),
+
           ],
         ));
   }
@@ -342,6 +360,13 @@ class MapSampleState extends State<MapSample> {
                     geoloc2 = false;
                   });
                   getCoordoFromPos();
+                  if (_protection == 1) {
+                    affichagePublic();
+                  } else if (_protection == 2) {
+                    affichageProtected();
+                  } else if (_protection == 3) {
+                    affichagePrivate();
+                  }
                 }
               },
               label: !geoloc2 ? Text("GO") : Text("STOP"),
@@ -473,37 +498,6 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
-  // void getCoordoFromPos() async {
-  //   if (geoloc2 == false) {
-  //     _locationForRecord.cancel();
-  //     for (var item in parcourCreat) {
-  //       print(item);
-  //     }
-  //     listPolylinePrivate.add(setPolyline(
-  //       "romuald",
-  //       parcourCreat,
-  //       Color.fromARGB(255, 224, 78, 78),
-  //     ));
-  //     listMarkerPrivate.add(
-  //       setMarker(
-  //         MarkerId("paul "),
-  //         InfoWindow(
-  //           title: "romualdTrack",
-  //           snippet:
-  //               "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
-  //         ),
-  //         BitmapDescriptor.defaultMarker,
-  //         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-  //       ),
-  //     );
-  //     parcourCreat.clear();
-  //   } else {
-  //     _locationForRecord = _locationTracker.onLocationChanged.listen((result) {
-  //       parcourCreat.add(LatLng(result.latitude, result.longitude));
-  //     });
-  //   }
-  // }
-
   void getCoordoFromPos() async {
     if (geoloc2 == false) {
       _locationForRecord.cancel();
@@ -546,5 +540,32 @@ class MapSampleState extends State<MapSample> {
       _locationSubscription.cancel();
     }
     super.dispose();
+  }
+
+  void _startCooldownIndicator(int timeMs) {
+    _cooldownStarted = DateTime.now().millisecondsSinceEpoch;
+    _updateCooldown(timeMs);
+  }
+
+  void _updateCooldown(int timeMs) {
+    final int current = DateTime.now().millisecondsSinceEpoch;
+    int delta = current - _cooldownStarted;
+    if (delta > timeMs) {
+      delta = timeMs;
+    }
+
+    setState(() {
+      _cooldown = delta.roundToDouble() / timeMs;
+    });
+
+    Future<void>(() {
+      if (delta < timeMs) {
+        _updateCooldown(timeMs);
+      } else {
+        setState(() {
+          _cooldown = 0.0;
+        });
+      }
+    });
   }
 }
