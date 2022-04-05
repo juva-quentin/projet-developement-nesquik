@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
@@ -398,7 +399,7 @@ class MapSampleState extends State<MapSample> {
       lines.clear();
       points.clear();
     }
-
+    calculEle(listElePrivate);
     setState(() {
       for (var item in listPolylinePrivate) {
         lines.add(item);
@@ -415,6 +416,7 @@ class MapSampleState extends State<MapSample> {
       lines.clear();
       points.clear();
     }
+    calculEle(listEleProtected);
     setState(() {
       for (var item in listPolylineProtected) {
         lines.add(item);
@@ -430,6 +432,7 @@ class MapSampleState extends State<MapSample> {
       lines.clear();
       points.clear();
     }
+    calculEle(listElePublic);
     setState(() {
       for (var item in listPolylinePublic) {
         lines.add(item);
