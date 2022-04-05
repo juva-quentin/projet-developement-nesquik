@@ -279,40 +279,52 @@ class MapSampleState extends State<MapSample> {
                       right: BorderSide(width: 0.65, color: Colors.black),
                     ),
                   ),
-                  child: FloatingActionButton.extended(
-                    heroTag: "OptionBtn3",
-                    onPressed: () {
-                      print(
-                          "------------------------------:listPolylinePrivate.length");
-                      if (geoloc == false) {
-                        setState(() {
-                          geoloc = true;
-                        });
-                        getCurrentLocation();
-                      } else {
-                        setState(() {
-                          geoloc = false;
-                        });
-                        getCurrentLocation();
-                      }
-                    },
-                    label: !geoloc ? Text("OFF") : Text("ON"),
-                    icon: !geoloc
-                        ? Icon(Icons.location_off)
-                        : Icon(Icons.location_on),
-                    elevation: 0,
-                    backgroundColor: !geoloc
-                        ? Color.fromARGB(255, 190, 69, 69)
-                        : Color.fromRGBO(114, 176, 234, 1),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(0),
-                          topRight: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
-                          bottomLeft: Radius.circular(20)),
-                    ),
-                  ),
-                )),
+                  child: SizedBox(
+                      width: kButtonSize,
+                      height: kButtonSize,
+                      child: TapDebouncer(
+                        onTap: () async {
+                          _startCooldownIndicator(kCooldownLong_ms);
+
+                          _incrementCounter();
+                          if (geoloc == false) {
+                            setState(() {
+                              geoloc = true;
+                            });
+                            getCurrentLocation();
+                          } else {
+                            setState(() {
+                              geoloc = false;
+                            });
+                            getCurrentLocation();
+                          }
+                          await Future<void>.delayed(
+                            Duration(milliseconds: kCooldownLong_ms),
+                          );
+                        },
+                        builder: (_, TapDebouncerFunc onTap) {
+                          return FloatingActionButton.extended(
+                            heroTag: "OptionBtn3",
+                            onPressed: onTap,
+                            label: !geoloc ? Text("OFF") : Text("ON"),
+                            icon: !geoloc
+                                ? Icon(Icons.location_off)
+                                : Icon(Icons.location_on),
+                            elevation: 0,
+                            backgroundColor: !geoloc
+                                ? Color.fromARGB(255, 190, 69, 69)
+                                : Color.fromRGBO(114, 176, 234, 1),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(0),
+                                  topRight: Radius.circular(0),
+                                  bottomRight: Radius.circular(0),
+                                  bottomLeft: Radius.circular(20)),
+                            ),
+                          );
+                        },
+                      )),
+                ))
           ],
         ));
   }
