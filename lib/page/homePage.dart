@@ -207,22 +207,26 @@ class MapSampleState extends State<MapSample> {
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn2",
                     onPressed: () {
-                      if (_protection == 1) {
+                      if (_protection == 3) {
                         affichagePublic();
+                        print("affichagePublic()");
+
+                        setState(() {
+                          _protection = 1;
+                        });
+                        print(_protection);
+                      } else if (_protection == 1) {
+                        affichageProtected();
+                        print("affichageProtected()");
                         setState(() {
                           _protection = 2;
                         });
                         print(_protection);
                       } else if (_protection == 2) {
-                        affichageProtected();
+                        affichagePrivate();
+                        print("affichagePrivate()");
                         setState(() {
                           _protection = 3;
-                        });
-                        print(_protection);
-                      } else if (_protection == 3) {
-                        affichagePrivate();
-                        setState(() {
-                          _protection = 1;
                         });
                         print(_protection);
                       }
@@ -485,37 +489,6 @@ class MapSampleState extends State<MapSample> {
       }
     }
   }
-
-  // void getCoordoFromPos() async {
-  //   if (geoloc2 == false) {
-  //     _locationForRecord.cancel();
-  //     for (var item in parcourCreat) {
-  //       print(item);
-  //     }
-  //     listPolylinePrivate.add(setPolyline(
-  //       "romuald",
-  //       parcourCreat,
-  //       Color.fromARGB(255, 224, 78, 78),
-  //     ));
-  //     listMarkerPrivate.add(
-  //       setMarker(
-  //         MarkerId("paul "),
-  //         InfoWindow(
-  //           title: "romualdTrack",
-  //           snippet:
-  //               "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
-  //         ),
-  //         BitmapDescriptor.defaultMarker,
-  //         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-  //       ),
-  //     );
-  //     parcourCreat.clear();
-  //   } else {
-  //     _locationForRecord = _locationTracker.onLocationChanged.listen((result) {
-  //       parcourCreat.add(LatLng(result.latitude, result.longitude));
-  //     });
-  //   }
-  // }
 
   void getCoordoFromPos() async {
     if (geoloc2 == false) {
