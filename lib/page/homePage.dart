@@ -9,6 +9,7 @@ import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:location/location.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
@@ -30,6 +31,18 @@ class MapSampleState extends State<MapSample> {
   bool geoloc = false;
   bool geoloc2 = false;
   bool activitie = false;
+  int kCooldownLong_ms = 700;
+  double kButtonSize = 100;
+  int _counter = 0;
+  double _cooldown = 0;
+  int _cooldownStarted = DateTime.now().millisecondsSinceEpoch;
+
+  void _incrementCounter() {
+    setState(() {
+      _counter++;
+    });
+  }
+
   int _protection = 1;
   final loc.Location location = loc.Location();
 
@@ -175,14 +188,12 @@ class MapSampleState extends State<MapSample> {
                         });
                       }
                     },
-                    label: !activitie ? Text("Bike") : Text("Motor"),
+                    label: !activitie ? Text("Bike") : Text("Motorbike"),
                     icon: !activitie
                         ? Icon(Icons.pedal_bike)
                         : Icon(Icons.motorcycle_rounded),
                     elevation: 0,
-                    backgroundColor: !activitie
-                        ? Color.fromARGB(255, 143, 11, 11)
-                        : Color.fromARGB(255, 40, 151, 60),
+                    backgroundColor: Color.fromRGBO(114, 176, 234, 1),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -236,10 +247,10 @@ class MapSampleState extends State<MapSample> {
                             : Text("Public"),
                     elevation: 0,
                     backgroundColor: _protection == 1
-                        ? Color.fromARGB(255, 143, 11, 11)
+                        ? Color.fromARGB(255, 190, 69, 69)
                         : _protection == 2
-                            ? Color.fromARGB(255, 185, 187, 65)
-                            : Color.fromARGB(255, 40, 151, 60),
+                            ? Color.fromARGB(255, 109, 192, 103)
+                            : Color.fromRGBO(114, 176, 234, 1),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0),
@@ -260,40 +271,86 @@ class MapSampleState extends State<MapSample> {
                       right: BorderSide(width: 0.65, color: Colors.black),
                     ),
                   ),
-                  child: FloatingActionButton.extended(
-                    heroTag: "OptionBtn3",
-                    onPressed: () {
-                      print(
-                          "------------------------------:listPolylinePrivate.length");
-                      if (geoloc == false) {
-                        setState(() {
-                          geoloc = true;
-                        });
-                        getCurrentLocation();
-                      } else {
-                        setState(() {
-                          geoloc = false;
-                        });
-                        getCurrentLocation();
-                      }
-                    },
-                    label: !geoloc ? Text("OFF") : Text("ON"),
-                    icon: !geoloc
-                        ? Icon(Icons.location_off)
-                        : Icon(Icons.location_on),
-                    elevation: 0,
-                    backgroundColor: !geoloc
-                        ? Color.fromARGB(255, 143, 11, 11)
-                        : Color.fromARGB(255, 40, 151, 60),
-                    shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(0),
-                          topRight: Radius.circular(0),
-                          bottomRight: Radius.circular(0),
-                          bottomLeft: Radius.circular(20)),
-                    ),
-                  ),
-                )),
+                  child: SizedBox(
+                      width: kButtonSize,
+                      height: kButtonSize,
+                      child: TapDebouncer(
+                        onTap: () async {
+                          _startCooldownIndicator(kCooldownLong_ms);
+
+                          _incrementCounter();
+                          if (geoloc == false) {
+                            setState(() {
+                              geoloc = true;
+                            });
+                            getCurrentLocation();
+                          } else {
+                            setState(() {
+                              geoloc = false;
+                            });
+                            getCurrentLocation();
+                          }
+                          await Future<void>.delayed(
+                            Duration(milliseconds: kCooldownLong_ms),
+                          );
+                        },
+                        builder: (_, TapDebouncerFunc onTap) {
+                          return FloatingActionButton.extended(
+                            heroTag: "OptionBtn3",
+                            onPressed: onTap,
+                            label: !geoloc ? Text("OFF") : Text("ON"),
+                            icon: !geoloc
+                                ? Icon(Icons.location_off)
+                                : Icon(Icons.location_on),
+                            elevation: 0,
+                            backgroundColor: !geoloc
+                                ? Color.fromARGB(255, 190, 69, 69)
+                                : Color.fromRGBO(114, 176, 234, 1),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(0),
+                                  topRight: Radius.circular(0),
+                                  bottomRight: Radius.circular(0),
+                                  bottomLeft: Radius.circular(20)),
+                            ),
+                          );
+                        },
+                        //         child: FloatingActionButton.extended(
+                        //           heroTag: "OptionBtn3",
+                        //           onPressed: () {
+
+                        //             //   print(
+                        //             //       "------------------------------:listPolylinePrivate.length");
+                        //             //   if (geoloc == false) {
+                        //             //     setState(() {
+                        //             //       geoloc = true;
+                        //             //     });
+                        //             //     getCurrentLocation();
+                        //             //   } else {
+                        //             //     setState(() {
+                        //             //       geoloc = false;
+                        //             //     });
+                        //             //     getCurrentLocation();
+                        //             //   }
+                        //           },
+                        //           label: !geoloc ? Text("OFF") : Text("ON"),
+                        //           icon: !geoloc
+                        //               ? Icon(Icons.location_off)
+                        //               : Icon(Icons.location_on),
+                        //           elevation: 0,
+                        //           backgroundColor: !geoloc
+                        //               ? Color.fromARGB(255, 190, 69, 69)
+                        //               : Color.fromRGBO(114, 176, 234, 1),
+                        //           shape: const RoundedRectangleBorder(
+                        //             borderRadius: BorderRadius.only(
+                        //                 topLeft: Radius.circular(0),
+                        //                 topRight: Radius.circular(0),
+                        //                 bottomRight: Radius.circular(0),
+                        //                 bottomLeft: Radius.circular(20)),
+                        //           ),
+                        //         ),
+                      )),
+                ))
           ],
         ));
   }
@@ -346,7 +403,7 @@ class MapSampleState extends State<MapSample> {
                   getCoordoFromPos();
                 }
               },
-              label: !geoloc2 ? Text("GO") : Text("GO"),
+              label: !geoloc2 ? Text("GO") : Text("STOP"),
               elevation: 0,
               backgroundColor: !geoloc2
                   ? Color.fromRGBO(114, 176, 234, 1)
@@ -548,5 +605,32 @@ class MapSampleState extends State<MapSample> {
       _locationSubscription.cancel();
     }
     super.dispose();
+  }
+
+  void _startCooldownIndicator(int timeMs) {
+    _cooldownStarted = DateTime.now().millisecondsSinceEpoch;
+    _updateCooldown(timeMs);
+  }
+
+  void _updateCooldown(int timeMs) {
+    final int current = DateTime.now().millisecondsSinceEpoch;
+    int delta = current - _cooldownStarted;
+    if (delta > timeMs) {
+      delta = timeMs;
+    }
+
+    setState(() {
+      _cooldown = delta.roundToDouble() / timeMs;
+    });
+
+    Future<void>(() {
+      if (delta < timeMs) {
+        _updateCooldown(timeMs);
+      } else {
+        setState(() {
+          _cooldown = 0.0;
+        });
+      }
+    });
   }
 }
