@@ -4,6 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 import 'dart:typed_data';
@@ -13,9 +14,12 @@ import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter/services.dart';
 import 'map.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:projet_developement_nesquik/page/addParcour.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import 'package:location/location.dart' as loc;
 import 'package:projet_developement_nesquik/page/profilPage.dart';
+
+import '../flutter_flow/flutter_flow_util.dart';
 
 class MapSample extends StatefulWidget {
   @override
@@ -32,6 +36,7 @@ class MapSampleState extends State<MapSample> {
   bool geoloc = false;
   bool geoloc2 = false;
   bool activitie = false;
+
   int kCooldownLong_ms = 700;
   double kButtonSize = 100;
   int _counter = 0;
@@ -43,6 +48,7 @@ class MapSampleState extends State<MapSample> {
       _counter++;
     });
   }
+
 
   int _protection = 1;
   final loc.Location location = loc.Location();
@@ -189,12 +195,15 @@ class MapSampleState extends State<MapSample> {
                         });
                       }
                     },
-                    label: !activitie ? Text("Bike") : Text("Motorbike"),
+
+
                     icon: !activitie
                         ? Icon(Icons.pedal_bike)
                         : Icon(Icons.motorcycle_rounded),
                     elevation: 0,
+
                     backgroundColor: Color.fromRGBO(114, 176, 234, 1),
+
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(20),
@@ -356,6 +365,7 @@ class MapSampleState extends State<MapSample> {
                   });
                   getCoordoFromPos();
                 } else {
+                  print("object");
                   setState(() {
                     geoloc2 = false;
                   });
@@ -369,7 +379,9 @@ class MapSampleState extends State<MapSample> {
                   }
                 }
               },
+
               label: !geoloc2 ? Text("GO") : Text("STOP"),
+
               elevation: 0,
               backgroundColor: !geoloc2
                   ? Color.fromRGBO(114, 176, 234, 1)
@@ -449,7 +461,8 @@ class MapSampleState extends State<MapSample> {
   }
 
   void updateMarkerAndCircle(LocationData newLocalData) {
-    LatLng latlng = LatLng(newLocalData.latitude, newLocalData.longitude);
+    google.LatLng latlng =
+        google.LatLng(newLocalData.latitude, newLocalData.longitude);
     this.setState(() {
       marker = Marker(
           markerId: MarkerId("home"),
@@ -484,8 +497,8 @@ class MapSampleState extends State<MapSample> {
             _controller.animateCamera(CameraUpdate.newCameraPosition(
                 new CameraPosition(
                     bearing: newLocalData.heading,
-                    target:
-                        LatLng(newLocalData.latitude, newLocalData.longitude),
+                    target: google.LatLng(
+                        newLocalData.latitude, newLocalData.longitude),
                     zoom: 18.00)));
             updateMarkerAndCircle(newLocalData);
           }
@@ -498,15 +511,49 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
+  // void getCoordoFromPos() async {
+  //   if (geoloc2 == false) {
+  //     _locationForRecord.cancel();
+  //     for (var item in parcourCreat) {
+  //       print(item);
+  //     }
+  //     listPolylinePrivate.add(setPolyline(
+  //       "romuald",
+  //       parcourCreat,
+  //       Color.fromARGB(255, 224, 78, 78),
+  //     ));
+  //     listMarkerPrivate.add(
+  //       setMarker(
+  //         MarkerId("paul "),
+  //         InfoWindow(
+  //           title: "romualdTrack",
+  //           snippet:
+  //               "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+  //         ),
+  //         BitmapDescriptor.defaultMarker,
+  //         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
+  //       ),
+  //     );
+  //     parcourCreat.clear();
+  //   } else {
+  //     _locationForRecord = _locationTracker.onLocationChanged.listen((result) {
+  //       parcourCreat.add(LatLng(result.latitude, result.longitude));
+  //     });
+  //   }
+  // }
+
   void getCoordoFromPos() async {
     if (geoloc2 == false) {
+
       _locationForRecord.cancel();
       validateCoordo();
+
     } else {
       parcourCreat.clear();
       _locationForRecord =
           _locationTracker.onLocationChanged.listen((newLocalData) {
-        parcourCreat.add(LatLng(newLocalData.latitude, newLocalData.longitude));
+        parcourCreat
+            .add(google.LatLng(newLocalData.latitude, newLocalData.longitude));
       });
     }
   }

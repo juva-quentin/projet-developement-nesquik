@@ -182,7 +182,6 @@ Widget _buildObjectifOverlay(BuildContext context) {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
   int nbrDays() {
     var date = DateFormat.EEEE().format(DateTime.now());
-    print(date);
     List<String> days = [
       "Monday",
       "Tuesday",
@@ -198,9 +197,12 @@ Widget _buildObjectifOverlay(BuildContext context) {
   }
 
   double _advencement(int objectif, int advencement) {
-    var result = (advencement * 100) / objectif;
+    double result = ((advencement * 100) / objectif) / 100;
+    if (objectif == 0) {
+      return 0.0;
+    }
     if (result <= 0) {
-      return 0;
+      return 0.0;
     } else if (result > 100) {
       return 100;
     } else {
@@ -268,11 +270,11 @@ Widget _buildObjectifOverlay(BuildContext context) {
                       animation: true,
                       lineHeight: 25.0,
                       animationDuration: 2500,
-                      percent:
-                          _advencement(data['objectif'], data['tdp']) / 100,
-                      center: Text(_advencement(data['objectif'], data['tdp'])
-                              .toString() +
-                          "%"),
+                      percent: _advencement(data['objectif'], data['tdp']),
+                      center: Text(
+                          ((_advencement(data['objectif'], data['tdp'])) * 100)
+                                  .toString() +
+                              "%"),
                       progressColor: Color.fromARGB(255, 0, 140, 255),
                     ),
                   ]),
