@@ -5,6 +5,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:projet_developement_nesquik/auth/auth_util.dart';
 import 'package:intl/intl.dart';
+import 'package:projet_developement_nesquik/page/Params.dart';
 
 import '../home_page/home_page_widget.dart';
 
@@ -289,31 +290,42 @@ Widget _buildObjectifOverlay(BuildContext context) {
 @override
 Widget _buildBottomOverlay(BuildContext context) {
   var choices = [
-    {"name": "Mes courses", "rout": ""},
-    {"name": "Mes favoris", "rout": ""},
-    {"name": "Mes amis", "rout": ""},
-    {"name": "Mes paramètres", "rout": ""},
-    {"name": "Mes statistiques", "rout": ""},
+    {"name": "Mes courses", "route": ""},
+    {"name": "Mes favoris", "route": ""},
+    {"name": "Mes amis", "route": ""},
+    {"name": "Mes paramètres", "route": Params()},
+    {"name": "Mes statistiques", "route": ""},
   ];
   return Column(
     children: choices
         .map((item) => new Padding(
             padding: const EdgeInsets.only(top: 20.0),
-            child: new Container(
-                width: 250,
-                alignment: Alignment.center,
-                padding: EdgeInsets.all(15),
-                decoration: BoxDecoration(
-                  color: Color.fromARGB(255, 1, 132, 255),
-                  borderRadius: BorderRadius.all(Radius.circular(5)),
-                ),
-                child: new Text(item["name"],
-                    style: GoogleFonts.sen(
-                        textStyle: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 24,
-                      fontWeight: FontWeight.w700,
-                    ))))))
+            child: new GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.bottomToTop,
+                        duration: Duration(milliseconds: 300),
+                        reverseDuration: Duration(milliseconds: 300),
+                        child: item["route"],
+                      ));
+                },
+                child: new Container(
+                    width: 250,
+                    alignment: Alignment.center,
+                    padding: EdgeInsets.all(15),
+                    decoration: BoxDecoration(
+                      color: Color.fromARGB(255, 1, 132, 255),
+                      borderRadius: BorderRadius.all(Radius.circular(5)),
+                    ),
+                    child: Text(item["name"],
+                        style: GoogleFonts.sen(
+                            textStyle: TextStyle(
+                          color: Color.fromARGB(255, 255, 255, 255),
+                          fontSize: 24,
+                          fontWeight: FontWeight.w700,
+                        )))))))
         .toList(),
   );
 }
