@@ -5,7 +5,11 @@ import 'package:page_transition/page_transition.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:projet_developement_nesquik/auth/auth_util.dart';
 import 'package:intl/intl.dart';
+import 'package:projet_developement_nesquik/page/Amis.dart';
+import 'package:projet_developement_nesquik/page/Courses.dart';
+import 'package:projet_developement_nesquik/page/Favorite.dart';
 import 'package:projet_developement_nesquik/page/Params.dart';
+import 'package:projet_developement_nesquik/page/Statistiques.dart';
 
 import '../home_page/home_page_widget.dart';
 
@@ -89,6 +93,7 @@ Widget _buildFinalTopOverlayContent(BuildContext context) {
           ),
           onPressed: () async {
             signOut();
+            Navigator.pop(context);
             await Navigator.push(
                 context,
                 PageTransition(
@@ -290,11 +295,11 @@ Widget _buildObjectifOverlay(BuildContext context) {
 @override
 Widget _buildBottomOverlay(BuildContext context) {
   var choices = [
-    {"name": "Mes courses", "route": ""},
-    {"name": "Mes favoris", "route": ""},
-    {"name": "Mes amis", "route": ""},
+    {"name": "Mes courses", "route": Courses()},
+    {"name": "Mes favoris", "route": Favorites()},
+    {"name": "Mes amis", "route": Amis()},
     {"name": "Mes paramètres", "route": Params()},
-    {"name": "Mes statistiques", "route": ""},
+    {"name": "Mes statistiques", "route": Stats()},
   ];
   return Column(
     children: choices
