@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:projet_developement_nesquik/page/map.dart';
 import '../flutter_flow/flutter_flow_choice_chips.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 
@@ -42,6 +44,32 @@ class MyCustomForm extends StatefulWidget {
 class MyCustomFormState extends State<MyCustomForm> {
   String choiceChipsValue;
   final _formKey = GlobalKey<FormState>();
+  GoogleMapController _controller;
+
+  @override
+  void initState() {
+    lines.add(
+      setPolyline(
+        "polID",
+        parcourCreat,
+        Color.fromARGB(255, 224, 78, 78),
+      ),
+    );
+    points.add(
+      setMarker(
+        MarkerId("romuald"),
+        InfoWindow(
+          title: "romuald",
+          snippet:
+              "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+        ),
+        BitmapDescriptor.defaultMarker,
+        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
+      ),
+    );
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Form(
@@ -65,13 +93,11 @@ class MyCustomFormState extends State<MyCustomForm> {
             ),
           ),
           Container(
-              height: MediaQuery.of(context).size.height * 0.30,
-              width: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(color: Color.fromARGB(255, 82, 82, 82)),
-              child: Center(
-                  child: Text("Preview",
-                      style: TextStyle(fontSize: 40, color: Colors.white70)))),
-          SizedBox(height: 10),
+            height: MediaQuery.of(context).size.height * 0.30,
+            width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(color: Color.fromARGB(255, 82, 82, 82)),
+            child: _buildGoogleMap(context),
+          ),
           Container(
               color: Colors.green,
               alignment: Alignment.center,
@@ -179,6 +205,40 @@ class MyCustomFormState extends State<MyCustomForm> {
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Set<Polyline> lines = {};
+  Set<Marker> points = {};
+
+//   setMarker(
+//         MarkerId("romuald"),
+//         InfoWindow(
+//           title: "romuald",
+//           snippet:
+//               "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+//         ),
+//         BitmapDescriptor.defaultMarker,
+//         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
+//       ),
+// setPolyline("polID", parcourCreat, Color.fromARGB(255, 224, 78, 78),),
+  Widget _buildGoogleMap(BuildContext context) {
+    return Container(
+      child: GoogleMap(
+        onMapCreated: (controller) {
+          setState(() {
+            _controller = controller;
+          });
+        },
+        zoomControlsEnabled: false,
+        mapType: MapType.normal,
+        myLocationEnabled: true,
+        myLocationButtonEnabled: false,
+        mapToolbarEnabled: false,
+        initialCameraPosition: kPositionnementInitial,
+        markers: points,
+        polylines: lines,
       ),
     );
   }

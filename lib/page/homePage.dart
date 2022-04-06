@@ -5,6 +5,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
+import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 import 'dart:typed_data';
@@ -112,9 +113,7 @@ class MapSampleState extends State<MapSample> {
         height: 55,
         child: FloatingActionButton.extended(
           heroTag: "CommunityBtn",
-          onPressed: () {
-            print(listPolylinePrivate.length);
-          },
+          onPressed: () {},
           label: Text("Community"),
           icon: Icon(Icons.connect_without_contact_sharp),
           shape: const RoundedRectangleBorder(
@@ -377,6 +376,15 @@ class MapSampleState extends State<MapSample> {
                     geoloc2 = false;
                   });
                   getCoordoFromPos();
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.topToBottom,
+                      duration: Duration(milliseconds: 300),
+                      reverseDuration: Duration(milliseconds: 300),
+                      child: AddParcour(),
+                    ),
+                  );
                   if (_protection == 1) {
                     affichagePublic();
                   } else if (_protection == 2) {
