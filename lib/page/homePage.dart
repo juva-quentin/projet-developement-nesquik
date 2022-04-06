@@ -9,7 +9,19 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
+
+import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
+import 'package:page_transition/page_transition.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:async';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:location/location.dart';
+import 'package:projet_developement_nesquik/page/Parcour.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
+
+import 'package:flutter/material.dart';
+
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -117,9 +129,7 @@ class MapSampleState extends State<MapSample> {
         height: 55,
         child: FloatingActionButton.extended(
           heroTag: "CommunityBtn",
-          onPressed: () {
-            print(listPolylinePrivate.length);
-          },
+          onPressed: () {},
           label: Text("Community"),
           icon: Icon(Icons.connect_without_contact_sharp),
           shape: const RoundedRectangleBorder(
@@ -382,6 +392,16 @@ class MapSampleState extends State<MapSample> {
                     geoloc2 = false;
                   });
                   getCoordoFromPos();
+                  print("zoom:${calculDistance(parcourCreat)}");
+                  Navigator.push(
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.topToBottom,
+                      duration: Duration(milliseconds: 300),
+                      reverseDuration: Duration(milliseconds: 300),
+                      child: AddParcour(),
+                    ),
+                  );
                   if (_protection == 1) {
                     affichagePublic();
                   } else if (_protection == 2) {
@@ -523,45 +543,26 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
-  // void getCoordoFromPos() async {
-  //   if (geoloc2 == false) {
-  //     _locationForRecord.cancel();
-  //     for (var item in parcourCreat) {
-  //       print(item);
-  //     }
-  //     listPolylinePrivate.add(setPolyline(
-  //       "romuald",
-  //       parcourCreat,
-  //       Color.fromARGB(255, 224, 78, 78),
-  //     ));
-  //     listMarkerPrivate.add(
-  //       setMarker(
-  //         MarkerId("paul "),
-  //         InfoWindow(
-  //           title: "romualdTrack",
-  //           snippet:
-  //               "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
-  //         ),
-  //         BitmapDescriptor.defaultMarker,
-  //         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-  //       ),
-  //     );
-  //     parcourCreat.clear();
-  //   } else {
-  //     _locationForRecord = _locationTracker.onLocationChanged.listen((result) {
-  //       parcourCreat.add(LatLng(result.latitude, result.longitude));
-  //     });
-  //   }
-  // }
-
+  List<Trkpt> maurice = [];
   void getCoordoFromPos() async {
     if (geoloc2 == false) {
       _locationForRecord.cancel();
+      Trkseg jack = new Trkseg(maurice);
+      Trk alain = new Trk("alain", "Cycling", jack);
+      Gpx jp = new Gpx(alain);
+      Parcour jean = new Parcour(jp);
+      var greg = jean.toJson();
+
       validateCoordo();
     } else {
       parcourCreat.clear();
+
       _locationForRecord =
           _locationTracker.onLocationChanged.listen((newLocalData) {
+        Trkpt paul = new Trkpt(newLocalData.latitude.toString(),
+            newLocalData.latitude.toString(), newLocalData.altitude.toString());
+        maurice.add(paul);
+
         parcourCreat
             .add(google.LatLng(newLocalData.latitude, newLocalData.longitude));
       });

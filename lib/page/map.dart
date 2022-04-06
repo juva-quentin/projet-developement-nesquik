@@ -184,6 +184,12 @@ final CameraPosition kPositionnementInitial = CameraPosition(
   zoom: 8,
 );
 
+//condition avec des étendue différente qui sont définir (en dessous de 10km alors zoom=12   /   eentre 10 et 50 alors zoom=9)
+final CameraPosition kPositionnementMap = CameraPosition(
+    target: LatLng(parcourCreat[(parcourCreat.length) ~/ 2].latitude,
+        parcourCreat[(parcourCreat.length) ~/ 2].longitude),
+    zoom: 11);
+
 //marker
 
 Marker setMarker(
