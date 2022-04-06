@@ -21,6 +21,10 @@ List listMarkerPrivate = [];
 List listMarkerProtected = [];
 List listMarkerPublic = [];
 
+List<List<double>> listElePrivate = [];
+List<List<double>> listEleProtected = [];
+List<List<double>> listElePublic = [];
+
 final courses = FirebaseFirestore.instance.collection('parcours');
 
 //Parcours
@@ -78,6 +82,7 @@ Future getPrivateFromApi() async {
         double lng = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lon);
         double ele = double.parse(parcours.gpx.trk.trkseg.trkpt[y].ele);
         positions.add(LatLng(lat, lng));
+        eles.add(ele);
       }
       listMarkerPrivate.add(
         setMarker(
@@ -91,6 +96,7 @@ Future getPrivateFromApi() async {
           LatLng(positions.first.latitude, positions.first.longitude),
         ),
       );
+      listElePrivate.add(eles);
       listPolylinePrivate.add(setPolyline(
         i.toString(),
         positions,
@@ -105,13 +111,16 @@ Future getProtectedFromApi() async {
     var response = await http.get(Uri.parse(urls_Protected[i]));
     if (response.statusCode == 200) {
       List<LatLng> positions = [];
+      List<double> eles = [];
       var resp = json.decode(response.body);
       var parcours = Parcour.fromJson(resp);
 
       for (var y = 0; y < parcours.gpx.trk.trkseg.trkpt.length; y++) {
         double lat = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lat);
         double lng = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lon);
+        double ele = double.parse(parcours.gpx.trk.trkseg.trkpt[y].ele);
         positions.add(LatLng(lat, lng));
+        eles.add(ele);
       }
       listMarkerProtected.add(setMarker(
         MarkerId((i + 2).toString()),
@@ -123,6 +132,7 @@ Future getProtectedFromApi() async {
         BitmapDescriptor.defaultMarker,
         LatLng(positions.first.latitude, positions.first.longitude),
       ));
+      listEleProtected.add(eles);
       listPolylineProtected.add(setPolyline(
         i.toString(),
         positions,
@@ -137,12 +147,15 @@ Future getPublicFromApi() async {
     var response = await http.get(Uri.parse(urls_Public[i]));
     if (response.statusCode == 200) {
       List<LatLng> positions = [];
+      List<double> eles = [];
       var resp = json.decode(response.body);
       var parcours = Parcour.fromJson(resp);
       for (var y = 0; y < parcours.gpx.trk.trkseg.trkpt.length; y++) {
         double lat = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lat);
         double lng = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lon);
+        double ele = double.parse(parcours.gpx.trk.trkseg.trkpt[y].ele);
         positions.add(LatLng(lat, lng));
+        eles.add(ele);
       }
       listMarkerPublic.add(setMarker(
         MarkerId((i + 3).toString()),
@@ -154,6 +167,7 @@ Future getPublicFromApi() async {
         BitmapDescriptor.defaultMarker,
         LatLng(positions.first.latitude, positions.first.longitude),
       ));
+      listElePublic.add(eles);
       listPolylinePublic.add(setPolyline(
         i.toString(),
         positions,
@@ -220,4 +234,20 @@ double calculDistance(List<LatLng> listCoord) {
   // result =
   //     acos(sin(lat1) * sin(lat2) + cos(lat1) * cos(lat2) * cos(lon2 - lon1)) *
   //         6371;
+}
+
+calculEle(List<List<double>> listParcour) {
+  var positif = 0.0;
+  var negatif = 0.0;
+  for (var item in listParcour) {
+    for (var y = 0; y < item.length - 1; y++) {
+      if (item[y] > item[y + 1]) {
+        negatif -= item[y] - item[y - 1];
+      } else if (item[y] < item[y + 1]) {
+        positif += item[y] - item[y - 1];
+      }
+    }
+    print("${item.length}: D+: ${positif.toStringAsFixed(2)}");
+    print("${item.length}: D-: ${negatif.toStringAsFixed(2)}");
+  }
 }
