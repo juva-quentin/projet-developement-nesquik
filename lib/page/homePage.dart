@@ -1,23 +1,28 @@
 import 'dart:async';
+
+import 'dart:async';
+import 'dart:typed_data';
+
 import 'dart:developer';
+
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:async';
-import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:location/location.dart';
-import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter/services.dart';
-import 'map.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart' as loc;
+import 'package:location/location.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:tap_debouncer/tap_debouncer.dart';
+
 import 'package:projet_developement_nesquik/page/addParcour.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
-import 'package:location/location.dart' as loc;
 import 'package:projet_developement_nesquik/page/profilPage.dart';
+
+import 'map.dart';
 
 class MapSample extends StatefulWidget {
   @override
