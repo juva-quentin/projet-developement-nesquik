@@ -6,8 +6,10 @@ import '../flutter_flow/flutter_flow_choice_chips.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 
 class AddParcour extends StatefulWidget {
-  AddParcour({Key key, this.dataLocation}) : super(key: key);
+  AddParcour({Key key, this.dataLocation, this.dataElevation})
+      : super(key: key);
   final List<LatLng> dataLocation;
+  final List<double> dataElevation;
   @override
   _AddParcour createState() => _AddParcour();
 }
@@ -116,7 +118,7 @@ class _AddParcour extends State<AddParcour> {
                                       children: [
                                         Text("Dénivelé"),
                                         Text(
-                                            "D+ = ${calculEle(widget.dataLocation).toStringAsFixed(2)}")
+                                            "D+ = ${calculEle(widget.dataElevation)[0].toStringAsFixed(2)}\nD- = ${calculEle(widget.dataElevation)[1].toStringAsFixed(2)}")
                                       ],
                                     ),
                                   ),

@@ -13,6 +13,8 @@ List<String> urls_Private = [];
 List<String> urls_Public = [];
 
 List<LatLng> parcourCreat = [];
+List<double> elevationCreat = [];
+
 List listPolylinePrivate = [];
 List listPolylineProtected = [];
 List listPolylinePublic = [];
@@ -248,8 +250,6 @@ calculEle(List<double> listParcour) {
       positif += listParcour[y] - listParcour[y + 1];
       [y - 1];
     }
-
-    print("${listParcour.length}: D+: ${positif.toStringAsFixed(2)}");
-    print("${listParcour.length}: D-: ${negatif.toStringAsFixed(2)}");
+    return [positif, negatif];
   }
 }

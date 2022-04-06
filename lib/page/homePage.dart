@@ -555,10 +555,12 @@ class MapSampleState extends State<MapSample> {
       validateCoordo();
     } else {
       parcourCreat.clear();
+      elevationCreat.clear();
       _locationForRecord =
           _locationTracker.onLocationChanged.listen((newLocalData) {
-        parcourCreat
-            .add(google.LatLng(newLocalData.latitude, newLocalData.longitude));
+        print(newLocalData.altitude);
+        parcourCreat.add(LatLng(newLocalData.latitude, newLocalData.longitude));
+        elevationCreat.add(newLocalData.altitude);
       });
     }
   }
@@ -590,6 +592,7 @@ class MapSampleState extends State<MapSample> {
       MaterialPageRoute(
           builder: (context) => AddParcour(
                 dataLocation: parcourCreat,
+                dataElevation: elevationCreat,
               )),
     );
   }
