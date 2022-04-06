@@ -289,11 +289,11 @@ Widget _buildObjectifOverlay(BuildContext context) {
 @override
 Widget _buildBottomOverlay(BuildContext context) {
   var choices = [
-    "Mes courses",
-    "Mes favoris",
-    "Mes amis",
-    "Mes paramètres",
-    "Mes statistiques",
+    {"name": "Mes courses", "rout": ""},
+    {"name": "Mes favoris", "rout": ""},
+    {"name": "Mes amis", "rout": ""},
+    {"name": "Mes paramètres", "rout": ""},
+    {"name": "Mes statistiques", "rout": ""},
   ];
   return Column(
     children: choices
@@ -307,7 +307,7 @@ Widget _buildBottomOverlay(BuildContext context) {
                   color: Color.fromARGB(255, 1, 132, 255),
                   borderRadius: BorderRadius.all(Radius.circular(5)),
                 ),
-                child: new Text(item,
+                child: new Text(item["name"],
                     style: GoogleFonts.sen(
                         textStyle: TextStyle(
                       color: Color.fromARGB(255, 255, 255, 255),
