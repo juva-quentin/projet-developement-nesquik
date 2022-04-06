@@ -448,7 +448,7 @@ class MapSampleState extends State<MapSample> {
       lines.clear();
       points.clear();
     }
-    calculEle(listElePrivate);
+
     setState(() {
       for (var item in listPolylinePrivate) {
         lines.add(item);
@@ -465,7 +465,7 @@ class MapSampleState extends State<MapSample> {
       lines.clear();
       points.clear();
     }
-    calculEle(listEleProtected);
+
     setState(() {
       for (var item in listPolylineProtected) {
         lines.add(item);
@@ -481,7 +481,7 @@ class MapSampleState extends State<MapSample> {
       lines.clear();
       points.clear();
     }
-    calculEle(listElePublic);
+
     setState(() {
       for (var item in listPolylinePublic) {
         lines.add(item);
@@ -557,6 +557,7 @@ class MapSampleState extends State<MapSample> {
     } else {
       parcourCreat.clear();
 
+
       _locationForRecord =
           _locationTracker.onLocationChanged.listen((newLocalData) {
         Trkpt paul = new Trkpt(newLocalData.latitude.toString(),
@@ -565,6 +566,7 @@ class MapSampleState extends State<MapSample> {
 
         parcourCreat
             .add(google.LatLng(newLocalData.latitude, newLocalData.longitude));
+
       });
     }
   }
@@ -573,11 +575,12 @@ class MapSampleState extends State<MapSample> {
     for (var item in parcourCreat) {
       print(item);
     }
-    listPolylinePrivate.add(setPolyline(
+    Polyline polyline = setPolyline(
       "romuald",
       parcourCreat,
       Color.fromARGB(255, 224, 78, 78),
-    ));
+    );
+    listPolylinePrivate.add(polyline);
     listMarkerPrivate.add(
       setMarker(
         MarkerId("romuald"),
@@ -589,6 +592,14 @@ class MapSampleState extends State<MapSample> {
         BitmapDescriptor.defaultMarker,
         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
       ),
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+          builder: (context) => AddParcour(
+                dataLocation: parcourCreat,
+                dataElevation: elevationCreat,
+              )),
     );
   }
 

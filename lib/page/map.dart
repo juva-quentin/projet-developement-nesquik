@@ -13,6 +13,8 @@ List<String> urls_Private = [];
 List<String> urls_Public = [];
 
 List<LatLng> parcourCreat = [];
+List<double> elevationCreat = [];
+
 List listPolylinePrivate = [];
 List listPolylineProtected = [];
 List listPolylinePublic = [];
@@ -242,18 +244,18 @@ double calculDistance(List<LatLng> listCoord) {
   //         6371;
 }
 
-calculEle(List<List<double>> listParcour) {
+calculEle(List<double> listParcour) {
   var positif = 0.0;
   var negatif = 0.0;
-  for (var item in listParcour) {
-    for (var y = 0; y < item.length - 1; y++) {
-      if (item[y] > item[y + 1]) {
-        negatif -= item[y] - item[y - 1];
-      } else if (item[y] < item[y + 1]) {
-        positif += item[y] - item[y - 1];
-      }
+
+  for (var y = 0; y < listParcour.length - 1; y++) {
+    if (listParcour[y] > listParcour[y + 1]) {
+      negatif -= listParcour[y] - listParcour[y + 1];
+      [y - 1];
+    } else if (listParcour[y] < listParcour[y + 1]) {
+      positif += listParcour[y] - listParcour[y + 1];
+      [y - 1];
     }
-    print("${item.length}: D+: ${positif.toStringAsFixed(2)}");
-    print("${item.length}: D-: ${negatif.toStringAsFixed(2)}");
+    return [positif, negatif];
   }
 }
