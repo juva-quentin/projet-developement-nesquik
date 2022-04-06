@@ -231,12 +231,15 @@ class MyCustomFormState extends State<MyCustomForm> {
             _controller = controller;
           });
         },
+        rotateGesturesEnabled: false,
+        scrollGesturesEnabled: false,
+        zoomGesturesEnabled: false,
         zoomControlsEnabled: false,
         mapType: MapType.normal,
-        myLocationEnabled: true,
+        myLocationEnabled: false,
         myLocationButtonEnabled: false,
         mapToolbarEnabled: false,
-        initialCameraPosition: kPositionnementInitial,
+        initialCameraPosition: kPositionnementMap,
         markers: points,
         polylines: lines,
       ),

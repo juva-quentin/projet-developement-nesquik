@@ -3,7 +3,7 @@ import 'package:projet_developement_nesquik/backend/schema/getParcours.dart';
 class Parcour {
   Gpx gpx;
 
-  Parcour({this.gpx});
+  Parcour(this.gpx);
 
   Parcour.fromJson(Map<String, dynamic> json) {
     gpx = (json['gpx'] != null ? new Gpx.fromJson(json['gpx']) : null);
@@ -21,7 +21,7 @@ class Parcour {
 class Gpx {
   Trk trk;
 
-  Gpx({this.trk});
+  Gpx(this.trk);
 
   Gpx.fromJson(Map<String, dynamic> json) {
     trk = (json['trk'] != null ? new Trk.fromJson(json['trk']) : null);
@@ -41,7 +41,7 @@ class Trk {
   String type;
   Trkseg trkseg;
 
-  Trk({this.name, this.type, this.trkseg});
+  Trk(this.name, this.type, this.trkseg);
 
   Trk.fromJson(Map<String, dynamic> json) {
     name = json['name'];
@@ -64,7 +64,7 @@ class Trk {
 class Trkseg {
   List<Trkpt> trkpt;
 
-  Trkseg({this.trkpt});
+  Trkseg(this.trkpt);
 
   Trkseg.fromJson(Map<String, dynamic> json) {
     if (json['trkpt'] != null) {
@@ -89,7 +89,7 @@ class Trkpt {
   String lon;
   String ele;
 
-  Trkpt({this.lat, this.lon, this.ele});
+  Trkpt(this.lat, this.lon, this.ele);
 
   Trkpt.fromJson(Map<String, dynamic> json) {
     lat = json['-lat'];
@@ -102,6 +102,7 @@ class Trkpt {
     data['-lat'] = this.lat;
     data['-lon'] = this.lon;
     data['ele'] = this.ele;
+    print(data);
     return data;
   }
 }
