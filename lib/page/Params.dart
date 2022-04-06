@@ -139,8 +139,11 @@ class UserInformation extends StatefulWidget {
 }
 
 class _UserInformationState extends State<UserInformation> {
-  final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('users').snapshots();
+  final Stream<DocumentSnapshot<Map<String, dynamic>>> _usersStream =
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(currentUserUid)
+          .snapshots();
 
   @override
   Widget build(BuildContext context) {
