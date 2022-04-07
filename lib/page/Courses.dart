@@ -12,7 +12,9 @@ class _CoursesState extends State<Courses> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Courses"),
+
+        title: Text("Mes Courses"),
+
         backgroundColor: Color(0xFF72B0EA),
       ),
     );

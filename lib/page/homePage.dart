@@ -1,9 +1,14 @@
 import 'dart:async';
 
+import 'dart:convert';
+
+
 import 'dart:async';
 import 'dart:typed_data';
 
+
 import 'dart:developer';
+import 'dart:io';
 
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -16,6 +21,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:location/location.dart';
 import 'package:projet_developement_nesquik/page/Parcour.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
@@ -23,7 +29,12 @@ import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flutter/services.dart';
+
+import 'Parcour.dart';
+import 'map.dart';
+
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
+
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart' as loc;
 import 'package:location/location.dart';
@@ -544,6 +555,7 @@ class MapSampleState extends State<MapSample> {
   }
 
   List<Trkpt> maurice = [];
+
   void getCoordoFromPos() async {
     if (geoloc2 == false) {
       _locationForRecord.cancel();
@@ -553,6 +565,9 @@ class MapSampleState extends State<MapSample> {
       Parcour jean = new Parcour(jp);
       var greg = jean.toJson();
 
+      var erve = jsonEncode(greg);
+      _write(erve);
+
       validateCoordo();
     } else {
       parcourCreat.clear();
@@ -560,21 +575,25 @@ class MapSampleState extends State<MapSample> {
 
       _locationForRecord =
           _locationTracker.onLocationChanged.listen((newLocalData) {
+
+        parcourCreat.add(LatLng(newLocalData.latitude, newLocalData.longitude));
+        elevationCreat.add(newLocalData.altitude);
         Trkpt paul = new Trkpt(newLocalData.latitude.toString(),
             newLocalData.latitude.toString(), newLocalData.altitude.toString());
         maurice.add(paul);
-
-        parcourCreat
-            .add(google.LatLng(newLocalData.latitude, newLocalData.longitude));
 
       });
     }
   }
 
+  _write(String text) async {
+    print("in _write");
+    final Directory directory = await getApplicationDocumentsDirectory();
+    final File file = File('${directory.path}/my_file.txt');
+    await file.writeAsString(text);
+  }
+
   void validateCoordo() async {
-    for (var item in parcourCreat) {
-      print(item);
-    }
     Polyline polyline = setPolyline(
       "romuald",
       parcourCreat,

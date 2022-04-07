@@ -159,6 +159,5 @@ class _UserInformationState extends State<UserInformation> {
       },
     );
 
-    print("bite");
   }
 }

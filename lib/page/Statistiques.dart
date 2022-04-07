@@ -12,7 +12,9 @@ class _StatsState extends State<Stats> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Mes Amis"),
+
+        title: Text("Mes Stats"),
+
         backgroundColor: Color(0xFF72B0EA),
       ),
     );
