@@ -171,6 +171,7 @@ class _AddParcour extends State<AddParcour> {
                           ChipData('Public')
                         ],
                         onChanged: (val) {
+                          print(val.first);
                           switch (val.first) {
                             case 'Privée':
                               setState(() => parcours.type = "private");
@@ -182,7 +183,6 @@ class _AddParcour extends State<AddParcour> {
                               setState(() => parcours.type = "public");
                               break;
                           }
-                          setState(() => parcours.type = val.first);
                         },
                         selectedChipStyle: ChipStyle(
                           backgroundColor: Color(0xFF487DAE),
