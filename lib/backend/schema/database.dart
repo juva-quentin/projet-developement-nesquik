@@ -1,45 +1,64 @@
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
+import 'package:projet_developement_nesquik/backend/Parcours.dart';
 import 'package:projet_developement_nesquik/model/user.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseService {
-  final String uid;
+  final storageRef = FirebaseStorage.instance.ref();
+  UploadToStorage(
+      String ref, String name, String data, Parcours parcours) async {
+    final mountainsRef = storageRef.child("${ref}/${name}.txt");
+    final uploadTask =
+        mountainsRef.putString(data, format: PutStringFormat.raw);
+    uploadTask.snapshotEvents.listen((TaskSnapshot taskSnapshot) async {
+      switch (taskSnapshot.state) {
+        case TaskState.running:
+          final progress =
+              100.0 * (taskSnapshot.bytesTransferred / taskSnapshot.totalBytes);
+          print("Upload is $progress% complete.");
+          break;
+        case TaskState.paused:
+          print("Upload is paused.");
+          break;
+        case TaskState.canceled:
+          print("Upload was canceled");
+          break;
+        case TaskState.error:
+          print("Upload was erreur");
+          break;
+        case TaskState.success:
+          await mountainsRef.getDownloadURL().then((value) {
+            parcours.address = value;
+            UploadParcours(mountainsRef, parcours);
+          });
 
-  DatabaseService(this.uid);
-
-  final CollectionReference<Map<String, dynamic>> userCollection =
-      FirebaseFirestore.instance.collection("users");
-
-  Future<void> saveToken(String token) async {
-    return await userCollection.doc(uid).update({'token': token});
+          break;
+      }
+    });
   }
 
-  AppUserData _userFromSnapshot(
-      DocumentSnapshot<Map<String, dynamic>> snapshot) {
-    var data = snapshot.data();
-    if (data == null) throw Exception("user not found");
-    return AppUserData(
-      snapshot.id,
-      data['pseudo'],
-      data['email'],
-      data['genre'],
-      data['friends'],
-      data['objectif'],
-      data['tdp'],
-    );
-  }
-
-  Stream<AppUserData> get user {
-    return userCollection.doc(uid).snapshots().map(_userFromSnapshot);
-  }
-
-  List<AppUserData> _userListFromSnapshot(
-      QuerySnapshot<Map<String, dynamic>> snapshot) {
-    return snapshot.docs.map((doc) {
-      return _userFromSnapshot(doc);
-    }).toList();
-  }
-
-  Stream<List<AppUserData>> get users {
-    return userCollection.snapshots().map(_userListFromSnapshot);
+  UploadParcours(Reference ref, Parcours parcours) async {
+    print("debug1");
+    parcours.owner = currentUser.user.uid;
+    CollectionReference parcour =
+        FirebaseFirestore.instance.collection('parcours');
+    parcour
+        .doc()
+        .set({
+          "owner": parcours.owner,
+          "title": parcours.title,
+          "address": parcours.address,
+          "type": parcours.type,
+          "description": parcours.description,
+          "shareTo": parcours.shareTo,
+          "distance": parcours.distance,
+          "temps": parcours.temps,
+          "denivele": parcours.denivele,
+          "vitesse": parcours.vitesse,
+        })
+        .then((value) => print("Pacours Added"))
+        .catchError((error) => print("Failed to add user: $error"));
   }
 }

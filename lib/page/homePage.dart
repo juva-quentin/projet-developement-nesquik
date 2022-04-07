@@ -1,16 +1,11 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:developer';
+
 import 'dart:io';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
-import 'package:permission_handler/permission_handler.dart';
-import 'dart:async';
-import 'dart:typed_data';
-import 'package:flutter/material.dart';
+
 import 'package:path_provider/path_provider.dart';
 import 'package:location/location.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
@@ -535,7 +530,7 @@ class MapSampleState extends State<MapSample> {
       var erve = jsonEncode(greg);
       _write(erve);
       print(erve);
-      validateCoordo();
+      validateCoordo(erve);
     } else {
       parcourCreat.clear();
       elevationCreat.clear();
@@ -557,7 +552,7 @@ class MapSampleState extends State<MapSample> {
     await file.writeAsString(text);
   }
 
-  void validateCoordo() async {
+  void validateCoordo(String erve) async {
     Polyline polyline = setPolyline(
       "romuald",
       parcourCreat,
@@ -580,6 +575,7 @@ class MapSampleState extends State<MapSample> {
       context,
       MaterialPageRoute(
           builder: (context) => AddParcour(
+                jsonData: erve,
                 dataLocation: parcourCreat,
                 dataElevation: elevationCreat,
               )),

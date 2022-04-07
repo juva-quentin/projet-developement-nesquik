@@ -34,6 +34,7 @@ final courses = FirebaseFirestore.instance.collection('parcours');
 Future getAllParcoursFromApi() async {
   getProtectedFromApi().then((value) => print("Protected_FromApi_Add"));
   getPrivateFromApi().then((value) => print("Private_FromApi_Add"));
+  print(urls_Private);
   getPublicFromApi().then((value) => print("Public_FromApi_Add"));
 }
 
