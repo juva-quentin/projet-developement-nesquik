@@ -64,22 +64,20 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(brightness: Brightness.light),
       darkTheme: ThemeData(brightness: Brightness.dark),
       themeMode: _themeMode,
-      home:
-          // AddParcour(),
-          initialUser == null || displaySplashImage
-              ? Center(
-                  child: SizedBox(
-                    width: 50,
-                    height: 50,
-                    child: SpinKitRing(
-                      color: Color(0xFF72B0EA),
-                      size: 50,
-                    ),
-                  ),
-                )
-              : currentUser.loggedIn
-                  ? MapSample()
-                  : OnboardWidget(),
+      home: initialUser == null || displaySplashImage
+          ? Center(
+              child: SizedBox(
+                width: 50,
+                height: 50,
+                child: SpinKitRing(
+                  color: Color(0xFF72B0EA),
+                  size: 50,
+                ),
+              ),
+            )
+          : currentUser.loggedIn
+              ? MapSample()
+              : OnboardWidget(),
     );
   }
 }

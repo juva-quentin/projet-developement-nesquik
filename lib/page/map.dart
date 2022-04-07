@@ -191,6 +191,7 @@ final CameraPosition kPositionnementMap = CameraPosition(
     target: LatLng(parcourCreat[(parcourCreat.length) ~/ 2].latitude,
         parcourCreat[(parcourCreat.length) ~/ 2].longitude),
     zoom: 11);
+
 //marker
 
 Marker setMarker(

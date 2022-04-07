@@ -296,7 +296,9 @@ Widget _buildObjectifOverlay(BuildContext context) {
 Widget _buildBottomOverlay(BuildContext context) {
   var choices = [
     {"name": "Mes courses", "route": Courses()},
+
     {"name": "Mes favoris", "route": Favoris()},
+
     {"name": "Mes amis", "route": Amis()},
     {"name": "Mes paramètres", "route": Params()},
     {"name": "Mes statistiques", "route": Stats()},

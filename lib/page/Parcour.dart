@@ -1,4 +1,4 @@
-import 'package:projet_developement_nesquik/backend/schema/getParcours.dart';
+import 'package:projet_developement_nesquik/backend/schema/database.dart';
 
 class Parcour {
   Gpx gpx;
@@ -102,6 +102,7 @@ class Trkpt {
     data['-lat'] = this.lat;
     data['-lon'] = this.lon;
     data['ele'] = this.ele;
+    print(data);
     return data;
   }
 }
