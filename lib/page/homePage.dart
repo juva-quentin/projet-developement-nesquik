@@ -5,9 +5,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
+import 'package:page_transition/page_transition.dart';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:location/location.dart';
+import 'package:projet_developement_nesquik/page/Community.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter/services.dart';
 import 'Parcour.dart';
@@ -113,8 +115,16 @@ class MapSampleState extends State<MapSample> {
           heroTag: "CommunityBtn",
           onPressed: () {
             print(listPolylinePrivate.length);
+            Navigator.push(
+                context,
+                PageTransition(
+                  type: PageTransitionType.bottomToTop,
+                  duration: Duration(milliseconds: 300),
+                  reverseDuration: Duration(milliseconds: 300),
+                  child: Community(),
+                ));
           },
-          label: Text("Community"),
+          label: Text("Communauté"),
           icon: Icon(Icons.connect_without_contact_sharp),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
