@@ -248,7 +248,7 @@ class _AddParcour extends State<AddParcour> {
                     print(parcours.title);
                     DatabaseService database = DatabaseService();
                     database.UploadToStorage("parcours${type}", parcours.title,
-                        widget.jsonData, parcours);
+                        widget.jsonData, parcours, context);
                     // Retourne true si le formulaire est valide, sinon false
                   },
                   child: Text('Enregistrer'),
