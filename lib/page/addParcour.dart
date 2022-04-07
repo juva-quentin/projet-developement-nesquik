@@ -69,7 +69,7 @@ class _AddParcour extends State<AddParcour> {
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: TextFormField(
-                    decoration: InputDecoration(labelText: "titre"),
+                    decoration: InputDecoration(labelText: "Titre"),
                     validator: (value) {
                       if (value.isEmpty) {
                         return 'Veuillez saisir un texte';
@@ -89,10 +89,10 @@ class _AddParcour extends State<AddParcour> {
                 ),
                 SizedBox(height: 10),
                 Container(
-                    color: Colors.green,
+                    color: Color.fromRGBO(114, 176, 234, 1),
                     alignment: Alignment.center,
                     child: Column(children: [
-                      Text("States",
+                      Text("Le résumé de votre Parcours",
                           style: GoogleFonts.sen(
                               textStyle: TextStyle(
                             color: Color.fromARGB(255, 255, 255, 255),
@@ -102,13 +102,12 @@ class _AddParcour extends State<AddParcour> {
                       SizedBox(height: 20),
                       Container(
                           width: MediaQuery.of(context).size.width,
-                          color: Colors.red,
                           child: Column(children: [
                             Wrap(
                               spacing: 20,
                               children: [
                                 Container(
-                                  color: Colors.yellow,
+                                  color: Colors.white,
                                   width: 170,
                                   height: 50,
                                   child: Column(
@@ -118,7 +117,7 @@ class _AddParcour extends State<AddParcour> {
                                   ),
                                 ),
                                 Container(
-                                  color: Color.fromARGB(255, 89, 52, 52),
+                                  color: Color.fromARGB(255, 255, 255, 255),
                                   width: 170,
                                   height: 50,
                                   child: Column(
