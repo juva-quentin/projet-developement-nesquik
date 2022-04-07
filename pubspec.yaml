@@ -54,6 +54,7 @@ dependencies:
   firebase_database: ^9.0.6
   cloud_firestore: ^3.1.8
   tap_debouncer: ^2.0.2
+  firebase_storage: ^10.2.10
 
 dev_dependencies:
   flutter_test:
