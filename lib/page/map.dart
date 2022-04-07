@@ -35,6 +35,8 @@ Future getAllParcoursFromApi() async {
   getProtectedFromApi().then((value) => print("Protected_FromApi_Add"));
   getPrivateFromApi().then((value) => print("Private_FromApi_Add"));
   print(urls_Private);
+  print(urls_Public);
+  print(urls_Protected);
   getPublicFromApi().then((value) => print("Public_FromApi_Add"));
 }
 

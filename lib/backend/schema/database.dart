@@ -61,4 +61,20 @@ class DatabaseService {
       Navigator.pop(context);
     }).catchError((error) => print("Failed to add user: $error"));
   }
+
+  AddFriend(String uid) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUser.user.uid)
+        .set({
+      "friends": FieldValue.arrayUnion([uid])
+    }).then((_) {
+      print("success!");
+      FirebaseFirestore.instance.collection("users").doc(uid).set({
+        "friends": FieldValue.arrayUnion([currentUser.user.uid])
+      }).then((_) {
+        print("success!2");
+      });
+    });
+  }
 }

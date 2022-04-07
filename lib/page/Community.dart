@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
+import 'package:projet_developement_nesquik/backend/loader.dart';
+import 'package:projet_developement_nesquik/backend/schema/database.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
 
@@ -9,8 +12,10 @@ class Community extends StatefulWidget {
 }
 
 class _CommunityState extends State<Community> {
+  DatabaseService database = new DatabaseService();
   final Stream<QuerySnapshot> _usersStream =
       FirebaseFirestore.instance.collection('users').snapshots();
+  IconData addIcon;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,13 +32,21 @@ class _CommunityState extends State<Community> {
               }
 
               if (snapshot.connectionState == ConnectionState.waiting) {
-                return Text("Loading");
+                return ColorLoader([Colors.black, Colors.white, Colors.blue],
+                    Duration(seconds: 3));
               }
 
               return ListView(
                 children: snapshot.data.docs.map((DocumentSnapshot document) {
                   Map<String, dynamic> data =
                       document.data() as Map<String, dynamic>;
+                  if (data["friends"].contains(currentUser.user.uid)) {
+                    addIcon = Icons.person_off;
+                  } else {
+                    addIcon = Icons.person_add;
+                  }
+                  ;
+
                   return Container(
                       child: Row(
                     mainAxisSize: MainAxisSize.max,
@@ -110,7 +123,9 @@ class _CommunityState extends State<Community> {
                             IconButton(
                               icon: Icon(Icons.person_add, size: 24),
                               color: Color(0xFF82878C),
-                              onPressed: () {},
+                              onPressed: () {
+                                database.AddFriend(data["uid"]);
+                              },
                             ),
                           ],
                         ),
