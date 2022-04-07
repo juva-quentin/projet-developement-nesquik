@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
-import 'package:location/location.dart';
-
 import 'package:projet_developement_nesquik/page/map.dart';
 import '../flutter_flow/flutter_flow_choice_chips.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
@@ -45,32 +42,6 @@ class _AddParcour extends State<AddParcour> {
   }
 
   final _formKey = GlobalKey<FormState>();
-  GoogleMapController _controller;
-
-  @override
-  void initState() {
-    lines.add(
-      setPolyline(
-        "polID",
-        parcourCreat,
-        Color.fromARGB(255, 224, 78, 78),
-      ),
-    );
-    points.add(
-      setMarker(
-        MarkerId("romuald"),
-        InfoWindow(
-          title: "romuald",
-          snippet:
-              "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
-        ),
-        BitmapDescriptor.defaultMarker,
-        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-      ),
-    );
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -87,47 +58,11 @@ class _AddParcour extends State<AddParcour> {
           ]),
       body: ListView(
         children: [
-
           Form(
             key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-
-          Container(
-            width: MediaQuery.of(context).size.width * 0.5,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: TextFormField(
-              decoration: InputDecoration(labelText: "titre"),
-              validator: (value) {
-                if (value.isEmpty) {
-                  return 'Veuillez saisir un texte';
-                }
-                return null;
-              },
-            ),
-          ),
-          Container(
-            height: MediaQuery.of(context).size.height * 0.30,
-            width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(color: Color.fromARGB(255, 82, 82, 82)),
-            child: _buildGoogleMap(context),
-          ),
-          Container(
-              color: Colors.green,
-              alignment: Alignment.center,
-              child: Column(children: [
-                Text("States",
-                    style: GoogleFonts.sen(
-                        textStyle: TextStyle(
-                      color: Color.fromARGB(255, 255, 255, 255),
-                      fontSize: 17,
-                      fontWeight: FontWeight.normal,
-                    ))),
-                SizedBox(height: 20),
-
                 Container(
                   width: MediaQuery.of(context).size.width * 0.5,
                   decoration: BoxDecoration(
@@ -282,7 +217,6 @@ class _AddParcour extends State<AddParcour> {
 
   Set<Polyline> lines = {};
   Set<Marker> points = {};
-
 
   Widget _buildGoogleMap(BuildContext context) {
     return Container(

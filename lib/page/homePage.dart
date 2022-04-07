@@ -1,51 +1,27 @@
 import 'dart:async';
-
 import 'dart:convert';
-
-
-import 'dart:async';
-import 'dart:typed_data';
-
-
 import 'dart:developer';
 import 'dart:io';
-
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
-import 'package:page_transition/page_transition.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:location/location.dart';
-import 'package:projet_developement_nesquik/page/Parcour.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
-
-import 'package:flutter/material.dart';
-
 import 'package:flutter/services.dart';
-
 import 'Parcour.dart';
 import 'map.dart';
-
-import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
-
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:location/location.dart' as loc;
-import 'package:location/location.dart';
-import 'package:permission_handler/permission_handler.dart';
-import 'package:tap_debouncer/tap_debouncer.dart';
-
 import 'package:projet_developement_nesquik/page/addParcour.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
+import 'package:location/location.dart' as loc;
 import 'package:projet_developement_nesquik/page/profilPage.dart';
-
-import 'map.dart';
 
 class MapSample extends StatefulWidget {
   @override
@@ -140,7 +116,9 @@ class MapSampleState extends State<MapSample> {
         height: 55,
         child: FloatingActionButton.extended(
           heroTag: "CommunityBtn",
-          onPressed: () {},
+          onPressed: () {
+            print(listPolylinePrivate.length);
+          },
           label: Text("Community"),
           icon: Icon(Icons.connect_without_contact_sharp),
           shape: const RoundedRectangleBorder(
@@ -403,16 +381,6 @@ class MapSampleState extends State<MapSample> {
                     geoloc2 = false;
                   });
                   getCoordoFromPos();
-                  print("zoom:${calculDistance(parcourCreat)}");
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.topToBottom,
-                      duration: Duration(milliseconds: 300),
-                      reverseDuration: Duration(milliseconds: 300),
-                      child: AddParcour(),
-                    ),
-                  );
                   if (_protection == 1) {
                     affichagePublic();
                   } else if (_protection == 2) {
@@ -564,24 +532,20 @@ class MapSampleState extends State<MapSample> {
       Gpx jp = new Gpx(alain);
       Parcour jean = new Parcour(jp);
       var greg = jean.toJson();
-
       var erve = jsonEncode(greg);
       _write(erve);
-
+      print(erve);
       validateCoordo();
     } else {
       parcourCreat.clear();
-
-
+      elevationCreat.clear();
       _locationForRecord =
           _locationTracker.onLocationChanged.listen((newLocalData) {
-
         parcourCreat.add(LatLng(newLocalData.latitude, newLocalData.longitude));
         elevationCreat.add(newLocalData.altitude);
         Trkpt paul = new Trkpt(newLocalData.latitude.toString(),
             newLocalData.latitude.toString(), newLocalData.altitude.toString());
         maurice.add(paul);
-
       });
     }
   }
