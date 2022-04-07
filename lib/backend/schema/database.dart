@@ -66,14 +66,30 @@ class DatabaseService {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(currentUser.user.uid)
-        .set({
+        .update({
       "friends": FieldValue.arrayUnion([uid])
     }).then((_) {
       print("success!");
-      FirebaseFirestore.instance.collection("users").doc(uid).set({
+      FirebaseFirestore.instance.collection("users").doc(uid).update({
         "friends": FieldValue.arrayUnion([currentUser.user.uid])
       }).then((_) {
         print("success!2");
+      });
+    });
+  }
+
+  RemoveFriend(String uid) async {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(currentUser.user.uid)
+        .update({
+      "friends": FieldValue.arrayRemove([uid])
+    }).then((_) {
+      print("success!remove");
+      FirebaseFirestore.instance.collection("users").doc(uid).update({
+        "friends": FieldValue.arrayRemove([currentUser.user.uid])
+      }).then((_) {
+        print("success!2remove");
       });
     });
   }
