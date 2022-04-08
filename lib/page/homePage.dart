@@ -35,6 +35,7 @@ class MapSampleState extends State<MapSample> {
   bool geoloc = false;
   bool geoloc2 = false;
   bool activitie = false;
+  int idError = 1;
   int kCooldownLong_ms = 700;
   double kButtonSize = 100;
   int _counter = 0;
@@ -189,15 +190,22 @@ class MapSampleState extends State<MapSample> {
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn1",
                     onPressed: () {
-                      print("pressBt1");
-                      if (activitie == false) {
+                      if (geoloc2) {
                         setState(() {
-                          activitie = true;
+                          idError = 1;
                         });
+                        showMyAlertDialog(context);
                       } else {
-                        setState(() {
-                          activitie = false;
-                        });
+                        print("pressBt1");
+                        if (activitie == false) {
+                          setState(() {
+                            activitie = true;
+                          });
+                        } else {
+                          setState(() {
+                            activitie = false;
+                          });
+                        }
                       }
                     },
                     label: !activitie ? Text("Bike") : Text("Motorbike"),
@@ -229,28 +237,35 @@ class MapSampleState extends State<MapSample> {
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn2",
                     onPressed: () {
-                      if (_protection == 3) {
-                        affichagePublic();
-                        print("affichagePublic()");
+                      if (geoloc2) {
+                        setState(() {
+                          idError = 2;
+                        });
+                        showMyAlertDialog(context);
+                      } else {
+                        if (_protection == 3) {
+                          affichagePublic();
+                          print("affichagePublic()");
 
-                        setState(() {
-                          _protection = 1;
-                        });
-                        print(_protection);
-                      } else if (_protection == 1) {
-                        affichageProtected();
-                        print("affichageProtected()");
-                        setState(() {
-                          _protection = 2;
-                        });
-                        print(_protection);
-                      } else if (_protection == 2) {
-                        affichagePrivate();
-                        print("affichagePrivate()");
-                        setState(() {
-                          _protection = 3;
-                        });
-                        print(_protection);
+                          setState(() {
+                            _protection = 1;
+                          });
+                          print(_protection);
+                        } else if (_protection == 1) {
+                          affichageProtected();
+                          print("affichageProtected()");
+                          setState(() {
+                            _protection = 2;
+                          });
+                          print(_protection);
+                        } else if (_protection == 2) {
+                          affichagePrivate();
+                          print("affichagePrivate()");
+                          setState(() {
+                            _protection = 3;
+                          });
+                          print(_protection);
+                        }
                       }
                     },
                     icon: _protection == 1
@@ -474,6 +489,59 @@ class MapSampleState extends State<MapSample> {
         points.add(item2);
       }
     });
+  }
+
+  showMyAlertDialog(BuildContext context) {
+    // Create AlertDialog
+    if (idError == 1) {
+      AlertDialog dialog = AlertDialog(
+          title: Text("STOP !"),
+          content: Text(
+              "Vous ne pouvez pas changer de moyen de déplacement si une activité est déjà en cours !"),
+          actions: [
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop("Compris");
+              },
+            ),
+          ]);
+      Future<String> futureValue = showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return dialog;
+          });
+      Stream<String> stream = futureValue.asStream();
+      stream.listen((String data) {}, onDone: () {
+        print("Done!");
+      }, onError: (error) {
+        print("Error! " + error.toString());
+      });
+    } else {
+      AlertDialog dialog = AlertDialog(
+          title: Text("STOP !"),
+          content: Text(
+              "Vous ne pouvez pas changer de type de Parcours pendant qu\'un autre parcours est en cours !"),
+          actions: [
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop("Compris");
+              },
+            ),
+          ]);
+      Future<String> futureValue = showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return dialog;
+          });
+      Stream<String> stream = futureValue.asStream();
+      stream.listen((String data) {}, onDone: () {
+        print("Done!");
+      }, onError: (error) {
+        print("Error! " + error.toString());
+      });
+    }
   }
 
   void updateMarkerAndCircle(LocationData newLocalData) {
