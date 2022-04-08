@@ -308,6 +308,7 @@ Widget _buildBottomOverlay(BuildContext context) {
             padding: const EdgeInsets.only(top: 20.0),
             child: new GestureDetector(
                 onTap: () {
+                  Navigator.pop(context);
                   Navigator.push(
                       context,
                       PageTransition(

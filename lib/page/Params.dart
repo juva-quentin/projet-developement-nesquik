@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:projet_developement_nesquik/auth/auth_util.dart';
+import 'package:projet_developement_nesquik/backend/database.dart';
 
 import '../auth/firebase_user_provider.dart';
+import '../home_page/home_page_widget.dart';
 
 class Params extends StatefulWidget {
   const Params({Key key}) : super(key: key);
@@ -32,13 +35,28 @@ class _UserInformationState extends State<UserInformation> {
   bool showPassword = false;
   final Stream<QuerySnapshot<Map<String, dynamic>>> _usersStream =
       FirebaseFirestore.instance.collection('users').snapshots();
+  TextEditingController pseudoController;
+  TextEditingController emailController;
+  TextEditingController passwordController;
+  TextEditingController objectifController;
+  DatabaseService database = DatabaseService();
+  @override
+  void initState() {
+    pseudoController = TextEditingController();
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+    objectifController = TextEditingController();
+
+    super.initState();
+  }
 
   @override
-  Widget buildTextField(
-      String labelText, String placeholder, bool isPasswordTextField) {
+  Widget buildTextField(String labelText, String placeholder,
+      bool isPasswordTextField, TextEditingController controller) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 35.0),
       child: TextField(
+        controller: controller,
         obscureText: isPasswordTextField ? showPassword : false,
         decoration: InputDecoration(
             suffixIcon: isPasswordTextField
@@ -120,36 +138,94 @@ class _UserInformationState extends State<UserInformation> {
                       SizedBox(
                         height: 35,
                       ),
+                      buildTextField("Pseudo", snapshot.data["pseudo"], false,
+                          pseudoController),
+                      buildTextField("E-mail", snapshot.data["email"], false,
+                          emailController),
                       buildTextField(
-                          "Full Name", snapshot.data["pseudo"], false),
-                      buildTextField("E-mail", snapshot.data["email"], false),
-                      buildTextField("Password", "********", true),
-                      SizedBox(
-                        height: 35,
+                          "objectif de la semaine(km)",
+                          snapshot.data["objectif"].toString(),
+                          false,
+                          objectifController),
+                      ElevatedButton(
+                        onPressed: () {
+                          var pseudo;
+                          var email;
+                          var password;
+                          var objectif;
+                          setState(() {
+                            pseudo = pseudoController.text;
+                            email = emailController.text;
+                            password = pseudoController.text;
+                            objectif = objectifController.text;
+                          });
+                          print("ok" + pseudo + email + password + objectif);
+                          if (pseudo == "") {
+                            pseudo = snapshot.data["pseudo"];
+                          }
+                          if (email == "") {
+                            email = snapshot.data["email"];
+                          }
+                          if (objectif == "") {
+                            objectif = snapshot.data["objectif"].toString();
+                          }
+                          database.UpdateObjectif(pseudo, email, objectif);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color(0xFF72B0EA),
+                        ),
+                        child: Text(
+                          "SAVE",
+                          style: TextStyle(
+                              fontSize: 19,
+                              letterSpacing: 2.2,
+                              color: Colors.white),
+                        ),
                       ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ElevatedButton(
-                            onPressed: () {},
-                            style: ButtonStyle(),
-                            child: Text("CANCEL",
-                                style: TextStyle(
-                                    fontSize: 19,
-                                    letterSpacing: 2.2,
-                                    color: Color.fromARGB(255, 255, 255, 255))),
-                          ),
-                          ElevatedButton(
-                            onPressed: () {},
-                            child: Text(
-                              "SAVE",
-                              style: TextStyle(
-                                  fontSize: 19,
-                                  letterSpacing: 2.2,
-                                  color: Colors.white),
-                            ),
-                          )
-                        ],
+                      SizedBox(
+                        height: 25,
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          resetPassword(snapshot.data["email"], context);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 6, 167, 164),
+                        ),
+                        child: Text(
+                          "RESET PASSWORD",
+                          style: TextStyle(
+                              fontSize: 19,
+                              letterSpacing: 2.2,
+                              color: Colors.white),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 25,
+                      ),
+                      ElevatedButton(
+                        onPressed: () async {
+                          database.DeleteUser(context);
+                          Navigator.pop(context);
+                          await Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.bottomToTop,
+                                duration: Duration(milliseconds: 300),
+                                reverseDuration: Duration(milliseconds: 300),
+                                child: HomePageWidget(),
+                              ));
+                        },
+                        style: ElevatedButton.styleFrom(
+                          primary: Color.fromARGB(255, 255, 30, 0),
+                        ),
+                        child: Text(
+                          "DELETE PROFILE",
+                          style: TextStyle(
+                              fontSize: 19,
+                              letterSpacing: 2.2,
+                              color: Colors.white),
+                        ),
                       )
                     ],
                   ),
@@ -158,6 +234,5 @@ class _UserInformationState extends State<UserInformation> {
             : Container();
       },
     );
-
   }
 }
