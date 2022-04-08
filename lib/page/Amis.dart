@@ -13,8 +13,10 @@ class Amis extends StatefulWidget {
 
 class _AmisState extends State<Amis> {
   DatabaseService database = new DatabaseService();
-  final Stream<QuerySnapshot> _usersStream =
-      FirebaseFirestore.instance.collection('users').snapshots();
+  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+      .collection('users')
+      .where('friends', arrayContains: currentUser.user.uid)
+      .snapshots();
 
   IconData addIcon;
   @override
@@ -42,113 +44,104 @@ class _AmisState extends State<Amis> {
                   Map<String, dynamic> data =
                       document.data() as Map<String, dynamic>;
 
-                  return Visibility(
-                    maintainSize:
-                        data["friends"].contains(currentUser.user.uid),
-                    maintainAnimation:
-                        data["friends"].contains(currentUser.user.uid),
-                    maintainState:
-                        data["friends"].contains(currentUser.user.uid),
-                    visible: data["friends"].contains(currentUser.user.uid),
-                    child: Container(
-                      child: Row(
-                        mainAxisSize: MainAxisSize.max,
-                        children: [
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                    width: 60,
-                                    height: 60,
-                                    clipBehavior: Clip.antiAlias,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                    ),
-                                    child: Icon(
-                                      Icons.account_circle,
-                                      size: 40,
-                                      color: Color(0xFF72B0EA),
-                                    )),
-                              ],
-                            ),
+                  return Container(
+                    child: Row(
+                      mainAxisSize: MainAxisSize.max,
+                      children: [
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(8, 0, 8, 0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                  width: 60,
+                                  height: 60,
+                                  clipBehavior: Clip.antiAlias,
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: Icon(
+                                    Icons.account_circle,
+                                    size: 40,
+                                    color: Color(0xFF72B0EA),
+                                  )),
+                            ],
                           ),
-                          Expanded(
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Text(
-                                      data['pseudo'],
-                                      style: FlutterFlowTheme.of(context)
-                                          .subtitle1
-                                          .override(
-                                            fontFamily: 'Lexend Deca',
-                                            color: Color(0xFF15212B),
-                                            fontSize: 18,
-                                            fontWeight: FontWeight.w500,
-                                          ),
-                                    ),
-                                  ],
-                                ),
-                                Row(
-                                  mainAxisSize: MainAxisSize.max,
-                                  children: [
-                                    Expanded(
-                                      child: Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 4, 4, 0),
-                                        child: Text(
-                                          data['email'],
-                                          style: FlutterFlowTheme.of(context)
-                                              .bodyText2
-                                              .override(
-                                                fontFamily: 'Lexend Deca',
-                                                color: Color(0xFF72B0EA),
-                                                fontSize: 12,
-                                                fontWeight: FontWeight.w500,
-                                              ),
+                        ),
+                        Expanded(
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Text(
+                                    data['pseudo'],
+                                    style: FlutterFlowTheme.of(context)
+                                        .subtitle1
+                                        .override(
+                                          fontFamily: 'Lexend Deca',
+                                          color: Color(0xFF15212B),
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w500,
                                         ),
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                mainAxisSize: MainAxisSize.max,
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 4, 4, 0),
+                                      child: Text(
+                                        data['email'],
+                                        style: FlutterFlowTheme.of(context)
+                                            .bodyText2
+                                            .override(
+                                              fontFamily: 'Lexend Deca',
+                                              color: Color(0xFF72B0EA),
+                                              fontSize: 12,
+                                              fontWeight: FontWeight.w500,
+                                            ),
                                       ),
                                     ),
-                                  ],
-                                ),
-                              ],
-                            ),
+                                  ),
+                                ],
+                              ),
+                            ],
                           ),
-                          Padding(
-                            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
-                            child: Column(
-                              mainAxisSize: MainAxisSize.max,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                IconButton(
-                                  icon: Icon(Icons.person_add, size: 24),
-                                  color: data["friends"] != null
-                                      ? data["friends"]
-                                              .contains(currentUser.user.uid)
-                                          ? Color.fromARGB(255, 238, 74, 4)
-                                          : Color.fromARGB(255, 0, 117, 84)
-                                      : Color.fromARGB(255, 0, 117, 84),
-                                  onPressed: () {
-                                    if (data["friends"]
-                                        .contains(currentUser.user.uid)) {
-                                      database.RemoveFriend(document.id);
-                                    } else {
-                                      database.AddFriend(document.id);
-                                    }
-                                  },
-                                ),
-                              ],
-                            ),
+                        ),
+                        Padding(
+                          padding: EdgeInsetsDirectional.fromSTEB(0, 0, 8, 0),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.max,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.person_add, size: 24),
+                                color: data["friends"] != null
+                                    ? data["friends"]
+                                            .contains(currentUser.user.uid)
+                                        ? Color.fromARGB(255, 238, 74, 4)
+                                        : Color.fromARGB(255, 0, 117, 84)
+                                    : Color.fromARGB(255, 0, 117, 84),
+                                onPressed: () {
+                                  if (data["friends"]
+                                      .contains(currentUser.user.uid)) {
+                                    database.RemoveFriend(document.id);
+                                  } else {
+                                    database.AddFriend(document.id);
+                                  }
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
                   );
                 }).toList(),
