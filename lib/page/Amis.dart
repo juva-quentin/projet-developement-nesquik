@@ -15,7 +15,7 @@ class _AmisState extends State<Amis> {
   DatabaseService database = new DatabaseService();
   final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
       .collection('users')
-      .where("freinds", arrayContains: currentUser.user.uid)
+      .where("friends", arrayContains: currentUser.user.uid)
       .snapshots();
 
   IconData addIcon;
