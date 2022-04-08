@@ -44,6 +44,7 @@ getLinksStorageParcours() async {
   await courses.get().then((QuerySnapshot snapshot) {
     snapshot.docs.forEach((DocumentSnapshot doc) {
       var mapCourseFireBase = Map<String, dynamic>.from(doc.data());
+      print("id" + "${doc.id}");
       switch (mapCourseFireBase['type']) {
         case "public":
           {

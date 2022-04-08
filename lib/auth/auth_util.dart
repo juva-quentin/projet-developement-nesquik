@@ -33,7 +33,9 @@ Future deleteUser(BuildContext context) async {
       print('Error: delete user attempted with no logged in user!');
       return;
     }
-    await currentUser?.user?.delete();
+
+    print("del user");
+    await currentUser?.user?.delete().then((_) => signOut());
   } on FirebaseAuthException catch (e) {
     if (e.code == 'requires-recent-login') {
       ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -46,7 +48,7 @@ Future deleteUser(BuildContext context) async {
   }
 }
 
-Future resetPassword({String email, BuildContext context}) async {
+Future resetPassword(String email, BuildContext context) async {
   try {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
   } on FirebaseAuthException catch (e) {

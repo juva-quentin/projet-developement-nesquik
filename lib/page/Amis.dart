@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
 import 'package:projet_developement_nesquik/backend/loader.dart';
-import 'package:projet_developement_nesquik/backend/schema/database.dart';
+import 'package:projet_developement_nesquik/backend/database.dart';
 
 import '../flutter_flow/flutter_flow_theme.dart';
 
@@ -15,9 +15,7 @@ class _AmisState extends State<Amis> {
   DatabaseService database = new DatabaseService();
   final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
       .collection('users')
-
       .where('friends', arrayContains: currentUser.user.uid)
-
       .snapshots();
 
   IconData addIcon;

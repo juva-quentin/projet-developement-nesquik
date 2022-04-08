@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:projet_developement_nesquik/backend/Parcours.dart';
-import 'package:projet_developement_nesquik/backend/schema/database.dart';
+import 'package:projet_developement_nesquik/backend/database.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import '../flutter_flow/flutter_flow_choice_chips.dart';
 import '../flutter_flow/flutter_flow_theme.dart';

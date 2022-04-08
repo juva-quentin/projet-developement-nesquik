@@ -4,7 +4,7 @@ class Parcours {
   String owner = "";
   String title = "";
   String address = "";
-  String type = "";
+  String type = "private";
   String description = "";
   List<String> shareTo = [];
   double distance = 0.0;
