@@ -128,7 +128,7 @@ Widget _buildTopOverlay(BuildContext context) {
   return Container(
     height: MediaQuery.of(context).size.height * 0.22,
     decoration: BoxDecoration(
-      color: Color.fromARGB(255, 1, 132, 255),
+      color: Color(0xFF72B0EA),
       borderRadius: BorderRadius.only(
           bottomLeft: Radius.circular(35), bottomRight: Radius.circular(35)),
     ),
@@ -193,6 +193,7 @@ Widget _buildObjectifOverlay(BuildContext context) {
       "Tuesday",
       "Wednesday",
       "Thursday",
+      "Friday",
       "Saturday",
       'Sunday'
     ];
@@ -251,7 +252,7 @@ Widget _buildObjectifOverlay(BuildContext context) {
                   Text("${data['objectif']}KM",
                       style: GoogleFonts.sen(
                           textStyle: TextStyle(
-                        color: Color.fromARGB(255, 0, 81, 255),
+                        color: Color(0xFF72B0EA),
                         fontSize: 17,
                         fontWeight: FontWeight.w700,
                       ))),
@@ -281,7 +282,7 @@ Widget _buildObjectifOverlay(BuildContext context) {
                           ((_advencement(data['objectif'], data['tdp'])) * 100)
                                   .toString() +
                               "%"),
-                      progressColor: Color.fromARGB(255, 0, 140, 255),
+                      progressColor: Color(0xFF72B0EA),
                     ),
                   ]),
                 )
@@ -296,9 +297,7 @@ Widget _buildObjectifOverlay(BuildContext context) {
 Widget _buildBottomOverlay(BuildContext context) {
   var choices = [
     {"name": "Mes courses", "route": Courses()},
-
     {"name": "Mes favoris", "route": Favoris()},
-
     {"name": "Mes amis", "route": Amis()},
     {"name": "Mes paramètres", "route": Params()},
     {"name": "Mes statistiques", "route": Stats()},
@@ -323,7 +322,7 @@ Widget _buildBottomOverlay(BuildContext context) {
                     alignment: Alignment.center,
                     padding: EdgeInsets.all(15),
                     decoration: BoxDecoration(
-                      color: Color.fromARGB(255, 1, 132, 255),
+                      color: Color(0xFF72B0EA),
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                     ),
                     child: Text(item["name"],
