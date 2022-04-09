@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:projet_developement_nesquik/auth/auth_util.dart';
 import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
@@ -108,8 +109,38 @@ class DatabaseService {
       "email": email,
       "objectif": int.parse(objectif)
     }).then((_) {
+      changeEmail(email);
       print("success!new objectif");
     });
+  }
+
+  Future<void> changeEmail(String newEmail) async {
+    if (newEmail != currentUser.user.email) {
+      try {
+        await currentUser.user.updateEmail(newEmail).then(
+          (value) {
+            print('Email Changed');
+          },
+        );
+      } on FirebaseAuthException catch (e) {
+        switch (e.code) {
+          case 'email-already-in-use':
+            Text('Error: Email already in use!');
+            break;
+          case 'invalid-email':
+            Text('Error: Invalid email adress!');
+            break;
+          case 'operation-not-allowed':
+            Text('Error: Something went wrong!');
+            break;
+          case 'weak-password':
+            Text('Error: Weak password!');
+            break;
+          default:
+            Text('Something went wrong!');
+        }
+      }
+    }
   }
 
   DeleteUser(BuildContext context) async {
@@ -120,6 +151,29 @@ class DatabaseService {
         .then((_) {
       print("success!delete user");
       DeleteUserParcoursStorage(context);
+      DetectUserInFriendsList();
+    });
+  }
+
+  DetectUserInFriendsList() async {
+    final storageRef = FirebaseStorage.instance.ref();
+    final courses = FirebaseFirestore.instance
+        .collection('users')
+        .where("friends", arrayContains: currentUser.user.uid);
+    await courses.get().then((QuerySnapshot snapshot) {
+      snapshot.docs.forEach((DocumentSnapshot doc) async {
+        var mapCourseFireBase = Map<String, dynamic>.from(doc.data());
+
+        DeleteUserInFriendsList(doc.id);
+      });
+    });
+  }
+
+  DeleteUserInFriendsList(String id) async {
+    await FirebaseFirestore.instance.collection("users").doc(id).update({
+      "friends": FieldValue.arrayRemove([currentUser.user.uid])
+    }).then((_) {
+      print("success!delete in friends list");
     });
   }
 
