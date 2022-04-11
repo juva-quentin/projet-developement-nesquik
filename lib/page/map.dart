@@ -25,6 +25,7 @@ List listMarkerPublic = [];
 List<List<double>> listElePrivate = [];
 List<List<double>> listEleProtected = [];
 List<List<double>> listElePublic = [];
+int bouuuuu;
 
 final courses = FirebaseFirestore.instance.collection('parcours');
 

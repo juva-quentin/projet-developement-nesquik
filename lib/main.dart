@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:projet_developement_nesquik/page/homePage.dart';
@@ -10,6 +11,20 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'onboard/onboard_widget.dart';
 
 void main() async {
+  // ErrorWidget.builder = (FlutterErrorDetails details) {
+  //   return Container(
+  //     color: Color(0xFF72B0EA),
+  //     child: Center(
+  //       child: Text(
+  //         'Restart Please..',
+  //         style: TextStyle(
+  //           fontSize: 30.0,
+  //           color: Colors.white,
+  //         ),
+  //       ),
+  //     ),
+  //   );
+  // };
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await SystemChrome.setPreferredOrientations(

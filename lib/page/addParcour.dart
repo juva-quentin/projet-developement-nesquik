@@ -91,6 +91,16 @@ class _AddParcour extends State<AddParcour> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Container(
+                height: MediaQuery.of(context).size.height * 0.30,
+                width: MediaQuery.of(context).size.width,
+                decoration:
+                    BoxDecoration(color: Color.fromARGB(255, 82, 82, 82)),
+                child: Center(
+                  child: _buildGoogleMap(context),
+                ),
+              ),
+              SizedBox(height: 10),
+              Container(
                 width: MediaQuery.of(context).size.width * 0.5,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(10),
@@ -103,16 +113,6 @@ class _AddParcour extends State<AddParcour> {
                   }),
                 ),
               ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.30,
-                width: MediaQuery.of(context).size.width,
-                decoration:
-                    BoxDecoration(color: Color.fromARGB(255, 82, 82, 82)),
-                child: Center(
-                  child: _buildGoogleMap(context),
-                ),
-              ),
-              SizedBox(height: 10),
               Container(
                   color: Color.fromRGBO(114, 176, 234, 1),
                   alignment: Alignment.center,
@@ -132,12 +132,13 @@ class _AddParcour extends State<AddParcour> {
                             spacing: 20,
                             children: [
                               Container(
-                                color: Colors.white,
+                                color: Color.fromARGB(255, 255, 255, 255),
                                 width: 170,
                                 height: 50,
                                 child: Column(
                                   children: [
                                     Text("Temps"),
+                                    Text(formatTime(bouuuuu)),
                                   ],
                                 ),
                               ),
@@ -160,9 +161,9 @@ class _AddParcour extends State<AddParcour> {
                             spacing: 20,
                             children: [
                               Container(
-                                color: Colors.yellow,
-                                width: 150,
-                                height: 60,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                width: 170,
+                                height: 50,
                                 child: Column(
                                   children: [
                                     Text("Dénivelé"),
@@ -172,9 +173,16 @@ class _AddParcour extends State<AddParcour> {
                                 ),
                               ),
                               Container(
-                                color: Color.fromARGB(255, 153, 54, 54),
-                                width: 150,
-                                height: 60,
+                                color: Color.fromARGB(255, 255, 255, 255),
+                                width: 170,
+                                height: 50,
+                                child: Column(
+                                  children: [
+                                    Text("Vitesse moyenne"),
+                                    Text(
+                                        "${((parcours.distance / bouuuuu) * 3.6e+6).toStringAsFixed(2)}Km/h")
+                                  ],
+                                ),
                               )
                             ],
                           ),
@@ -456,4 +464,12 @@ class _AddParcour extends State<AddParcour> {
       ),
     );
   }
+}
+
+String formatTime(int milliseconds) {
+  var secs = milliseconds ~/ 1000;
+  var hours = (secs ~/ 3600).toString().padLeft(2, '0');
+  var minutes = ((secs % 3600) ~/ 60).toString().padLeft(2, '0');
+  var seconds = (secs % 60).toString().padLeft(2, '0');
+  return "$hours:$minutes:$seconds";
 }
