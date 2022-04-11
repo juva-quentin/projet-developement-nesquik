@@ -7,7 +7,6 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
 import 'package:projet_developement_nesquik/backend/Parcours.dart';
 import 'package:projet_developement_nesquik/backend/database.dart';
-import 'package:projet_developement_nesquik/page/Parcour.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import '../backend/loader.dart';
 import '../flutter_flow/flutter_flow_choice_chips.dart';
@@ -134,7 +133,7 @@ class _AddParcour extends State<AddParcour> {
                               Container(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 width: 170,
-                                height: 50,
+                                height: 51,
                                 child: Column(
                                   children: [
                                     Text("Temps"),
@@ -145,7 +144,7 @@ class _AddParcour extends State<AddParcour> {
                               Container(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 width: 170,
-                                height: 50,
+                                height: 51,
                                 child: Column(
                                   children: [
                                     Text("Distance"),
@@ -163,7 +162,7 @@ class _AddParcour extends State<AddParcour> {
                               Container(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 width: 170,
-                                height: 50,
+                                height: 51,
                                 child: Column(
                                   children: [
                                     Text("Dénivelé"),
@@ -175,7 +174,7 @@ class _AddParcour extends State<AddParcour> {
                               Container(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 width: 170,
-                                height: 50,
+                                height: 51,
                                 child: Column(
                                   children: [
                                     Text("Vitesse moyenne"),
@@ -423,7 +422,10 @@ class _AddParcour extends State<AddParcour> {
                         type = "Private";
                         break;
                     }
-                    print(parcours.title);
+                    parcours.temps = formatTime(bouuuuu);
+                    parcours.vitesse = (parcours.distance / bouuuuu) * 3.6e+6;
+                    parcours.denivele.add(calculEle(widget.dataElevation)[0]);
+                    parcours.denivele.add(calculEle(widget.dataElevation)[1]);
                     DatabaseService database = DatabaseService();
                     database.UploadToStorage("parcours${type}", parcours.title,
                         widget.jsonData, parcours, context);

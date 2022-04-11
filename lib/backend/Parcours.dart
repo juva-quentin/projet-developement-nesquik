@@ -6,7 +6,7 @@ class Parcours {
   String description = "";
   List<String> shareTo = [];
   double distance = 0.0;
-  int temps = 0;
+  String temps = "";
   List<double> denivele = [];
   double vitesse = 0.0;
 
