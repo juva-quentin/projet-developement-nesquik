@@ -54,7 +54,7 @@ class MapSampleState extends State<MapSample> {
       });
     } else {
       print("startTimer $stopwatch");
-      bouuuuu = stopwatch;
+      bouuuuu = null;
       timer.cancel();
     }
   }
