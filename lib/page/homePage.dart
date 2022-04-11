@@ -19,6 +19,7 @@ import 'package:projet_developement_nesquik/page/addParcour.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import 'package:location/location.dart' as loc;
 import 'package:projet_developement_nesquik/page/profilPage.dart';
+import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class MapSample extends StatefulWidget {
   @override
@@ -41,6 +42,22 @@ class MapSampleState extends State<MapSample> {
   int _counter = 0;
   double _cooldown = 0;
   int _cooldownStarted = DateTime.now().millisecondsSinceEpoch;
+  bool timerRunning = false;
+  Timer timer;
+  int stopwatch = 0;
+
+  void _startTimer() async {
+    if (!timerRunning) {
+      timerRunning = true;
+      timer = Timer.periodic(Duration(milliseconds: 1), (timer) {
+        stopwatch = timer.tick;
+      });
+    } else {
+      print("startTimer $stopwatch");
+      bouuuuu = stopwatch;
+      timer.cancel();
+    }
+  }
 
   void _incrementCounter() {
     setState(() {
@@ -390,6 +407,7 @@ class MapSampleState extends State<MapSample> {
             child: FloatingActionButton.extended(
               onPressed: () {
                 print("pressGO");
+                _startTimer();
                 if (geoloc2 == false) {
                   setState(() {
                     geoloc2 = true;
