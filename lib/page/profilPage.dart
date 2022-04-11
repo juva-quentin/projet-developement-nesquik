@@ -186,6 +186,7 @@ Widget _buildNameOverlay() {
 @override
 Widget _buildObjectifOverlay(BuildContext context) {
   CollectionReference users = FirebaseFirestore.instance.collection('users');
+  // ignore: missing_return
   int nbrDays() {
     var date = DateFormat.EEEE().format(DateTime.now());
     List<String> days = [

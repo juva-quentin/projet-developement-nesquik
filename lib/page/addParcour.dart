@@ -1,9 +1,15 @@
+// ignore_for_file: deprecated_member_use
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
 import 'package:projet_developement_nesquik/backend/Parcours.dart';
 import 'package:projet_developement_nesquik/backend/database.dart';
+import 'package:projet_developement_nesquik/page/Parcour.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
+import '../backend/loader.dart';
 import '../flutter_flow/flutter_flow_choice_chips.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 
@@ -22,6 +28,11 @@ class _AddParcour extends State<AddParcour> {
   TextEditingController titleController;
   TextEditingController descriptionController;
   Parcours parcours = Parcours();
+  bool protected = false;
+  final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
+      .collection('users')
+      .where('friends', arrayContains: currentUser.user.uid)
+      .snapshots();
 
   @override
   void initState() {
@@ -49,6 +60,12 @@ class _AddParcour extends State<AddParcour> {
     super.initState();
   }
 
+  Color getColor(Set<MaterialState> states) {
+    return Color(0xFF72B0EA);
+  }
+
+  bool isChecked = false;
+
   final _formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -65,6 +82,7 @@ class _AddParcour extends State<AddParcour> {
                 Icons.delete_forever_rounded,
                 color: Colors.red,
               ),
+              onPressed: () {},
             )
           ]),
       body: ListView(
@@ -175,12 +193,17 @@ class _AddParcour extends State<AddParcour> {
                           switch (val.first) {
                             case 'Privée':
                               setState(() => parcours.type = "private");
+                              setState(() => protected = false);
+                              setState(() => parcours.shareTo.clear());
                               break;
                             case 'Protégée':
                               setState(() => parcours.type = "protected");
+                              setState(() => protected = true);
                               break;
                             case 'Public':
                               setState(() => parcours.type = "public");
+                              setState(() => protected = false);
+                              setState(() => parcours.shareTo.clear());
                               break;
                           }
                         },
@@ -211,6 +234,153 @@ class _AddParcour extends State<AddParcour> {
                       ),
                     ),
                   ])),
+              Visibility(
+                maintainSize: protected,
+                maintainAnimation: protected,
+                maintainState: protected,
+                visible: protected,
+                child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 130,
+                    child: StreamBuilder<QuerySnapshot>(
+                        stream: _usersStream,
+                        builder: (BuildContext context,
+                            AsyncSnapshot<QuerySnapshot> snapshot) {
+                          if (snapshot.hasError) {
+                            return Text('Something went wrong');
+                          }
+
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return ColorLoader(
+                                [Colors.black, Colors.white, Colors.blue],
+                                Duration(seconds: 3));
+                          }
+
+                          return ListView(
+                            children: snapshot.data.docs
+                                .map((DocumentSnapshot document) {
+                              Map<String, dynamic> data =
+                                  document.data() as Map<String, dynamic>;
+
+                              return Container(
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.max,
+                                  children: [
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          8, 0, 8, 0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                              width: 60,
+                                              height: 60,
+                                              clipBehavior: Clip.antiAlias,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                              ),
+                                              child: Icon(
+                                                Icons.account_circle,
+                                                size: 40,
+                                                color: Color(0xFF72B0EA),
+                                              )),
+                                        ],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Text(
+                                                data['pseudo'],
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .subtitle1
+                                                    .override(
+                                                      fontFamily: 'Lexend Deca',
+                                                      color: Color(0xFF15212B),
+                                                      fontSize: 18,
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                    ),
+                                              ),
+                                            ],
+                                          ),
+                                          Row(
+                                            mainAxisSize: MainAxisSize.max,
+                                            children: [
+                                              Expanded(
+                                                child: Padding(
+                                                  padding: EdgeInsetsDirectional
+                                                      .fromSTEB(0, 4, 4, 0),
+                                                  child: Text(
+                                                    data['email'],
+                                                    style: FlutterFlowTheme.of(
+                                                            context)
+                                                        .bodyText2
+                                                        .override(
+                                                          fontFamily:
+                                                              'Lexend Deca',
+                                                          color:
+                                                              Color(0xFF72B0EA),
+                                                          fontSize: 12,
+                                                          fontWeight:
+                                                              FontWeight.w500,
+                                                        ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsetsDirectional.fromSTEB(
+                                          0, 0, 8, 0),
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.max,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Checkbox(
+                                            checkColor: Colors.white,
+                                            fillColor: MaterialStateProperty
+                                                .resolveWith(getColor),
+                                            value: parcours.shareTo
+                                                .contains(document.id),
+                                            onChanged: (bool value) {
+                                              setState(() {
+                                                parcours.shareTo
+                                                        .contains(document.id)
+                                                    ? parcours.shareTo
+                                                        .remove(document.id)
+                                                    : parcours.shareTo
+                                                        .add(document.id);
+                                                print(parcours.shareTo
+                                                    .contains(document.id));
+                                                print(parcours.shareTo);
+                                              });
+                                            },
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            }).toList(),
+                          );
+                        })),
+              ),
               Card(
                   color: Colors.grey,
                   child: Padding(

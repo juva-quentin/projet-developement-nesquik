@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class Parcours {
   String owner = "";
   String title = "";
