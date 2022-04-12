@@ -40,11 +40,7 @@ class _AddParcour extends State<AddParcour> {
     titleController = TextEditingController();
     descriptionController = TextEditingController();
     lines.add(
-      setPolyline(
-        "polID",
-        parcourCreat,
-        Color.fromARGB(255, 224, 78, 78),
-      ),
+      setPolyline("polID", parcourCreat, Color.fromARGB(255, 110, 110, 110)),
     );
     points.add(
       setMarker(
@@ -200,9 +196,6 @@ class _AddParcour extends State<AddParcour> {
                           ChipData('Public')
                         ],
                         onChanged: (val) {
-                          print(val.first);
-                          print("ok");
-                          print(parcours.type);
                           switch (val.first) {
                             case 'Privée':
                               setState(() => parcours.type = "private");
