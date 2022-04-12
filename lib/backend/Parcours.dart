@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class Parcours {
   String owner = "";
   String title = "";
@@ -9,6 +11,6 @@ class Parcours {
   String temps = "";
   List<double> denivele = [];
   double vitesse = 0.0;
-
+  String date = "";
   Parcours();
 }

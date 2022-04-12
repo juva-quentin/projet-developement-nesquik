@@ -619,7 +619,7 @@ class MapSampleState extends State<MapSample> {
     if (geoloc2 == false) {
       _locationForRecord.cancel();
       Trkseg jack = new Trkseg(maurice);
-      Trk alain = new Trk("alain", "Cycling", jack);
+      Trk alain = new Trk("jack", "Cycling", jack);
       Gpx jp = new Gpx(alain);
       Parcour jean = new Parcour(jp);
       var greg = jean.toJson();
