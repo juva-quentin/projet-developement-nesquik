@@ -60,7 +60,7 @@ getLinksStorageParcours() async {
                 mapCourseFireBase['distance'],
                 mapCourseFireBase['temps'],
                 mapCourseFireBase['denivele'],
-                mapCourseFireBase['vitesse']);
+                mapCourseFireBase['vitesse'], mapCourseFireBase['date']);
             urls_Public.add(parcours);
             break;
           }
@@ -77,7 +77,7 @@ getLinksStorageParcours() async {
                   mapCourseFireBase['distance'],
                   mapCourseFireBase['temps'],
                   mapCourseFireBase['denivele'],
-                  mapCourseFireBase['vitesse']);
+                  mapCourseFireBase['vitesse'],mapCourseFireBase['date']);
               urls_Protected.add(mapCourseFireBase[parcours]);
             }
             break;
@@ -95,7 +95,7 @@ getLinksStorageParcours() async {
                   mapCourseFireBase['distance'],
                   mapCourseFireBase['temps'],
                   mapCourseFireBase['denivele'],
-                  mapCourseFireBase['vitesse']);
+                  mapCourseFireBase['vitesse'],mapCourseFireBase['date']);
               urls_Private.add(mapCourseFireBase[parcours]);
             }
             break;
