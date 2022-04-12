@@ -217,10 +217,12 @@ class MapSampleState extends State<MapSample> {
                         if (activitie == false) {
                           setState(() {
                             activitie = true;
+                            boxeeeeee = activitie;
                           });
                         } else {
                           setState(() {
                             activitie = false;
+                            boxeeeeee = activitie;
                           });
                         }
                       }
@@ -467,10 +469,12 @@ class MapSampleState extends State<MapSample> {
     }
 
     setState(() {
+      print(urls_Private.length);
       for (var item in listPolylinePrivate) {
         lines.add(item);
-        print(lines.last.polylineId);
+        print(item);
       }
+      print("${lines.length} --------------------");
       for (var item2 in listMarkerPrivate) {
         points.add(item2);
       }
@@ -484,9 +488,11 @@ class MapSampleState extends State<MapSample> {
     }
 
     setState(() {
+      print(urls_Protected.length);
       for (var item in listPolylineProtected) {
         lines.add(item);
       }
+      print("${lines.length} --------------------");
       for (var item2 in listMarkerProtected) {
         points.add(item2);
       }
@@ -500,9 +506,11 @@ class MapSampleState extends State<MapSample> {
     }
 
     setState(() {
+      print(urls_Public.length);
       for (var item in listPolylinePublic) {
         lines.add(item);
       }
+      print("${lines.length} --------------------");
       for (var item2 in listMarkerPublic) {
         points.add(item2);
       }
@@ -619,7 +627,9 @@ class MapSampleState extends State<MapSample> {
     if (geoloc2 == false) {
       _locationForRecord.cancel();
       Trkseg jack = new Trkseg(maurice);
-      Trk alain = new Trk("jack", "Cycling", jack);
+
+      Trk alain = new Trk("alain", !activitie ? "Bike" : "Motorbike", jack);
+
       Gpx jp = new Gpx(alain);
       Parcour jean = new Parcour(jp);
       var greg = jean.toJson();
@@ -661,7 +671,7 @@ class MapSampleState extends State<MapSample> {
         InfoWindow(
           title: "romuald",
           snippet:
-              "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+              "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
         ),
         BitmapDescriptor.defaultMarker,
         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
