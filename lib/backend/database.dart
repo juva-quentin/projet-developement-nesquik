@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:intl/intl.dart';
 import 'package:projet_developement_nesquik/auth/auth_util.dart';
 import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
 import 'package:projet_developement_nesquik/backend/Parcours.dart';
@@ -230,40 +231,37 @@ class DatabaseService {
   }
 
   // GetObjectif() async {
+  //   nbrDays();
+  //   var date = DateTime.now();
+  //   var debut = date-(nbrDays-)
   //   final parcours = FirebaseFirestore.instance
   //       .collection('parcours')
-  //       .where('owner', isEqualTo: currentUser.user.uid);
-
+  //       .where('owner', isEqualTo: currentUser.user.uid)
+  //       .where('date', isGreaterThanOrEqualTo: currentUser.user.);
   //   await parcours.get().then((QuerySnapshot snapshot) {
   //     snapshot.docs.forEach((DocumentSnapshot doc) {
   //       var mapCourseFireBase = Map<String, dynamic>.from(doc.data());
   //       print("id" + "${doc.id}");
-  //       switch (mapCourseFireBase['type']) {
-  //         case "public":
-  //           {
-  //             urls_Public.add(mapCourseFireBase['address']);
-  //             break;
-  //           }
-  //         case "protected":
-  //           {
-  //             if (mapCourseFireBase['shareTo'].contains(currentUser.user.uid)) {
-  //               urls_Protected.add(mapCourseFireBase['address']);
-  //             }
-  //             break;
-  //           }
-  //         case "private":
-  //           {
-  //             if (mapCourseFireBase['owner'] == currentUser.user.uid) {
-  //               urls_Private.add(mapCourseFireBase['address']);
-  //             }
-  //             break;
-  //           }
 
-  //           break;
-  //         default:
-  //       }
   //     });
-  //     getAllParcoursFromApi();
   //   });
   // }
+
+  int nbrDays() {
+    var date = DateFormat.EEEE().format(DateTime.now());
+    List<String> days = [
+      "Monday",
+      "Tuesday",
+      "Wednesday",
+      "Thursday",
+      "Friday",
+      "Saturday",
+      'Sunday'
+    ];
+    var index1 = days.indexWhere((element) => element == date);
+    if (index1 >= 0) {
+      return 7 - (index1 + 1);
+    }
+    ;
+  }
 }

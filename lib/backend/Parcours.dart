@@ -19,10 +19,8 @@ class Parcours {
       String address,
       String type,
       String description,
-      List<String> shareTo,
       double distance,
       String temps,
-      List<double> denivele,
       double vitesse,
       String date]) {
     this.owner = owner;
@@ -30,10 +28,10 @@ class Parcours {
     this.address = address;
     this.type = type;
     this.description = description;
-    this.shareTo = shareTo;
+
     this.distance = distance;
     this.temps = temps;
-    this.denivele = denivele;
+
     this.vitesse = vitesse;
     this.date = date;
   }
