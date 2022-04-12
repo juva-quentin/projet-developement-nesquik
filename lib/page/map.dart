@@ -144,7 +144,7 @@ Future getPrivateFromApi() async {
       listPolylinePrivate.add(setPolyline(
         i.toString(),
         positions,
-        Color.fromRGBO(114, 176, 234, 1),
+        Color.fromARGB(255, 190, 69, 69),
       ));
     }
   }
@@ -180,10 +180,7 @@ Future getProtectedFromApi() async {
       ));
       listEleProtected.add(eles);
       listPolylineProtected.add(setPolyline(
-        i.toString(),
-        positions,
-        Color.fromARGB(255, 224, 78, 78),
-      ));
+          i.toString(), positions, Color.fromARGB(255, 150, 114, 234)));
     }
   }
 }
@@ -217,7 +214,7 @@ Future getPublicFromApi() async {
       listPolylinePublic.add(setPolyline(
         i.toString(),
         positions,
-        Color.fromARGB(255, 79, 219, 51),
+        Color.fromRGBO(114, 176, 234, 1),
       ));
     }
   }
@@ -235,6 +232,7 @@ final CameraPosition kPositionnementMap = CameraPosition(
     target: LatLng(parcourCreat[(parcourCreat.length) ~/ 2].latitude,
         parcourCreat[(parcourCreat.length) ~/ 2].longitude),
     zoom: 11);
+
 //marker
 
 Marker setMarker(

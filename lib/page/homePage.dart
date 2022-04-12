@@ -201,7 +201,9 @@ class MapSampleState extends State<MapSample> {
                   decoration: BoxDecoration(
                     border: Border(
                       // right: BorderSide(width: 0.65, color: Colors.black),
-                      bottom: BorderSide(width: 0.7, color: Colors.black),
+                      bottom: BorderSide(
+                          width: 0.7,
+                          color: Color.fromARGB(255, 255, 255, 255)),
                     ),
                   ),
                   child: FloatingActionButton.extended(
@@ -299,10 +301,10 @@ class MapSampleState extends State<MapSample> {
                             : Text("Privé"),
                     elevation: 0,
                     backgroundColor: _protection == 1
-                        ? Color.fromARGB(255, 40, 151, 60)
+                        ? Color.fromRGBO(114, 176, 234, 1)
                         : _protection == 2
-                            ? Color.fromARGB(255, 185, 187, 65)
-                            : Color.fromARGB(255, 143, 11, 11),
+                            ? Color.fromARGB(255, 150, 114, 234)
+                            : Color.fromARGB(255, 190, 69, 69),
                     shape: const RoundedRectangleBorder(
                       borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(0),
@@ -320,7 +322,9 @@ class MapSampleState extends State<MapSample> {
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border(
-                      right: BorderSide(width: 0.65, color: Colors.black),
+                      right: BorderSide(
+                          width: 0.65,
+                          color: Color.fromARGB(255, 255, 255, 255)),
                     ),
                   ),
                   child: SizedBox(
@@ -377,14 +381,14 @@ class MapSampleState extends State<MapSample> {
     return Visibility(
         visible: _visible,
         child: Positioned(
-          height: 110,
-          width: 260,
-          bottom: 75,
-          left: 85,
+          height: 113.5,
+          width: 263.5,
+          bottom: 73,
+          left: 83,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Color.fromARGB(255, 183, 190, 197),
+              borderRadius: BorderRadius.circular(20),
+              color: Color.fromARGB(255, 255, 255, 255),
               boxShadow: [
                 BoxShadow(
                   color: Color.fromARGB(255, 139, 139, 139),
@@ -634,8 +638,6 @@ class MapSampleState extends State<MapSample> {
       Parcour jean = new Parcour(jp);
       var greg = jean.toJson();
       var erve = jsonEncode(greg);
-      _write(erve);
-      print(erve);
       validateCoordo(erve);
     } else {
       parcourCreat.clear();
@@ -653,25 +655,46 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
-  _write(String text) async {
-    print("in _write");
-    final Directory directory = await getApplicationDocumentsDirectory();
-    final File file = File('${directory.path}/my_file.txt');
-    await file.writeAsString(text);
-  }
-
   void validateCoordo(String erve) async {
     Polyline polyline = setPolyline(
-      "romuald",
+      "New Traject",
       parcourCreat,
-      Color.fromARGB(255, 224, 78, 78),
+      Color.fromARGB(255, 110, 110, 110),
     );
+    print("erve: ${erve}");
+
     listPolylinePrivate.add(polyline);
     listMarkerPrivate.add(
       setMarker(
         MarkerId("romuald"),
         InfoWindow(
-          title: "romuald",
+          title: "New Traject",
+          snippet:
+              "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+        ),
+        BitmapDescriptor.defaultMarker,
+        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
+      ),
+    );
+    listPolylineProtected.add(polyline);
+    listMarkerProtected.add(
+      setMarker(
+        MarkerId("romuald"),
+        InfoWindow(
+          title: "New Traject",
+          snippet:
+              "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+        ),
+        BitmapDescriptor.defaultMarker,
+        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
+      ),
+    );
+    listPolylinePublic.add(polyline);
+    listMarkerPublic.add(
+      setMarker(
+        MarkerId("romuald"),
+        InfoWindow(
+          title: "New Traject",
           snippet:
               "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
         ),
