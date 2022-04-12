@@ -60,10 +60,61 @@ class DatabaseService {
       "denivele": parcours.denivele,
       "vitesse": parcours.vitesse,
       "date": parcours.date,
-    }).then((value) {
+    }).then((value) async {
+      await UpdateObjectif(parcours.distance).then((value) {
+        Navigator.pop(context);
+      });
       print("Pacours Added");
-      Navigator.pop(context);
     }).catchError((error) => print("Failed to add user: $error"));
+  }
+
+  UpdateObjectif([double distance]) async {
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(currentUser.user.uid)
+        .get()
+        .then((DocumentSnapshot documentSnapshot) async {
+      if (documentSnapshot.exists) {
+        Map<String, dynamic> data = documentSnapshot.data();
+        if (distance != null) {
+          await FirebaseFirestore.instance
+              .collection("users")
+              .doc(currentUser.user.uid)
+              .update({
+            "tdp": data['tdp'] + distance,
+          }).then((_) {
+            print("success! update tdp");
+          });
+        }
+        var reset = data['isreset'];
+        Verifday(reset);
+      } else {
+        print('Document does not exist on the database');
+      }
+    });
+  }
+
+  Verifday(bool reset) async {
+    if (reset == false && nbrDays() > 0) {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUser.user.uid)
+          .update({
+        "reset": true,
+        "tdp": 0,
+      }).then((_) {
+        print("success! update reset ti true");
+      });
+    } else {
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(currentUser.user.uid)
+          .update({
+        "reset": false,
+      }).then((_) {
+        print("success! update reset tu false");
+      });
+    }
   }
 
   AddFriend(String uid) async {
@@ -98,7 +149,7 @@ class DatabaseService {
     });
   }
 
-  UpdateObjectif(
+  UpdateProfile(
     String pseudo,
     String email,
     String objectif,
@@ -229,23 +280,6 @@ class DatabaseService {
   DeleteUserParcoursData(String id) async {
     await FirebaseFirestore.instance.collection('parcours').doc(id).delete();
   }
-
-  // GetObjectif() async {
-  //   nbrDays();
-  //   var date = DateTime.now();
-  //   var debut = date-(nbrDays-)
-  //   final parcours = FirebaseFirestore.instance
-  //       .collection('parcours')
-  //       .where('owner', isEqualTo: currentUser.user.uid)
-  //       .where('date', isGreaterThanOrEqualTo: currentUser.user.);
-  //   await parcours.get().then((QuerySnapshot snapshot) {
-  //     snapshot.docs.forEach((DocumentSnapshot doc) {
-  //       var mapCourseFireBase = Map<String, dynamic>.from(doc.data());
-  //       print("id" + "${doc.id}");
-
-  //     });
-  //   });
-  // }
 
   int nbrDays() {
     var date = DateFormat.EEEE().format(DateTime.now());

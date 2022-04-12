@@ -169,7 +169,7 @@ class _UserInformationState extends State<UserInformation> {
                           if (objectif == "") {
                             objectif = snapshot.data["objectif"].toString();
                           }
-                          database.UpdateObjectif(pseudo, email, objectif);
+                          database.UpdateProfile(pseudo, email, objectif);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xFF72B0EA),

@@ -9,6 +9,7 @@ import 'package:page_transition/page_transition.dart';
 
 import 'package:path_provider/path_provider.dart';
 import 'package:location/location.dart';
+import 'package:projet_developement_nesquik/backend/database.dart';
 import 'package:projet_developement_nesquik/page/Community.dart';
 import 'package:tap_debouncer/tap_debouncer.dart';
 import 'package:flutter/services.dart';
@@ -45,6 +46,7 @@ class MapSampleState extends State<MapSample> {
   bool timerRunning = false;
   Timer timer;
   int stopwatch = 0;
+  DatabaseService database = DatabaseService();
 
   void _startTimer() async {
     if (!timerRunning) {
@@ -78,6 +80,7 @@ class MapSampleState extends State<MapSample> {
   var _visible = true;
   @override
   void initState() {
+    database.UpdateObjectif();
     getLinksStorageParcours();
     super.initState();
   }
