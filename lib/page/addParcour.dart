@@ -48,9 +48,9 @@ class _AddParcour extends State<AddParcour> {
       setMarker(
         MarkerId("romuald"),
         InfoWindow(
-          title: "romuald",
+          title: parcours.title,
           snippet:
-              "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+              "${!boxeeeeee ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
         ),
         BitmapDescriptor.defaultMarker,
         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
