@@ -204,7 +204,7 @@ Widget _buildObjectifOverlay(BuildContext context) {
     }
   }
 
-  double _advencement(int objectif, int advencement) {
+  double _advencement(int objectif, double advencement) {
     double result = ((advencement * 100) / objectif) / 100;
     if (objectif == 0) {
       return 0.0;
@@ -263,7 +263,7 @@ Widget _buildObjectifOverlay(BuildContext context) {
                   child: Column(children: [
                     Row(
                       children: [
-                        Text("${data['tdp']}KM",
+                        Text("${data['tdp'].toStringAsFixed(2)}KM",
                             style: GoogleFonts.sen(
                                 textStyle: TextStyle(
                               color: Color.fromARGB(255, 0, 0, 0),
@@ -281,7 +281,7 @@ Widget _buildObjectifOverlay(BuildContext context) {
                       percent: _advencement(data['objectif'], data['tdp']),
                       center: Text(
                           ((_advencement(data['objectif'], data['tdp'])) * 100)
-                                  .toString() +
+                                  .toStringAsFixed(2) +
                               "%"),
                       progressColor: Color(0xFF72B0EA),
                     ),
