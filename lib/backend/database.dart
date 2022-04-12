@@ -57,6 +57,7 @@ class DatabaseService {
       "temps": parcours.temps,
       "denivele": parcours.denivele,
       "vitesse": parcours.vitesse,
+      "date": parcours.date,
     }).then((value) {
       print("Pacours Added");
       Navigator.pop(context);
@@ -226,4 +227,42 @@ class DatabaseService {
   DeleteUserParcoursData(String id) async {
     await FirebaseFirestore.instance.collection('parcours').doc(id).delete();
   }
+
+  // GetObjectif() async {
+  //   final parcours = FirebaseFirestore.instance
+  //       .collection('parcours')
+  //       .where('owner', isEqualTo: currentUser.user.uid);
+
+  //   await parcours.get().then((QuerySnapshot snapshot) {
+  //     snapshot.docs.forEach((DocumentSnapshot doc) {
+  //       var mapCourseFireBase = Map<String, dynamic>.from(doc.data());
+  //       print("id" + "${doc.id}");
+  //       switch (mapCourseFireBase['type']) {
+  //         case "public":
+  //           {
+  //             urls_Public.add(mapCourseFireBase['address']);
+  //             break;
+  //           }
+  //         case "protected":
+  //           {
+  //             if (mapCourseFireBase['shareTo'].contains(currentUser.user.uid)) {
+  //               urls_Protected.add(mapCourseFireBase['address']);
+  //             }
+  //             break;
+  //           }
+  //         case "private":
+  //           {
+  //             if (mapCourseFireBase['owner'] == currentUser.user.uid) {
+  //               urls_Private.add(mapCourseFireBase['address']);
+  //             }
+  //             break;
+  //           }
+
+  //           break;
+  //         default:
+  //       }
+  //     });
+  //     getAllParcoursFromApi();
+  //   });
+  // }
 }
