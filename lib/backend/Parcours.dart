@@ -13,7 +13,6 @@ class Parcours {
   double vitesse = 0.0;
   String date = "";
 
-
   Parcours(
       [String owner,
       String title,
@@ -38,5 +37,18 @@ class Parcours {
     this.vitesse = vitesse;
     this.date = date;
   }
+}
 
+class AddParcours {
+  String owner = "";
+  String title = "";
+  String address = "";
+  String type = "private";
+  String description = "";
+  List<String> shareTo = [];
+  double distance = 0.0;
+  String temps = "";
+  List<double> denivele = [];
+  double vitesse = 0.0;
+  String date = "";
 }

@@ -19,6 +19,7 @@ class AddParcour extends StatefulWidget {
   final String jsonData;
   final List<LatLng> dataLocation;
   final List<double> dataElevation;
+
   @override
   _AddParcour createState() => _AddParcour();
 }
@@ -27,7 +28,7 @@ class _AddParcour extends State<AddParcour> {
   GoogleMapController _controller;
   TextEditingController titleController;
   TextEditingController descriptionController;
-  Parcours parcours = Parcours();
+  AddParcours parcours = AddParcours();
   bool protected = false;
   final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
       .collection('users')
@@ -47,7 +48,9 @@ class _AddParcour extends State<AddParcour> {
     );
     points.add(
       setMarker(
-        MarkerId("romuald"),
+        MarkerId(
+          parcours.title,
+        ),
         InfoWindow(
           title: parcours.title,
           snippet:

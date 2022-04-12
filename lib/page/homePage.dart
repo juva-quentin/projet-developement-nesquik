@@ -644,8 +644,10 @@ class MapSampleState extends State<MapSample> {
           _locationTracker.onLocationChanged.listen((newLocalData) {
         parcourCreat.add(LatLng(newLocalData.latitude, newLocalData.longitude));
         elevationCreat.add(newLocalData.altitude);
-        Trkpt paul = new Trkpt(newLocalData.latitude.toString(),
-            newLocalData.latitude.toString(), newLocalData.altitude.toString());
+        Trkpt paul = new Trkpt(
+            newLocalData.latitude.toString(),
+            newLocalData.longitude.toString(),
+            newLocalData.altitude.toString());
         maurice.add(paul);
       });
     }

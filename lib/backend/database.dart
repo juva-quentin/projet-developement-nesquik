@@ -9,7 +9,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 class DatabaseService {
   final storageRef = FirebaseStorage.instance.ref();
-  UploadToStorage(String ref, String name, String data, Parcours parcours,
+  UploadToStorage(String ref, String name, String data, AddParcours parcours,
       BuildContext context) async {
     final mountainsRef = storageRef.child("${ref}/${name}.txt");
     final uploadTask =
@@ -41,7 +41,8 @@ class DatabaseService {
     });
   }
 
-  UploadParcours(Reference ref, Parcours parcours, BuildContext context) async {
+  UploadParcours(
+      Reference ref, AddParcours parcours, BuildContext context) async {
     print("debug1");
     parcours.owner = currentUser.user.uid;
     CollectionReference parcour =
