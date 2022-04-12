@@ -201,7 +201,9 @@ class MapSampleState extends State<MapSample> {
                   decoration: BoxDecoration(
                     border: Border(
                       // right: BorderSide(width: 0.65, color: Colors.black),
-                      bottom: BorderSide(width: 0.7, color: Colors.black),
+                      bottom: BorderSide(
+                          width: 0.7,
+                          color: Color.fromARGB(255, 255, 255, 255)),
                     ),
                   ),
                   child: FloatingActionButton.extended(
@@ -320,7 +322,9 @@ class MapSampleState extends State<MapSample> {
                 child: Container(
                   decoration: BoxDecoration(
                     border: Border(
-                      right: BorderSide(width: 0.65, color: Colors.black),
+                      right: BorderSide(
+                          width: 0.65,
+                          color: Color.fromARGB(255, 255, 255, 255)),
                     ),
                   ),
                   child: SizedBox(
@@ -377,14 +381,14 @@ class MapSampleState extends State<MapSample> {
     return Visibility(
         visible: _visible,
         child: Positioned(
-          height: 110,
-          width: 260,
-          bottom: 75,
-          left: 85,
+          height: 113.5,
+          width: 263.5,
+          bottom: 73,
+          left: 83,
           child: Container(
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              color: Color.fromARGB(255, 183, 190, 197),
+              borderRadius: BorderRadius.circular(20),
+              color: Color.fromARGB(255, 255, 255, 255),
               boxShadow: [
                 BoxShadow(
                   color: Color.fromARGB(255, 139, 139, 139),
