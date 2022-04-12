@@ -4,10 +4,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:intl/intl.dart';
 import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
 import 'package:projet_developement_nesquik/backend/Parcours.dart';
 import 'package:projet_developement_nesquik/backend/database.dart';
-import 'package:projet_developement_nesquik/page/Parcour.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import '../backend/loader.dart';
 import '../flutter_flow/flutter_flow_choice_chips.dart';
@@ -49,9 +49,9 @@ class _AddParcour extends State<AddParcour> {
       setMarker(
         MarkerId("romuald"),
         InfoWindow(
-          title: "romuald",
+          title: parcours.title,
           snippet:
-              "Cycling - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+              "${!boxeeeeee ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
         ),
         BitmapDescriptor.defaultMarker,
         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
@@ -134,7 +134,7 @@ class _AddParcour extends State<AddParcour> {
                               Container(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 width: 170,
-                                height: 50,
+                                height: 51,
                                 child: Column(
                                   children: [
                                     Text("Temps"),
@@ -145,7 +145,7 @@ class _AddParcour extends State<AddParcour> {
                               Container(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 width: 170,
-                                height: 50,
+                                height: 51,
                                 child: Column(
                                   children: [
                                     Text("Distance"),
@@ -163,7 +163,7 @@ class _AddParcour extends State<AddParcour> {
                               Container(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 width: 170,
-                                height: 50,
+                                height: 51,
                                 child: Column(
                                   children: [
                                     Text("Dénivelé"),
@@ -175,7 +175,7 @@ class _AddParcour extends State<AddParcour> {
                               Container(
                                 color: Color.fromARGB(255, 255, 255, 255),
                                 width: 170,
-                                height: 50,
+                                height: 51,
                                 child: Column(
                                   children: [
                                     Text("Vitesse moyenne"),
@@ -198,6 +198,8 @@ class _AddParcour extends State<AddParcour> {
                         ],
                         onChanged: (val) {
                           print(val.first);
+                          print("ok");
+                          print(parcours.type);
                           switch (val.first) {
                             case 'Privée':
                               setState(() => parcours.type = "private");
@@ -408,22 +410,27 @@ class _AddParcour extends State<AddParcour> {
                 padding: const EdgeInsets.symmetric(vertical: 16.0),
                 child: RaisedButton(
                   onPressed: () {
+                    print("ok");
+                    print(parcours.type);
                     var type;
                     switch (parcours.type) {
-                      case "Public":
+                      case "public":
                         type = "Public";
                         break;
-                      case "Protégée":
+                      case "protected":
                         type = "Protected";
                         break;
-                      case "Privée":
-                        type = "Private";
-                        break;
-                      default:
+                      case "private":
                         type = "Private";
                         break;
                     }
-                    print(parcours.title);
+                    print(type);
+                    parcours.temps = formatTime(bouuuuu);
+                    parcours.vitesse = (parcours.distance / bouuuuu) * 3.6e+6;
+                    parcours.denivele.add(calculEle(widget.dataElevation)[0]);
+                    parcours.denivele.add(calculEle(widget.dataElevation)[1]);
+                    parcours.date =
+                        DateFormat.yMMMEd().add_jm().format(DateTime.now());
                     DatabaseService database = DatabaseService();
                     database.UploadToStorage("parcours${type}", parcours.title,
                         widget.jsonData, parcours, context);
