@@ -1,3 +1,7 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:projet_developement_nesquik/backend/database.dart';
+
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import 'package:flutter/material.dart';
@@ -5,27 +9,31 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CourseDetails extends StatefulWidget {
-  const CourseDetails({Key key}) : super(key: key);
+  CourseDetails({Key key, this.data, this.document}) : super(key: key);
 
+  final DocumentSnapshot<Object> document;
+  final Map<String, dynamic> data;
   @override
   _CourseDetailsState createState() => _CourseDetailsState();
 }
 
 class _CourseDetailsState extends State<CourseDetails> {
   final scaffoldKey = GlobalKey<ScaffoldState>();
+  final DatabaseService database = DatabaseService();
 
   @override
   Widget build(BuildContext context) {
+    var data = widget.data;
     return Scaffold(
       key: scaffoldKey,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () {
-          print('FloatingActionButton pressed ...');
+          database.DeleteOneParcours(widget.document.id, context, data);
         },
-        backgroundColor: Color(0xFF0669A9),
+        backgroundColor: Color.fromARGB(255, 187, 1, 1),
         elevation: 8,
         label: Text(
-          'Edit',
+          'Supprimer',
           style: FlutterFlowTheme.of(context).bodyText1.override(
                 fontFamily: 'Lexend Deca',
                 color: Colors.white,
@@ -33,6 +41,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                 fontWeight: FontWeight.normal,
               ),
         ),
+        icon: Icon(Icons.delete_forever),
       ),
       body: Column(
         mainAxisSize: MainAxisSize.max,
@@ -48,15 +57,15 @@ class _CourseDetailsState extends State<CourseDetails> {
                   child: Stack(
                     alignment: AlignmentDirectional(-0.95, -0.7),
                     children: [
-                      Align(
-                        alignment: AlignmentDirectional(0, 0),
-                        child: Image.asset(
-                          'assets/images/ECED2980-86B9-4713-9459-9EE622B04DD8.JPG',
-                          width: MediaQuery.of(context).size.width,
-                          height: 240,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      // Align(
+                      //   alignment: AlignmentDirectional(0, 0),
+                      //   child: Image.asset(
+                      //     'assets/images/ECED2980-86B9-4713-9459-9EE622B04DD8.JPG',
+                      //     width: MediaQuery.of(context).size.width,
+                      //     height: 240,
+                      //     fit: BoxFit.cover,
+                      //   ),
+                      // ),
                       Align(
                         alignment: AlignmentDirectional(-0.95, -0.55),
                         child: InkWell(
@@ -111,7 +120,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                       child: Text(
-                        'Colombian (San Juan)',
+                        data["title"],
                         textAlign: TextAlign.start,
                         style: FlutterFlowTheme.of(context).title2.override(
                               fontFamily: 'Lexend Deca',
@@ -138,7 +147,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Coffee (g)',
+                      'Type',
                       style: FlutterFlowTheme.of(context).bodyText2.override(
                             fontFamily: 'Lexend Deca',
                             color: Color(0xFF8B97A2),
@@ -149,7 +158,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                       child: Text(
-                        '32g',
+                        data['type'],
                         textAlign: TextAlign.start,
                         style: FlutterFlowTheme.of(context).subtitle1.override(
                               fontFamily: 'Lexend Deca',
@@ -168,7 +177,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Water (g)',
+                        'Distance',
                         style: FlutterFlowTheme.of(context).bodyText2.override(
                               fontFamily: 'Lexend Deca',
                               color: Color(0xFF8B97A2),
@@ -179,7 +188,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                         child: Text(
-                          '456g',
+                          "${data['distance'].toStringAsFixed(2)}Km",
                           textAlign: TextAlign.start,
                           style:
                               FlutterFlowTheme.of(context).subtitle1.override(
@@ -200,7 +209,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Ratio',
+                        'Temps',
                         style: FlutterFlowTheme.of(context).bodyText2.override(
                               fontFamily: 'Lexend Deca',
                               color: Color(0xFF8B97A2),
@@ -211,7 +220,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                         child: Text(
-                          '1/17',
+                          data["temps"],
                           textAlign: TextAlign.start,
                           style:
                               FlutterFlowTheme.of(context).subtitle1.override(
@@ -241,7 +250,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Brew Time',
+                        'Vitesse Moyenne',
                         style: FlutterFlowTheme.of(context).bodyText2.override(
                               fontFamily: 'Lexend Deca',
                               color: Color(0xFF8B97A2),
@@ -252,13 +261,83 @@ class _CourseDetailsState extends State<CourseDetails> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                         child: Text(
-                          '4:30',
+                          "${data["vitesse"].toStringAsFixed(2)}Km/h",
                           textAlign: TextAlign.start,
                           style:
                               FlutterFlowTheme.of(context).subtitle2.override(
                                     fontFamily: 'Lexend Deca',
                                     color: Color(0xFF151B1E),
                                     fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                  ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(20, 8, 20, 0),
+            child: Row(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  mainAxisSize: MainAxisSize.max,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Dénivelé Positif',
+                      style: FlutterFlowTheme.of(context).bodyText2.override(
+                            fontFamily: 'Lexend Deca',
+                            color: Color(0xFF8B97A2),
+                            fontSize: 14,
+                            fontWeight: FontWeight.normal,
+                          ),
+                    ),
+                    Padding(
+                      padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                      child: Text(
+                        "${data['denivele'][0].toString()}m",
+                        textAlign: TextAlign.start,
+                        style: FlutterFlowTheme.of(context).subtitle1.override(
+                              fontFamily: 'Lexend Deca',
+                              color: Color(0xFF151B1E),
+                              fontSize: 18,
+                              fontWeight: FontWeight.w500,
+                            ),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(32, 0, 0, 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Dénivelé Positif',
+                        style: FlutterFlowTheme.of(context).bodyText2.override(
+                              fontFamily: 'Lexend Deca',
+                              color: Color(0xFF8B97A2),
+                              fontSize: 14,
+                              fontWeight: FontWeight.normal,
+                            ),
+                      ),
+                      Padding(
+                        padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
+                        child: Text(
+                          "${data['denivele'][1].toString()}m",
+                          textAlign: TextAlign.start,
+                          style:
+                              FlutterFlowTheme.of(context).subtitle1.override(
+                                    fontFamily: 'Lexend Deca',
+                                    color: Color(0xFF151B1E),
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w500,
                                   ),
                         ),
@@ -282,7 +361,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Grind Size',
+                        'Date',
                         style: FlutterFlowTheme.of(context).bodyText2.override(
                               fontFamily: 'Lexend Deca',
                               color: Color(0xFF8B97A2),
@@ -293,7 +372,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                         child: Text(
-                          '6.5',
+                          data["date"],
                           textAlign: TextAlign.start,
                           style:
                               FlutterFlowTheme.of(context).subtitle2.override(
@@ -334,7 +413,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                         child: Text(
-                          'The coffee was decent with notes of caramel, lemongrass, slight hit of berry.\n',
+                          data["description"],
                           textAlign: TextAlign.start,
                           style:
                               FlutterFlowTheme.of(context).subtitle2.override(
