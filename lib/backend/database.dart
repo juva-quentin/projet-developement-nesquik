@@ -281,6 +281,50 @@ class DatabaseService {
     await FirebaseFirestore.instance.collection('parcours').doc(id).delete();
   }
 
+  DeleteOneParcours(
+      String id, BuildContext context, Map<String, dynamic> data) async {
+    final storageRef = FirebaseStorage.instance.ref();
+    var ref;
+    switch (data['type']) {
+      case "public":
+        {
+          ref = "parcoursPublic";
+          break;
+        }
+      case "protected":
+        {
+          ref = "parcoursProtected";
+          break;
+        }
+      case "private":
+        {
+          ref = "parcoursPrivate";
+          break;
+        }
+
+        break;
+      default:
+    }
+    await FirebaseFirestore.instance.collection('parcours').doc(id).delete();
+
+    final desertRef = storageRef.child("${ref}/${data["title"]}.txt");
+    try {
+      final listResult = await desertRef.delete().then((value) async {
+        await FirebaseFirestore.instance
+            .collection('parcours')
+            .doc(id)
+            .delete();
+        Navigator.pop(context);
+      });
+    } on FirebaseException catch (e) {
+      // Caught an exception from Firebase.
+      print("Failed with error '${e.code}': ${e.message}");
+      if (e == null) {
+        print("success!delete all user parcours");
+      }
+    }
+  }
+
   int nbrDays() {
     var date = DateFormat.EEEE().format(DateTime.now());
     List<String> days = [
