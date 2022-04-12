@@ -36,9 +36,7 @@ final courses = FirebaseFirestore.instance.collection('parcours');
 Future getAllParcoursFromApi() async {
   getProtectedFromApi().then((value) => print("Protected_FromApi_Add"));
   getPrivateFromApi().then((value) => print("Private_FromApi_Add"));
-  print(urls_Private);
-  print(urls_Public);
-  print(urls_Protected);
+
   getPublicFromApi().then((value) => print("Public_FromApi_Add"));
 }
 
@@ -46,7 +44,7 @@ getLinksStorageParcours() async {
   await courses.get().then((QuerySnapshot snapshot) {
     snapshot.docs.forEach((DocumentSnapshot doc) {
       var mapCourseFireBase = Map<String, dynamic>.from(doc.data());
-      print("id" + "${doc.id}");
+      print(mapCourseFireBase['type'].runtimeType);
       switch (mapCourseFireBase['type']) {
         case "public":
           {
@@ -56,47 +54,52 @@ getLinksStorageParcours() async {
                 mapCourseFireBase['address'],
                 mapCourseFireBase['type'],
                 mapCourseFireBase['description'],
-                mapCourseFireBase['shareTo'],
                 mapCourseFireBase['distance'],
                 mapCourseFireBase['temps'],
-                mapCourseFireBase['denivele'],
-                mapCourseFireBase['vitesse'], mapCourseFireBase['date']);
+                mapCourseFireBase['vitesse'],
+                mapCourseFireBase['date']);
             urls_Public.add(parcours);
+            print(urls_Public);
             break;
           }
         case "protected":
           {
-            if (mapCourseFireBase['shareTo'].contains(currentUser.user.uid)) {
+            if (mapCourseFireBase['shareTo'].contains(currentUser.user.uid) ||
+                mapCourseFireBase['owner'] == currentUser.user.uid) {
+              print("primary_text");
               Parcours parcours = new Parcours(
                   mapCourseFireBase['owner'],
                   mapCourseFireBase['title'],
                   mapCourseFireBase['address'],
                   mapCourseFireBase['type'],
                   mapCourseFireBase['description'],
-                  mapCourseFireBase['shareTo'],
                   mapCourseFireBase['distance'],
                   mapCourseFireBase['temps'],
-                  mapCourseFireBase['denivele'],
-                  mapCourseFireBase['vitesse'],mapCourseFireBase['date']);
-              urls_Protected.add(mapCourseFireBase[parcours]);
+                  mapCourseFireBase['vitesse'],
+                  mapCourseFireBase['date']);
+              urls_Protected.add(parcours);
+              print(urls_Public);
             }
             break;
           }
         case "private":
           {
+            print(mapCourseFireBase['owner']);
+            print(currentUser.user.uid);
             if (mapCourseFireBase['owner'] == currentUser.user.uid) {
+              print("ok2");
               Parcours parcours = new Parcours(
                   mapCourseFireBase['owner'],
                   mapCourseFireBase['title'],
                   mapCourseFireBase['address'],
                   mapCourseFireBase['type'],
                   mapCourseFireBase['description'],
-                  mapCourseFireBase['shareTo'],
                   mapCourseFireBase['distance'],
                   mapCourseFireBase['temps'],
-                  mapCourseFireBase['denivele'],
-                  mapCourseFireBase['vitesse'],mapCourseFireBase['date']);
-              urls_Private.add(mapCourseFireBase[parcours]);
+                  mapCourseFireBase['vitesse'],
+                  mapCourseFireBase['date']);
+              urls_Private.add(parcours);
+              print(urls_Public);
             }
             break;
           }
@@ -161,12 +164,14 @@ Future getProtectedFromApi() async {
         double lng = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lon);
         double ele = double.parse(parcours.gpx.trk.trkseg.trkpt[y].ele);
         positions.add(LatLng(lat, lng));
+
         eles.add(ele);
       }
+
       listMarkerProtected.add(setMarker(
         MarkerId((i + 2).toString()),
         InfoWindow(
-          title: "${urls_Private[i].title}",
+          title: "${urls_Protected[i].title}",
           snippet:
               "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
         ),
@@ -201,7 +206,7 @@ Future getPublicFromApi() async {
       listMarkerPublic.add(setMarker(
         MarkerId((i + 3).toString()),
         InfoWindow(
-          title: "${urls_Private[i].title}",
+          title: "${urls_Public[i].title}",
           snippet:
               "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
         ),
