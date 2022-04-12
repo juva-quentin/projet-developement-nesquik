@@ -1,15 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:http/http.dart' as http;
 import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
+import 'package:projet_developement_nesquik/backend/Parcours.dart';
 import 'dart:convert';
 import 'Parcour.dart';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-List<String> urls_Protected = [];
-List<String> urls_Private = [];
-List<String> urls_Public = [];
+List<Parcours> urls_Protected = [];
+List<Parcours> urls_Private = [];
+List<Parcours> urls_Public = [];
 
 List<LatLng> parcourCreat = [];
 List<double> elevationCreat = [];
@@ -49,20 +50,53 @@ getLinksStorageParcours() async {
       switch (mapCourseFireBase['type']) {
         case "public":
           {
-            urls_Public.add(mapCourseFireBase['address']);
+            Parcours parcours = new Parcours(
+                mapCourseFireBase['owner'],
+                mapCourseFireBase['title'],
+                mapCourseFireBase['address'],
+                mapCourseFireBase['type'],
+                mapCourseFireBase['description'],
+                mapCourseFireBase['shareTo'],
+                mapCourseFireBase['distance'],
+                mapCourseFireBase['temps'],
+                mapCourseFireBase['denivele'],
+                mapCourseFireBase['vitesse']);
+            urls_Public.add(parcours);
             break;
           }
         case "protected":
           {
             if (mapCourseFireBase['shareTo'].contains(currentUser.user.uid)) {
-              urls_Protected.add(mapCourseFireBase['address']);
+              Parcours parcours = new Parcours(
+                  mapCourseFireBase['owner'],
+                  mapCourseFireBase['title'],
+                  mapCourseFireBase['address'],
+                  mapCourseFireBase['type'],
+                  mapCourseFireBase['description'],
+                  mapCourseFireBase['shareTo'],
+                  mapCourseFireBase['distance'],
+                  mapCourseFireBase['temps'],
+                  mapCourseFireBase['denivele'],
+                  mapCourseFireBase['vitesse']);
+              urls_Protected.add(mapCourseFireBase[parcours]);
             }
             break;
           }
         case "private":
           {
             if (mapCourseFireBase['owner'] == currentUser.user.uid) {
-              urls_Private.add(mapCourseFireBase['address']);
+              Parcours parcours = new Parcours(
+                  mapCourseFireBase['owner'],
+                  mapCourseFireBase['title'],
+                  mapCourseFireBase['address'],
+                  mapCourseFireBase['type'],
+                  mapCourseFireBase['description'],
+                  mapCourseFireBase['shareTo'],
+                  mapCourseFireBase['distance'],
+                  mapCourseFireBase['temps'],
+                  mapCourseFireBase['denivele'],
+                  mapCourseFireBase['vitesse']);
+              urls_Private.add(mapCourseFireBase[parcours]);
             }
             break;
           }
@@ -77,7 +111,7 @@ getLinksStorageParcours() async {
 
 Future getPrivateFromApi() async {
   for (var i = 0; i < urls_Private.length; i++) {
-    var response = await http.get(Uri.parse(urls_Private[i]));
+    var response = await http.get(Uri.parse(urls_Private[i].address));
     if (response.statusCode == 200) {
       List<LatLng> positions = [];
       List<double> eles = [];
@@ -95,7 +129,7 @@ Future getPrivateFromApi() async {
         setMarker(
           MarkerId(i.toString()),
           InfoWindow(
-            title: "${parcours.gpx.trk.name}",
+            title: "${urls_Private[i].title}",
             snippet:
                 "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
           ),
@@ -115,7 +149,7 @@ Future getPrivateFromApi() async {
 
 Future getProtectedFromApi() async {
   for (var i = 0; i < urls_Protected.length; i++) {
-    var response = await http.get(Uri.parse(urls_Protected[i]));
+    var response = await http.get(Uri.parse(urls_Protected[i].address));
     if (response.statusCode == 200) {
       List<LatLng> positions = [];
       List<double> eles = [];
@@ -132,7 +166,7 @@ Future getProtectedFromApi() async {
       listMarkerProtected.add(setMarker(
         MarkerId((i + 2).toString()),
         InfoWindow(
-          title: "${parcours.gpx.trk.name}",
+          title: "${urls_Private[i].title}",
           snippet:
               "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
         ),
@@ -151,7 +185,7 @@ Future getProtectedFromApi() async {
 
 Future getPublicFromApi() async {
   for (var i = 0; i < urls_Public.length; i++) {
-    var response = await http.get(Uri.parse(urls_Public[i]));
+    var response = await http.get(Uri.parse(urls_Public[i].address));
     if (response.statusCode == 200) {
       List<LatLng> positions = [];
       List<double> eles = [];
@@ -167,7 +201,7 @@ Future getPublicFromApi() async {
       listMarkerPublic.add(setMarker(
         MarkerId((i + 3).toString()),
         InfoWindow(
-          title: "${parcours.gpx.trk.name}",
+          title: "${urls_Private[i].title}",
           snippet:
               "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
         ),
