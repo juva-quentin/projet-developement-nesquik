@@ -11,6 +11,7 @@ class Parcours {
   String temps = "";
   List<double> denivele = [];
   double vitesse = 0.0;
+  String date = "";
 
 
   Parcours(
@@ -21,9 +22,10 @@ class Parcours {
       String description,
       List<String> shareTo,
       double distance,
-      int temps,
+      String temps,
       List<double> denivele,
-      double vitesse]) {
+      double vitesse,
+      String date]) {
     this.owner = owner;
     this.title = title;
     this.address = address;
@@ -34,6 +36,7 @@ class Parcours {
     this.temps = temps;
     this.denivele = denivele;
     this.vitesse = vitesse;
+    this.date = date;
   }
 
 }
