@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:projet_developement_nesquik/auth/auth_util.dart';
 import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
@@ -149,11 +150,8 @@ class DatabaseService {
     });
   }
 
-  UpdateProfile(
-    String pseudo,
-    String email,
-    String objectif,
-  ) async {
+  UpdateProfile(String pseudo, String email, String objectif,
+      BuildContext context) async {
     await FirebaseFirestore.instance
         .collection("users")
         .doc(currentUser.user.uid)
@@ -162,12 +160,21 @@ class DatabaseService {
       "email": email,
       "objectif": int.parse(objectif)
     }).then((_) {
-      changeEmail(email);
+      changeEmail(
+        email,
+      );
       print("success!new objectif");
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Paramètres mis à jour'),
+        ),
+      );
     });
   }
 
-  Future<void> changeEmail(String newEmail) async {
+  Future<void> changeEmail(
+    String newEmail,
+  ) async {
     if (newEmail != currentUser.user.email) {
       try {
         await currentUser.user.updateEmail(newEmail).then(

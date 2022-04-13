@@ -133,11 +133,15 @@ class _CommunityState extends State<Community> {
                                           : Color.fromARGB(255, 0, 117, 84)
                                       : Color.fromARGB(255, 0, 117, 84),
                                   onPressed: () {
-                                    if (data["friends"]
-                                        .contains(currentUser.user.uid)) {
-                                      database.RemoveFriend(document.id);
-                                    } else {
+                                    if (data["friends"] == null) {
                                       database.AddFriend(document.id);
+                                    } else {
+                                      if (data["friends"]
+                                          .contains(currentUser.user.uid)) {
+                                        database.RemoveFriend(document.id);
+                                      } else {
+                                        database.AddFriend(document.id);
+                                      }
                                     }
                                   },
                                 ),
