@@ -413,48 +413,57 @@ class MapSampleState extends State<MapSample> {
           bottom: 10,
           child: Container(
             width: 150,
-            child: FloatingActionButton.extended(
-              onPressed: () {
-                print("pressGO");
-                _startTimer();
-                if (geoloc2 == false) {
-                  setState(() {
-                    geoloc2 = true;
-                  });
-                  getCoordoFromPos();
-                } else {
-                  print("object");
-                  setState(() {
-                    geoloc2 = false;
-                  });
-                  getCoordoFromPos();
-                  if (_protection == 1) {
-                    affichagePublic();
-                  } else if (_protection == 2) {
-                    affichageProtected();
-                  } else if (_protection == 3) {
-                    affichagePrivate();
-                  }
+            child: TapDebouncer(onTap: () async {
+              _startCooldownIndicator(kCooldownLong_ms);
+
+              _incrementCounter();
+              print("pressGO");
+
+              _startTimer();
+              if (geoloc2 == false) {
+                setState(() {
+                  geoloc2 = true;
+                });
+                getCoordoFromPos();
+              } else {
+                print("object");
+                setState(() {
+                  geoloc2 = false;
+                });
+                getCoordoFromPos();
+                if (_protection == 1) {
+                  affichagePublic();
+                } else if (_protection == 2) {
+                  affichageProtected();
+                } else if (_protection == 3) {
+                  affichagePrivate();
                 }
-              },
-              label: !geoloc2 ? Text("GO") : Text("STOP"),
-              elevation: 0,
-              backgroundColor: !geoloc2
-                  ? Color(0xFF72B0EA)
-                  : Color.fromARGB(255, 190, 69, 69),
-              extendedTextStyle: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 28,
-              ),
-              shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(15),
-                  topRight: Radius.circular(15),
-                  bottomRight: Radius.circular(15),
-                  bottomLeft: Radius.circular(15),
+              }
+              await Future<void>.delayed(
+                Duration(milliseconds: kCooldownLong_ms),
+              );
+            }, builder: (_, TapDebouncerFunc onTap) {
+              return FloatingActionButton.extended(
+                onPressed: onTap,
+                label: !geoloc2 ? Text("GO") : Text("STOP"),
+                elevation: 0,
+                backgroundColor: !geoloc2
+                    ? Color(0xFF72B0EA)
+                    : Color.fromARGB(255, 190, 69, 69),
+                extendedTextStyle: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 28,
                 ),
-              ),
-            ),
+                shape: const RoundedRectangleBorder(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(15),
+                    topRight: Radius.circular(15),
+                    bottomRight: Radius.circular(15),
+                    bottomLeft: Radius.circular(15),
+                  ),
+                ),
+              );
+            }),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(15),
               boxShadow: [
