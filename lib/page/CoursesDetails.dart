@@ -1,12 +1,24 @@
+import 'dart:async';
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:projet_developement_nesquik/backend/database.dart';
+import 'package:projet_developement_nesquik/page/map.dart';
+import 'package:http/http.dart' as http;
 
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart';
+import '../flutter_flow/flutter_flow_util.dart' as fltflow;
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+
+import 'Parcour.dart';
+
+Set<Polyline> lines = {};
+Set<Marker> points = {};
+List<LatLng> positions = [];
 
 class CourseDetails extends StatefulWidget {
   CourseDetails({Key key, this.data, this.document}) : super(key: key);
@@ -18,8 +30,17 @@ class CourseDetails extends StatefulWidget {
 }
 
 class _CourseDetailsState extends State<CourseDetails> {
+  @override
+  void initState() {
+    getListPositions();
+    print("paulette - $positions");
+    super.initState();
+    print(positions);
+  }
+
   final scaffoldKey = GlobalKey<ScaffoldState>();
   final DatabaseService database = DatabaseService();
+  Completer<GoogleMapController> _controller = Completer();
 
   @override
   Widget build(BuildContext context) {
@@ -54,18 +75,10 @@ class _CourseDetailsState extends State<CourseDetails> {
               Expanded(
                 child: Container(
                   height: 240,
+                  color: Color.fromARGB(255, 205, 0, 0),
                   child: Stack(
                     alignment: AlignmentDirectional(-0.95, -0.7),
                     children: [
-                      // Align(
-                      //   alignment: AlignmentDirectional(0, 0),
-                      //   child: Image.asset(
-                      //     'assets/images/ECED2980-86B9-4713-9459-9EE622B04DD8.JPG',
-                      //     width: MediaQuery.of(context).size.width,
-                      //     height: 240,
-                      //     fit: BoxFit.cover,
-                      //   ),
-                      // ),
                       Align(
                         alignment: AlignmentDirectional(-0.95, -0.55),
                         child: InkWell(
@@ -74,7 +87,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                           },
                           child: Card(
                             clipBehavior: Clip.antiAliasWithSaveLayer,
-                            color: Color(0xFFF5F5F5),
+                            color: Color.fromARGB(255, 205, 0, 0),
                             elevation: 3,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(100),
@@ -90,6 +103,22 @@ class _CourseDetailsState extends State<CourseDetails> {
                             ),
                           ),
                         ),
+                      ),
+                      GoogleMap(
+                        rotateGesturesEnabled: false,
+                        scrollGesturesEnabled: false,
+                        zoomGesturesEnabled: false,
+                        zoomControlsEnabled: false,
+                        mapType: MapType.normal,
+                        myLocationEnabled: false,
+                        myLocationButtonEnabled: false,
+                        mapToolbarEnabled: false,
+                        initialCameraPosition: kPositionnementInitial,
+                        markers: points,
+                        polylines: lines,
+                        onMapCreated: (GoogleMapController controller) {
+                          _controller.complete(controller);
+                        },
                       ),
                     ],
                   ),
@@ -433,5 +462,38 @@ class _CourseDetailsState extends State<CourseDetails> {
         ],
       ),
     );
+  }
+
+  getListPositions() async {
+    String url = widget.data['address'];
+    var response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      var resp = json.decode(response.body);
+      var parcours = Parcour.fromJson(resp);
+      for (var y = 0; y < parcours.gpx.trk.trkseg.trkpt.length; y++) {
+        double lat = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lat);
+        double lng = double.parse(parcours.gpx.trk.trkseg.trkpt[y].lon);
+        positions.add(LatLng(lat, lng));
+      }
+    }
+    setState(() {
+      lines.add(setPolyline(
+        widget.data["title"],
+        positions,
+        Color.fromARGB(255, 55, 55, 55),
+      ));
+      points.add(
+        setMarker(
+          MarkerId(widget.data['title']),
+          InfoWindow(
+            title: "${widget.data["title"]}",
+            snippet:
+                "${widget.data["type"]} - ${widget.data["distance"].toStringAsFixed(2)} Km",
+          ),
+          BitmapDescriptor.defaultMarker,
+          LatLng(positions[0].latitude, positions[0].longitude),
+        ),
+      );
+    });
   }
 }

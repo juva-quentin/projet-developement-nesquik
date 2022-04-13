@@ -440,7 +440,7 @@ class MapSampleState extends State<MapSample> {
               label: !geoloc2 ? Text("GO") : Text("STOP"),
               elevation: 0,
               backgroundColor: !geoloc2
-                  ? Color.fromRGBO(114, 176, 234, 1)
+                  ? Color(0xFF72B0EA)
                   : Color.fromARGB(255, 190, 69, 69),
               extendedTextStyle: TextStyle(
                 fontWeight: FontWeight.bold,
