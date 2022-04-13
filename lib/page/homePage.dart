@@ -606,31 +606,57 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getCurrentLocation() async {
-    if (geoloc == false) {
-      _locationSubscription.cancel();
-    } else {
-      try {
-        var location = await _locationTracker.getLocation();
+    try {
+      if (geoloc == false) {
+        _locationSubscription.cancel();
+      } else {
+        try {
+          var location = await _locationTracker.getLocation();
 
-        updateMarkerAndCircle(location);
+          updateMarkerAndCircle(location);
 
-        _locationSubscription =
-            _locationTracker.onLocationChanged.listen((newLocalData) {
-          if (_controller != null) {
-            _controller.animateCamera(CameraUpdate.newCameraPosition(
-                new CameraPosition(
-                    bearing: newLocalData.heading,
-                    target: google.LatLng(
-                        newLocalData.latitude, newLocalData.longitude),
-                    zoom: 18.00)));
-            updateMarkerAndCircle(newLocalData);
+          _locationSubscription =
+              _locationTracker.onLocationChanged.listen((newLocalData) {
+            if (_controller != null) {
+              _controller.animateCamera(CameraUpdate.newCameraPosition(
+                  new CameraPosition(
+                      bearing: newLocalData.heading,
+                      target: google.LatLng(
+                          newLocalData.latitude, newLocalData.longitude),
+                      zoom: 18.00)));
+              updateMarkerAndCircle(newLocalData);
+            }
+          });
+        } on PlatformException catch (e) {
+          if (e.code == 'PERMISSION_DENIED') {
+            debugPrint("Permission Denied");
           }
-        });
-      } on PlatformException catch (e) {
-        if (e.code == 'PERMISSION_DENIED') {
-          debugPrint("Permission Denied");
         }
       }
+    } catch (e) {
+      AlertDialog dialog = AlertDialog(
+          title: Text("ERREUR !"),
+          content: Text(
+              "Veuillez activer la Geolocalisation dans vos paramètres pour utiliser l'application !"),
+          actions: [
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop("Compris");
+              },
+            ),
+          ]);
+      Future<String> futureValue = showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return dialog;
+          });
+      Stream<String> stream = futureValue.asStream();
+      stream.listen((String data) {}, onDone: () {
+        print("Done!");
+      }, onError: (error) {
+        print("Error! " + error.toString());
+      });
     }
   }
 
@@ -665,63 +691,89 @@ class MapSampleState extends State<MapSample> {
   }
 
   void validateCoordo(String erve) async {
-    Polyline polyline = setPolyline(
-      "New Traject",
-      parcourCreat,
-      Color.fromARGB(255, 110, 110, 110),
-    );
-    print("erve: ${erve}");
+    try {
+      Polyline polyline = setPolyline(
+        "New Traject",
+        parcourCreat,
+        Color.fromARGB(255, 110, 110, 110),
+      );
+      print("erve: ${erve}");
 
-    listPolylinePrivate.add(polyline);
-    listMarkerPrivate.add(
-      setMarker(
-        MarkerId("romuald"),
-        InfoWindow(
-          title: "New Traject",
-          snippet:
-              "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+      listPolylinePrivate.add(polyline);
+      listMarkerPrivate.add(
+        setMarker(
+          MarkerId("romuald"),
+          InfoWindow(
+            title: "New Traject",
+            snippet:
+                "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+          ),
+          BitmapDescriptor.defaultMarker,
+          LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
         ),
-        BitmapDescriptor.defaultMarker,
-        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-      ),
-    );
-    listPolylineProtected.add(polyline);
-    listMarkerProtected.add(
-      setMarker(
-        MarkerId("romuald"),
-        InfoWindow(
-          title: "New Traject",
-          snippet:
-              "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+      );
+      listPolylineProtected.add(polyline);
+      listMarkerProtected.add(
+        setMarker(
+          MarkerId("romuald"),
+          InfoWindow(
+            title: "New Traject",
+            snippet:
+                "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+          ),
+          BitmapDescriptor.defaultMarker,
+          LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
         ),
-        BitmapDescriptor.defaultMarker,
-        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-      ),
-    );
-    listPolylinePublic.add(polyline);
-    listMarkerPublic.add(
-      setMarker(
-        MarkerId("romuald"),
-        InfoWindow(
-          title: "New Traject",
-          snippet:
-              "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+      );
+      listPolylinePublic.add(polyline);
+      listMarkerPublic.add(
+        setMarker(
+          MarkerId("romuald"),
+          InfoWindow(
+            title: "New Traject",
+            snippet:
+                "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+          ),
+          BitmapDescriptor.defaultMarker,
+          LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
         ),
-        BitmapDescriptor.defaultMarker,
-        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-      ),
-    );
+      );
 
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => AddParcour(
-                jsonData: erve,
-                dataLocation: parcourCreat,
-                dataElevation: elevationCreat,
-              )),
-    );
-    getLinksStorageParcours();
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AddParcour(
+                  jsonData: erve,
+                  dataLocation: parcourCreat,
+                  dataElevation: elevationCreat,
+                )),
+      );
+      getLinksStorageParcours();
+    } catch (e) {
+      AlertDialog dialog = AlertDialog(
+          title: Text("ERREUR !"),
+          content: Text(
+              "Une erreur est survenue, Vérifiez que la géolocalisation est bien activée. Ou bien essayez de vous déplacer plus !"),
+          actions: [
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop("Compris");
+              },
+            ),
+          ]);
+      Future<String> futureValue = showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return dialog;
+          });
+      Stream<String> stream = futureValue.asStream();
+      stream.listen((String data) {}, onDone: () {
+        print("Done!");
+      }, onError: (error) {
+        print("Error! " + error.toString());
+      });
+    }
   }
 
   @override
