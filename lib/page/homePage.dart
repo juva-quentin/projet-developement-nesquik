@@ -637,12 +637,12 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
-  List<Trkpt> maurice = [];
+  List<List<Trkpt>> albert = [];
 
   void getCoordoFromPos() async {
     if (geoloc2 == false) {
       _locationForRecord.cancel();
-      Trkseg jack = new Trkseg(maurice);
+      Trkseg jack = new Trkseg(albert.last);
 
       Trk alain = new Trk("alain", !activitie ? "Bike" : "Motorbike", jack);
 
@@ -652,6 +652,7 @@ class MapSampleState extends State<MapSample> {
       var erve = jsonEncode(greg);
       validateCoordo(erve);
     } else {
+      List<Trkpt> maurice = [];
       parcourCreat.clear();
       elevationCreat.clear();
       _locationForRecord =
@@ -664,56 +665,25 @@ class MapSampleState extends State<MapSample> {
             newLocalData.altitude.toString());
         maurice.add(paul);
       });
+      albert.add(maurice);
     }
   }
 
   void validateCoordo(String erve) async {
-    Polyline polyline = setPolyline(
-      "New Traject",
-      parcourCreat,
-      Color.fromARGB(255, 110, 110, 110),
-    );
-    print("erve: ${erve}");
+    setState(() {
+      Polyline polyline = setPolyline(
+        "New Traject",
+        parcourCreat,
+        Color.fromARGB(255, 110, 110, 110),
+      );
+      listPolylinePrivate.add(polyline);
+      listMarkerPrivate.add(marker);
+      listPolylineProtected.add(polyline);
+      listMarkerProtected.add(marker);
+      listPolylinePublic.add(polyline);
+      listMarkerPublic.add(marker);
+    });
 
-    listPolylinePrivate.add(polyline);
-    listMarkerPrivate.add(
-      setMarker(
-        MarkerId("romuald"),
-        InfoWindow(
-          title: "New Traject",
-          snippet:
-              "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
-        ),
-        BitmapDescriptor.defaultMarker,
-        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-      ),
-    );
-    listPolylineProtected.add(polyline);
-    listMarkerProtected.add(
-      setMarker(
-        MarkerId("romuald"),
-        InfoWindow(
-          title: "New Traject",
-          snippet:
-              "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
-        ),
-        BitmapDescriptor.defaultMarker,
-        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-      ),
-    );
-    listPolylinePublic.add(polyline);
-    listMarkerPublic.add(
-      setMarker(
-        MarkerId("romuald"),
-        InfoWindow(
-          title: "New Traject",
-          snippet:
-              "${!activitie ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
-        ),
-        BitmapDescriptor.defaultMarker,
-        LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
-      ),
-    );
     Navigator.push(
       context,
       MaterialPageRoute(
