@@ -174,7 +174,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Type',
+                      'Etendue',
                       style: FlutterFlowTheme.of(context).bodyText2.override(
                             fontFamily: 'Lexend Deca',
                             color: Color(0xFF8B97A2),

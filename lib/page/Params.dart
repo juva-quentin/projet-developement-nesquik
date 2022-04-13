@@ -143,7 +143,7 @@ class _UserInformationState extends State<UserInformation> {
                       buildTextField("E-mail", snapshot.data["email"], false,
                           emailController),
                       buildTextField(
-                          "objectif de la semaine(km)",
+                          "Objectif de la semaine (km)",
                           snapshot.data["objectif"].toString(),
                           false,
                           objectifController),

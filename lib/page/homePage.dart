@@ -173,7 +173,7 @@ class MapSampleState extends State<MapSample> {
           onPressed: () {
             _showOverlay(context);
           },
-          label: const Text("My Profil"),
+          label: const Text("Mon Profil"),
           icon: Icon(Icons.account_box_rounded),
           shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.only(
@@ -231,7 +231,7 @@ class MapSampleState extends State<MapSample> {
                         }
                       }
                     },
-                    label: !activitie ? Text("Bike") : Text("Motorbike"),
+                    label: !activitie ? Text("Vélo") : Text("Moto"),
                     icon: !activitie
                         ? Icon(Icons.pedal_bike)
                         : Icon(Icons.motorcycle_rounded),
@@ -644,7 +644,7 @@ class MapSampleState extends State<MapSample> {
         new Gpx(
           new Trk(
             "alain",
-            !activitie ? "Bike" : "Motorbike",
+            !activitie ? "Vélo" : "Moto",
             new Trkseg(albert.last),
           ),
         ),
@@ -695,7 +695,7 @@ class MapSampleState extends State<MapSample> {
         InfoWindow(
           title: "New Traject",
           snippet:
-              "${!boxeeeeee ? "Bike" : "Motorbike"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+              "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
         ),
         BitmapDescriptor.defaultMarker,
         LatLng(ff[0].latitude, ff[0].longitude),
@@ -707,7 +707,7 @@ class MapSampleState extends State<MapSample> {
         InfoWindow(
           title: "New Traject",
           snippet:
-              "${!boxeeeeee ? "Bike" : "Motorbike"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+              "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
         ),
         BitmapDescriptor.defaultMarker,
         LatLng(ff[0].latitude, ff[0].longitude),
@@ -717,16 +717,14 @@ class MapSampleState extends State<MapSample> {
           ff.first.latitude.toString(),
         ),
         InfoWindow(
-          title: "New Traject",
+          title: "Nouveau trajet",
           snippet:
-              "${!boxeeeeee ? "Bike" : "Motorbike"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+              "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
         ),
         BitmapDescriptor.defaultMarker,
-
         LatLng(ff[0].latitude, ff[0].longitude),
       ));
     }
-
 
     Navigator.push(
       context,
