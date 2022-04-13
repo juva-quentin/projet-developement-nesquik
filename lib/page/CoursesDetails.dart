@@ -33,9 +33,7 @@ class _CourseDetailsState extends State<CourseDetails> {
   @override
   void initState() {
     getListPositions();
-    print("paulette - $positions");
     super.initState();
-    print(positions);
   }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -119,6 +117,31 @@ class _CourseDetailsState extends State<CourseDetails> {
                         onMapCreated: (GoogleMapController controller) {
                           _controller.complete(controller);
                         },
+                      ),
+                      Align(
+                        alignment: AlignmentDirectional(-0.95, -0.55),
+                        child: InkWell(
+                          onTap: () async {
+                            Navigator.pop(context);
+                          },
+                          child: Card(
+                            clipBehavior: Clip.antiAliasWithSaveLayer,
+                            color: Color.fromARGB(255, 255, 255, 255),
+                            elevation: 3,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsetsDirectional.fromSTEB(
+                                  10, 10, 10, 10),
+                              child: Icon(
+                                Icons.arrow_back_rounded,
+                                color: Color(0xFF0669A9),
+                                size: 24,
+                              ),
+                            ),
+                          ),
+                        ),
                       ),
                     ],
                   ),
