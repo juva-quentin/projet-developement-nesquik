@@ -78,8 +78,8 @@ class _UserInformationState extends State<UserInformation> {
             hintText: placeholder,
             hintStyle: TextStyle(
               fontSize: 16,
-              fontWeight: FontWeight.bold,
-              color: Colors.black,
+              fontWeight: FontWeight.normal,
+              color: Color.fromARGB(255, 168, 168, 168),
             )),
       ),
     );
@@ -169,13 +169,14 @@ class _UserInformationState extends State<UserInformation> {
                           if (objectif == "") {
                             objectif = snapshot.data["objectif"].toString();
                           }
-                          database.UpdateProfile(pseudo, email, objectif);
+                          database.UpdateProfile(
+                              pseudo, email, objectif, context);
                         },
                         style: ElevatedButton.styleFrom(
                           primary: Color(0xFF72B0EA),
                         ),
                         child: Text(
-                          "SAVE",
+                          "SAUVEGARDER",
                           style: TextStyle(
                               fontSize: 19,
                               letterSpacing: 2.2,
@@ -193,7 +194,7 @@ class _UserInformationState extends State<UserInformation> {
                           primary: Color.fromARGB(255, 6, 167, 164),
                         ),
                         child: Text(
-                          "RESET PASSWORD",
+                          "CHANGER MOT DE PASSE",
                           style: TextStyle(
                               fontSize: 19,
                               letterSpacing: 2.2,
@@ -206,7 +207,6 @@ class _UserInformationState extends State<UserInformation> {
                       ElevatedButton(
                         onPressed: () async {
                           database.DeleteUser(context);
-                          Navigator.pop(context);
                           await Navigator.push(
                               context,
                               PageTransition(
@@ -220,7 +220,7 @@ class _UserInformationState extends State<UserInformation> {
                           primary: Color.fromARGB(255, 255, 30, 0),
                         ),
                         child: Text(
-                          "DELETE PROFILE",
+                          "SUPPRIMER VOTRE COMPTE",
                           style: TextStyle(
                               fontSize: 19,
                               letterSpacing: 2.2,
