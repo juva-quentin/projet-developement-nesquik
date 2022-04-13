@@ -32,9 +32,13 @@ void main() async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await FlutterFlowTheme.initialize();
-  var location = new Location();
-  var currentLocation = await location.getLocation();
-  runApp(MyApp());
+  try {
+    runApp(MyApp());
+    var location = new Location();
+    var currentLocation = await location.getLocation();
+  } catch (e) {
+    print("pas accepté");
+  }
 }
 
 class MyApp extends StatefulWidget {
