@@ -211,8 +211,8 @@ Widget _buildObjectifOverlay(BuildContext context) {
     }
     if (result <= 0) {
       return 0.0;
-    } else if (result > 100) {
-      return 100;
+    } else if (result > 1) {
+      return 1 / 6;
     } else {
       return result;
     }
