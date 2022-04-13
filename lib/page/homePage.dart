@@ -418,7 +418,6 @@ class MapSampleState extends State<MapSample> {
 
               _incrementCounter();
               print("pressGO");
-
               _startTimer();
               if (geoloc2 == false) {
                 setState(() {

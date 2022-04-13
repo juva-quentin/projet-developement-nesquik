@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:location/location.dart';
 import 'package:projet_developement_nesquik/backend/database.dart';
 import 'package:projet_developement_nesquik/page/homePage.dart';
 import 'auth/firebase_user_provider.dart';
@@ -31,6 +32,8 @@ void main() async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await FlutterFlowTheme.initialize();
+  var location = new Location();
+  var currentLocation = await location.getLocation();
   runApp(MyApp());
 }
 
