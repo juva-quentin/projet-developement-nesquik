@@ -73,35 +73,10 @@ class _CourseDetailsState extends State<CourseDetails> {
               Expanded(
                 child: Container(
                   height: 240,
-                  color: Color.fromARGB(255, 205, 0, 0),
+                  color: Color.fromARGB(255, 255, 255, 255),
                   child: Stack(
                     alignment: AlignmentDirectional(-0.95, -0.7),
                     children: [
-                      Align(
-                        alignment: AlignmentDirectional(-0.95, -0.55),
-                        child: InkWell(
-                          onTap: () async {
-                            Navigator.pop(context);
-                          },
-                          child: Card(
-                            clipBehavior: Clip.antiAliasWithSaveLayer,
-                            color: Color.fromARGB(255, 205, 0, 0),
-                            elevation: 3,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(100),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsetsDirectional.fromSTEB(
-                                  10, 10, 10, 10),
-                              child: Icon(
-                                Icons.arrow_back_rounded,
-                                color: Color(0xFF0669A9),
-                                size: 24,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
                       GoogleMap(
                         rotateGesturesEnabled: false,
                         scrollGesturesEnabled: false,
