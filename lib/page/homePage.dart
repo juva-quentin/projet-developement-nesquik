@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'dart:io';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
@@ -35,7 +36,7 @@ class MapSampleState extends State<MapSample> {
   Marker marker;
   Circle circle;
   bool geoloc = false;
-  bool geoloc2 = false;
+  bool isRec = false;
   bool activitie = false;
   int idError = 1;
   int kCooldownLong_ms = 700;
@@ -212,7 +213,7 @@ class MapSampleState extends State<MapSample> {
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn1",
                     onPressed: () {
-                      if (geoloc2) {
+                      if (isRec) {
                         setState(() {
                           idError = 1;
                         });
@@ -261,7 +262,7 @@ class MapSampleState extends State<MapSample> {
                   child: FloatingActionButton.extended(
                     heroTag: "OptionBtn2",
                     onPressed: () {
-                      if (geoloc2) {
+                      if (isRec) {
                         setState(() {
                           idError = 2;
                         });
@@ -420,15 +421,15 @@ class MapSampleState extends State<MapSample> {
               print("pressGO");
 
               _startTimer();
-              if (geoloc2 == false) {
+              if (isRec == false) {
                 setState(() {
-                  geoloc2 = true;
+                  isRec = true;
                 });
                 getCoordoFromPos();
               } else {
                 print("object");
                 setState(() {
-                  geoloc2 = false;
+                  isRec = false;
                 });
                 getCoordoFromPos();
                 if (_protection == 1) {
@@ -445,9 +446,9 @@ class MapSampleState extends State<MapSample> {
             }, builder: (_, TapDebouncerFunc onTap) {
               return FloatingActionButton.extended(
                 onPressed: onTap,
-                label: !geoloc2 ? Text("GO") : Text("STOP"),
+                label: !isRec ? Text("GO") : Text("STOP"),
                 elevation: 0,
-                backgroundColor: !geoloc2
+                backgroundColor: !isRec
                     ? Color(0xFF72B0EA)
                     : Color.fromARGB(255, 190, 69, 69),
                 extendedTextStyle: TextStyle(
@@ -640,16 +641,18 @@ class MapSampleState extends State<MapSample> {
   List<List<Trkpt>> albert = [];
 
   void getCoordoFromPos() async {
-    if (geoloc2 == false) {
+    if (isRec == false) {
       _locationForRecord.cancel();
-      Trkseg jack = new Trkseg(albert.last);
-
-      Trk alain = new Trk("alain", !activitie ? "Bike" : "Motorbike", jack);
-
-      Gpx jp = new Gpx(alain);
-      Parcour jean = new Parcour(jp);
-      var greg = jean.toJson();
-      var erve = jsonEncode(greg);
+      Parcour jean = new Parcour(
+        new Gpx(
+          new Trk(
+            "alain",
+            !activitie ? "Bike" : "Motorbike",
+            new Trkseg(albert.last),
+          ),
+        ),
+      );
+      String erve = jsonEncode(jean.toJson());
       validateCoordo(erve);
     } else {
       List<Trkpt> maurice = [];
@@ -670,19 +673,61 @@ class MapSampleState extends State<MapSample> {
   }
 
   void validateCoordo(String erve) async {
-    setState(() {
-      Polyline polyline = setPolyline(
-        "New Traject",
-        parcourCreat,
-        Color.fromARGB(255, 110, 110, 110),
-      );
-      listPolylinePrivate.add(polyline);
-      listMarkerPrivate.add(marker);
-      listPolylineProtected.add(polyline);
-      listMarkerProtected.add(marker);
-      listPolylinePublic.add(polyline);
-      listMarkerPublic.add(marker);
-    });
+    List<List<LatLng>> heheh = [];
+
+    for (var item in albert) {
+      List<LatLng> save = [];
+      for (var i = 0; i < item.length; i++) {
+        save.add(LatLng(double.parse(item[i].lat), double.parse(item[i].lon)));
+      }
+      heheh.add(save);
+    }
+
+    for (var ff in heheh) {
+      listPolylinePrivate
+          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+      listPolylinePublic
+          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+      listPolylineProtected
+          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+
+      listMarkerPrivate.add(setMarker(
+        MarkerId(
+          ff.first.latitude.toString(),
+        ),
+        InfoWindow(
+          title: "New Traject",
+          snippet:
+              "${!boxeeeeee ? "Bike" : "Motorbike"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+        ),
+        BitmapDescriptor.defaultMarker,
+        LatLng(ff[0].latitude, ff[0].longitude),
+      ));
+      listMarkerPublic.add(setMarker(
+        MarkerId(
+          ff.first.latitude.toString(),
+        ),
+        InfoWindow(
+          title: "New Traject",
+          snippet:
+              "${!boxeeeeee ? "Bike" : "Motorbike"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+        ),
+        BitmapDescriptor.defaultMarker,
+        LatLng(ff[0].latitude, ff[0].longitude),
+      ));
+      listMarkerProtected.add(setMarker(
+        MarkerId(
+          ff.first.latitude.toString(),
+        ),
+        InfoWindow(
+          title: "New Traject",
+          snippet:
+              "${!boxeeeeee ? "Bike" : "Motorbike"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+        ),
+        BitmapDescriptor.defaultMarker,
+        LatLng(ff[0].latitude, ff[0].longitude),
+      ));
+    }
 
     Navigator.push(
       context,
