@@ -212,7 +212,7 @@ Widget _buildObjectifOverlay(BuildContext context) {
     if (result <= 0) {
       return 0.0;
     } else if (result > 1) {
-      return 1 / 6;
+      return 1.0;
     } else {
       return result;
     }

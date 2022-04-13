@@ -4,7 +4,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:intl/intl.dart ';
+import 'package:intl/intl.dart';
 import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
 import 'package:projet_developement_nesquik/backend/Parcours.dart';
 import 'package:projet_developement_nesquik/backend/database.dart';
