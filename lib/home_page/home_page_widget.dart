@@ -228,6 +228,8 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                         fontWeight:
                                                             FontWeight.normal,
                                                       ),
+                                                  keyboardType: TextInputType
+                                                      .emailAddress,
                                                   validator: (val) {
                                                     if (val.isEmpty) {
                                                       return 'Field is required';

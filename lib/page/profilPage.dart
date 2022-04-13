@@ -204,7 +204,7 @@ Widget _buildObjectifOverlay(BuildContext context) {
     }
   }
 
-  double _advencement(int objectif, double advencement) {
+  double _advencement(int objectif, advencement) {
     double result = ((advencement * 100) / objectif) / 100;
     if (objectif == 0) {
       return 0.0;
