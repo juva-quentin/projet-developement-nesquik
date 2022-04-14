@@ -50,6 +50,7 @@ class _CoursesState extends State<Courses> {
                   builder: (BuildContext context,
                       AsyncSnapshot<QuerySnapshot> snapshot) {
                     if (snapshot.hasError) {
+                      print("Error: " + snapshot.error.toString());
                       return Text('Something went wrong');
                     }
 
@@ -58,13 +59,13 @@ class _CoursesState extends State<Courses> {
                           [Colors.black, Colors.white, Colors.blue],
                           Duration(seconds: 3));
                     }
-
+                    print(snapshot.data.docs);
                     return ListView(
                       children:
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> data =
                             document.data() as Map<String, dynamic>;
-                        print(DateFormat('yMMMEd', 'fr').parse(data["date"]));
+
                         return SingleChildScrollView(
                           child: Column(
                             mainAxisSize: MainAxisSize.max,

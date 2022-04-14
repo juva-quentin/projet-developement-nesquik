@@ -6,6 +6,7 @@ import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:projet_developement_nesquik/auth/auth_util.dart';
 import 'package:intl/intl.dart';
 import 'package:projet_developement_nesquik/page/Amis.dart';
+import 'package:projet_developement_nesquik/page/Classement.dart';
 import 'package:projet_developement_nesquik/page/Courses.dart';
 import 'package:projet_developement_nesquik/page/Params.dart';
 import '../home_page/home_page_widget.dart';
@@ -296,6 +297,7 @@ Widget _buildBottomOverlay(BuildContext context) {
   var choices = [
     {"name": "Mes courses", "route": Courses()},
     {"name": "Mes amis", "route": Amis()},
+    {"name": "Classement", "route": Classement()},
     {"name": "Mes paramètres", "route": Params()},
   ];
   return Column(

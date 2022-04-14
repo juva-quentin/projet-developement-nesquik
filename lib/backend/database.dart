@@ -61,7 +61,8 @@ class DatabaseService {
       "denivele": parcours.denivele,
       "vitesse": parcours.vitesse,
       "date": parcours.date,
-      "startPoint": parcours.startPoint
+      "startPoint": parcours.startPoint,
+      "creationDate": parcours.creationDate,
     }).then((value) async {
       await UpdateObjectif(parcours.distance).then((value) {
         Navigator.pop(context);
