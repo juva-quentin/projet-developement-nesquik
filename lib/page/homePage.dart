@@ -637,7 +637,7 @@ class MapSampleState extends State<MapSample> {
       AlertDialog dialog = AlertDialog(
           title: Text("ERREUR !"),
           content: Text(
-              "Veuillez activer la Geolocalisation dans vos paramètres pour utiliser l'application !"),
+              "Veuillez activer la geolocalisation dans vos paramètres pour utiliser l'application !"),
           actions: [
             ElevatedButton(
               child: Text("OK"),

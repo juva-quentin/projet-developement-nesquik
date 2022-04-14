@@ -81,8 +81,14 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Image.asset(
+                                  'assets/images/avatar-planet-ride-big-orange.png',
+                                  width: 120,
+                                  height: 120,
+                                  fit: BoxFit.cover,
+                                ),
                                 Text(
-                                  'Welcome Back,',
+                                  'Bon retour parmi nous,',
                                   style: FlutterFlowTheme.of(context)
                                       .title1
                                       .override(
@@ -92,13 +98,13 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                       ),
                                 ),
                                 Text(
-                                  'Sign in to continue',
+                                  'Connectez-vous pour continuer',
                                   style: FlutterFlowTheme.of(context)
                                       .bodyText1
                                       .override(
                                         fontFamily: 'Poppins',
                                         color: Color(0xFF487DAE),
-                                        fontSize: 18,
+                                        fontSize: 16,
                                       ),
                                 ),
                               ],
@@ -232,7 +238,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       .emailAddress,
                                                   validator: (val) {
                                                     if (val.isEmpty) {
-                                                      return 'Field is required';
+                                                      return 'Le champ est requis';
                                                     }
 
                                                     return null;
@@ -351,7 +357,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     ),
                                                 validator: (val) {
                                                   if (val.isEmpty) {
-                                                    return 'Field is required';
+                                                    return 'Le champ est requis';
                                                   }
 
                                                   return null;
@@ -365,7 +371,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                 onPressed: () {
                                                   print('Button pressed ...');
                                                 },
-                                                text: 'Forgot password',
+                                                text: 'Mot de passe oublié',
                                                 options: FFButtonOptions(
                                                   width: 150,
                                                   height: 40,
@@ -449,7 +455,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                     AlignmentDirectional(0, 0),
                                                 child: Padding(
                                                   padding: EdgeInsetsDirectional
-                                                      .fromSTEB(0, 70, 75, 0),
+                                                      .fromSTEB(0, 70, 90, 0),
                                                   child: Text(
                                                     'Vous êtes nouveau ?',
                                                     style: FlutterFlowTheme.of(
@@ -483,7 +489,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                                       ),
                                                     );
                                                   },
-                                                  text: 'Signup',
+                                                  text: 'S\'inscrire',
                                                   options: FFButtonOptions(
                                                     width: 100,
                                                     height: 40,

@@ -1,10 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:location/location.dart';
-import 'package:projet_developement_nesquik/backend/database.dart';
 import 'package:projet_developement_nesquik/page/homePage.dart';
 import 'auth/firebase_user_provider.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
@@ -33,12 +30,6 @@ void main() async {
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await FlutterFlowTheme.initialize();
   runApp(MyApp());
-  // try {
-  //   Location location = new Location();
-  //   location.getLocation();
-  // } catch (e) {
-  //   print(e.message);
-  // }
 }
 
 class MyApp extends StatefulWidget {

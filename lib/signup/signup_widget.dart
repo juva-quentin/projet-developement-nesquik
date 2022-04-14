@@ -86,8 +86,14 @@ class _SignupWidgetState extends State<SignupWidget> {
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
+                                    Image.asset(
+                                      'assets/images/avatar-planet-ride-big-orange.png',
+                                      width: 100,
+                                      height: 100,
+                                      fit: BoxFit.cover,
+                                    ),
                                     Text(
-                                      'Welcome,',
+                                      'Bienvenue,',
                                       style: FlutterFlowTheme.of(context)
                                           .title1
                                           .override(
@@ -97,7 +103,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                           ),
                                     ),
                                     Text(
-                                      'Sign up to continue',
+                                      'Inscrivez-vous pour continuer',
                                       style: FlutterFlowTheme.of(context)
                                           .bodyText1
                                           .override(
@@ -484,7 +490,10 @@ class _SignupWidgetState extends State<SignupWidget> {
                                       padding: EdgeInsetsDirectional.fromSTEB(
                                           30, 35, 0, 0),
                                       child: FlutterFlowChoiceChips(
-                                        initiallySelected: [choiceChipsValue],
+                                        initiallySelected:
+                                            choiceChipsValue != null
+                                                ? [choiceChipsValue]
+                                                : ['Homme'],
                                         options: [
                                           ChipData('Homme'),
                                           ChipData('Femme'),
@@ -520,9 +529,11 @@ class _SignupWidgetState extends State<SignupWidget> {
                                         ),
                                         chipSpacing: 20,
                                         multiselect: false,
+                                        initialized: choiceChipsValue != null,
+                                        alignment: WrapAlignment.start,
                                       ),
                                     ),
-                                  ),
+                                  )
                                 ],
                               ),
                             ),
@@ -541,7 +552,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                'Passwords don\'t match!',
+                                                'Mot de passe pas identique',
                                               ),
                                             ),
                                           );
@@ -611,7 +622,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                     ),
                                     Padding(
                                       padding: EdgeInsetsDirectional.fromSTEB(
-                                          140, 39, 0, 0),
+                                          160, 39, 0, 0),
                                       child: FFButtonWidget(
                                         onPressed: () async {
                                           await Navigator.push(
@@ -627,7 +638,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                             ),
                                           );
                                         },
-                                        text: 'Sign in',
+                                        text: 'Se connecter',
                                         options: FFButtonOptions(
                                           width: 130,
                                           height: 40,
