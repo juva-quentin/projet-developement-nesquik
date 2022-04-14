@@ -89,7 +89,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                         mapToolbarEnabled: false,
                         initialCameraPosition: CameraPosition(
                             target: LatLng(
-                                positions[0].latitude, positions[0].longitude),
+                                data["startPoint"][0], data["startPoint"][1]),
                             zoom: 10),
                         markers: points2,
                         polylines: lines2,
