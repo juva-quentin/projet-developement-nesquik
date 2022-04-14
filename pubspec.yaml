@@ -56,6 +56,7 @@ dependencies:
   tap_debouncer: ^2.0.2
   firebase_storage: ^10.2.10
   stop_watch_timer: ^1.1.0+1
+  geolocator: ^8.2.0
 
 dev_dependencies:
   flutter_test:

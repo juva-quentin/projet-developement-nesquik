@@ -36,6 +36,7 @@ class FlutterFlowChoiceChips extends StatefulWidget {
     this.chipSpacing,
     this.multiselect,
     this.initialized = true,
+    WrapAlignment alignment,
   });
 
   final List<String> initiallySelected;

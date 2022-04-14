@@ -4,6 +4,8 @@ import '../flutter_flow/flutter_flow_util.dart';
 import '../home_page/home_page_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class OnboardWidget extends StatefulWidget {
   const OnboardWidget({Key key}) : super(key: key);
@@ -137,42 +139,51 @@ class _OnboardWidgetState extends State<OnboardWidget>
         child: Column(
           mainAxisSize: MainAxisSize.max,
           mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Image.asset(
-              'assets/images/ff_logo_white.png',
-              width: 140,
-              height: 140,
-              fit: BoxFit.fitHeight,
+              'assets/images/avatar-planet-ride-big-orange.png',
+              width: 300,
+              height: 300,
+              fit: BoxFit.fitWidth,
             ).animated([animationsMap['imageOnPageLoadAnimation']]),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
-              child: Text(
-                'Welcome to',
-                style: FlutterFlowTheme.of(context).title2.override(
-                      fontFamily: 'Sen',
-                      color: Colors.white,
-                      fontSize: 25,
-                    ),
-              ).animated([animationsMap['textOnPageLoadAnimation1']]),
-            ),
-            Text(
-              'Theo\'file',
-              style: FlutterFlowTheme.of(context).title1.override(
-                    fontFamily: 'Sen',
-                    color: Colors.white,
-                    fontSize: 35,
-                  ),
-            ).animated([animationsMap['textOnPageLoadAnimation2']]),
-            Padding(
-              padding: EdgeInsetsDirectional.fromSTEB(75, 0, 0, 0),
-              child: Text(
-                'tracker',
-                style: FlutterFlowTheme.of(context).title3.override(
-                      fontFamily: 'Sen',
-                      color: Colors.white,
-                      fontSize: 20,
-                    ),
-              ).animated([animationsMap['textOnPageLoadAnimation3']]),
+            Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(0, 50, 0, 0),
+                  child: Text(
+                    'Bienvenue sur',
+                    style: FlutterFlowTheme.of(context).title2.override(
+                          fontFamily: 'Sen',
+                          color: Colors.white,
+                          fontSize: 25,
+                        ),
+                  ).animated([animationsMap['textOnPageLoadAnimation1']]),
+                ),
+                Text(
+                  'Theo\'file',
+                  style: FlutterFlowTheme.of(context).title1.override(
+                        fontFamily: 'Sen',
+                        color: Colors.white,
+                        fontSize: 35,
+                      ),
+                ).animated([animationsMap['textOnPageLoadAnimation2']]),
+                Padding(
+                  padding: EdgeInsetsDirectional.fromSTEB(75, 0, 0, 0),
+                  child: Text(
+                    'tracker',
+                    textAlign: TextAlign.end,
+                    style: FlutterFlowTheme.of(context).title3.override(
+                          fontFamily: 'Sen',
+                          color: Colors.white,
+                          fontSize: 20,
+                        ),
+                  ).animated([animationsMap['textOnPageLoadAnimation3']]),
+                ),
+              ],
             ),
           ],
         ).animated([animationsMap['columnOnPageLoadAnimation']]),
