@@ -607,31 +607,57 @@ class MapSampleState extends State<MapSample> {
   }
 
   void getCurrentLocation() async {
-    if (geoloc == false) {
-      _locationSubscription.cancel();
-    } else {
-      try {
-        var location = await _locationTracker.getLocation();
+    try {
+      if (geoloc == false) {
+        _locationSubscription.cancel();
+      } else {
+        try {
+          var location = await _locationTracker.getLocation();
 
-        updateMarkerAndCircle(location);
+          updateMarkerAndCircle(location);
 
-        _locationSubscription =
-            _locationTracker.onLocationChanged.listen((newLocalData) {
-          if (_controller != null) {
-            _controller.animateCamera(CameraUpdate.newCameraPosition(
-                new CameraPosition(
-                    bearing: newLocalData.heading,
-                    target: google.LatLng(
-                        newLocalData.latitude, newLocalData.longitude),
-                    zoom: 18.00)));
-            updateMarkerAndCircle(newLocalData);
+          _locationSubscription =
+              _locationTracker.onLocationChanged.listen((newLocalData) {
+            if (_controller != null) {
+              _controller.animateCamera(CameraUpdate.newCameraPosition(
+                  new CameraPosition(
+                      bearing: newLocalData.heading,
+                      target: google.LatLng(
+                          newLocalData.latitude, newLocalData.longitude),
+                      zoom: 18.00)));
+              updateMarkerAndCircle(newLocalData);
+            }
+          });
+        } on PlatformException catch (e) {
+          if (e.code == 'PERMISSION_DENIED') {
+            debugPrint("Permission Denied");
           }
-        });
-      } on PlatformException catch (e) {
-        if (e.code == 'PERMISSION_DENIED') {
-          debugPrint("Permission Denied");
         }
       }
+    } catch (e) {
+      AlertDialog dialog = AlertDialog(
+          title: Text("ERREUR !"),
+          content: Text(
+              "Veuillez activer la Geolocalisation dans vos paramètres pour utiliser l'application !"),
+          actions: [
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop("Compris");
+              },
+            ),
+          ]);
+      Future<String> futureValue = showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return dialog;
+          });
+      Stream<String> stream = futureValue.asStream();
+      stream.listen((String data) {}, onDone: () {
+        print("Done!");
+      }, onError: (error) {
+        print("Error! " + error.toString());
+      });
     }
   }
 
@@ -670,72 +696,99 @@ class MapSampleState extends State<MapSample> {
   }
 
   void validateCoordo(String erve) async {
-    List<List<LatLng>> heheh = [];
+    try {
+      List<List<LatLng>> heheh = [];
 
-    for (var item in albert) {
-      List<LatLng> save = [];
-      for (var i = 0; i < item.length; i++) {
-        save.add(LatLng(double.parse(item[i].lat), double.parse(item[i].lon)));
+      for (var item in albert) {
+        List<LatLng> save = [];
+        for (var i = 0; i < item.length; i++) {
+          save.add(
+              LatLng(double.parse(item[i].lat), double.parse(item[i].lon)));
+        }
+        heheh.add(save);
       }
-      heheh.add(save);
+
+      for (var ff in heheh) {
+        listPolylinePrivate
+            .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+        listPolylinePublic
+            .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+        listPolylineProtected
+            .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+
+        listMarkerPrivate.add(setMarker(
+          MarkerId(
+            ff.first.latitude.toString(),
+          ),
+          InfoWindow(
+            title: "New Traject",
+            snippet:
+                "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+          ),
+          BitmapDescriptor.defaultMarker,
+          LatLng(ff[0].latitude, ff[0].longitude),
+        ));
+        listMarkerPublic.add(setMarker(
+          MarkerId(
+            ff.first.latitude.toString(),
+          ),
+          InfoWindow(
+            title: "New Traject",
+            snippet:
+                "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+          ),
+          BitmapDescriptor.defaultMarker,
+          LatLng(ff[0].latitude, ff[0].longitude),
+        ));
+        listMarkerProtected.add(setMarker(
+          MarkerId(
+            ff.first.latitude.toString(),
+          ),
+          InfoWindow(
+            title: "Nouveau trajet",
+            snippet:
+                "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+          ),
+          BitmapDescriptor.defaultMarker,
+          LatLng(ff[0].latitude, ff[0].longitude),
+        ));
+      }
+
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+            builder: (context) => AddParcour(
+                  jsonData: erve,
+                  dataLocation: parcourCreat,
+                  dataElevation: elevationCreat,
+                )),
+      );
+      getLinksStorageParcours();
+    } catch (e) {
+      AlertDialog dialog = AlertDialog(
+          title: Text("ERREUR !"),
+          content: Text(
+              "Une erreur est survenue, Vérifiez que la géolocalisation est bien activée. Ou bien essayez de vous déplacer plus !"),
+          actions: [
+            ElevatedButton(
+              child: Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop("Compris");
+              },
+            ),
+          ]);
+      Future<String> futureValue = showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return dialog;
+          });
+      Stream<String> stream = futureValue.asStream();
+      stream.listen((String data) {}, onDone: () {
+        print("Done!");
+      }, onError: (error) {
+        print("Error! " + error.toString());
+      });
     }
-
-    for (var ff in heheh) {
-      listPolylinePrivate
-          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
-      listPolylinePublic
-          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
-      listPolylineProtected
-          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
-
-      listMarkerPrivate.add(setMarker(
-        MarkerId(
-          ff.first.latitude.toString(),
-        ),
-        InfoWindow(
-          title: "New Traject",
-          snippet:
-              "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
-        ),
-        BitmapDescriptor.defaultMarker,
-        LatLng(ff[0].latitude, ff[0].longitude),
-      ));
-      listMarkerPublic.add(setMarker(
-        MarkerId(
-          ff.first.latitude.toString(),
-        ),
-        InfoWindow(
-          title: "New Traject",
-          snippet:
-              "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
-        ),
-        BitmapDescriptor.defaultMarker,
-        LatLng(ff[0].latitude, ff[0].longitude),
-      ));
-      listMarkerProtected.add(setMarker(
-        MarkerId(
-          ff.first.latitude.toString(),
-        ),
-        InfoWindow(
-          title: "Nouveau trajet",
-          snippet:
-              "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
-        ),
-        BitmapDescriptor.defaultMarker,
-        LatLng(ff[0].latitude, ff[0].longitude),
-      ));
-    }
-
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-          builder: (context) => AddParcour(
-                jsonData: erve,
-                dataLocation: parcourCreat,
-                dataElevation: elevationCreat,
-              )),
-    );
-    getLinksStorageParcours();
   }
 
   @override
