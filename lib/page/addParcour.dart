@@ -45,7 +45,7 @@ class _AddParcour extends State<AddParcour> {
     titleController = TextEditingController();
     descriptionController = TextEditingController();
     lines.add(
-      setPolyline("polID", parcourCreat, Color.fromARGB(255, 204, 32, 190)),
+      setPolyline("polID", parcourCreat, Color.fromARGB(255, 53, 53, 53)),
     );
 
     points.add(

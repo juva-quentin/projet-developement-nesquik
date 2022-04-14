@@ -19,6 +19,7 @@ import 'Parcour.dart';
 Set<Polyline> lines2 = {};
 Set<Marker> points2 = {};
 List<LatLng> positions = [];
+BitmapDescriptor pinNewParcour;
 
 class CourseDetails extends StatefulWidget {
   CourseDetails({Key key, this.data, this.document}) : super(key: key);
@@ -33,8 +34,15 @@ class _CourseDetailsState extends State<CourseDetails> {
   @override
   void initState() {
     getListPositions();
-
+    setNewMapPin();
     super.initState();
+  }
+
+  setNewMapPin() async {
+    pinNewParcour = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 30.0),
+        "assets/images/markerNew.png");
+    return pinNewParcour;
   }
 
   final scaffoldKey = GlobalKey<ScaffoldState>();
@@ -495,7 +503,7 @@ class _CourseDetailsState extends State<CourseDetails> {
             snippet:
                 "${widget.data["type"]} - ${widget.data["distance"].toStringAsFixed(2)} Km",
           ),
-          BitmapDescriptor.defaultMarker,
+          pinNewParcour,
           LatLng(positions[0].latitude, positions[0].longitude),
         ),
       );
