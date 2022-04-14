@@ -16,8 +16,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'Parcour.dart';
 
-Set<Polyline> lines = {};
-Set<Marker> points = {};
+Set<Polyline> lines2 = {};
+Set<Marker> points2 = {};
 List<LatLng> positions = [];
 
 class CourseDetails extends StatefulWidget {
@@ -33,6 +33,7 @@ class _CourseDetailsState extends State<CourseDetails> {
   @override
   void initState() {
     getListPositions();
+
     super.initState();
   }
 
@@ -79,16 +80,19 @@ class _CourseDetailsState extends State<CourseDetails> {
                     children: [
                       GoogleMap(
                         rotateGesturesEnabled: false,
-                        scrollGesturesEnabled: false,
+                        // scrollGesturesEnabled: false,
                         zoomGesturesEnabled: false,
-                        zoomControlsEnabled: false,
+                        // zoomControlsEnabled: false,
                         mapType: MapType.normal,
-                        myLocationEnabled: false,
-                        myLocationButtonEnabled: false,
+                        // myLocationEnabled: false,
+                        // myLocationButtonEnabled: false,
                         mapToolbarEnabled: false,
-                        initialCameraPosition: kPositionnementInitial,
-                        markers: points,
-                        polylines: lines,
+                        initialCameraPosition: CameraPosition(
+                            target: LatLng(
+                                data["startPoint"][0], data["startPoint"][1]),
+                            zoom: 10),
+                        markers: points2,
+                        polylines: lines2,
                         onMapCreated: (GoogleMapController controller) {
                           _controller.complete(controller);
                         },
@@ -463,6 +467,7 @@ class _CourseDetailsState extends State<CourseDetails> {
   }
 
   getListPositions() async {
+    positions.clear();
     String url = widget.data['address'];
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
@@ -475,12 +480,14 @@ class _CourseDetailsState extends State<CourseDetails> {
       }
     }
     setState(() {
-      lines.add(setPolyline(
+      lines2.clear();
+      lines2.add(setPolyline(
         widget.data["title"],
         positions,
         Color.fromARGB(255, 55, 55, 55),
       ));
-      points.add(
+      points2.clear();
+      points2.add(
         setMarker(
           MarkerId(widget.data['title']),
           InfoWindow(
