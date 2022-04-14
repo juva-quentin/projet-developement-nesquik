@@ -12,17 +12,19 @@ class Parcours {
   List<double> denivele = [];
   double vitesse = 0.0;
   String date = "";
+  List<double> startPoint = [];
 
-  Parcours(
-      [String owner,
-      String title,
-      String address,
-      String type,
-      String description,
-      double distance,
-      String temps,
-      double vitesse,
-      String date]) {
+  Parcours([
+    String owner,
+    String title,
+    String address,
+    String type,
+    String description,
+    double distance,
+    String temps,
+    double vitesse,
+    String date,
+  ]) {
     this.owner = owner;
     this.title = title;
     this.address = address;
@@ -49,4 +51,5 @@ class AddParcours {
   List<double> denivele = [];
   double vitesse = 0.0;
   String date = "";
+  List<double> startPoint = [];
 }

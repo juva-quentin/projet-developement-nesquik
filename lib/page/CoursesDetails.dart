@@ -50,7 +50,7 @@ class _CourseDetailsState extends State<CourseDetails> {
         onPressed: () {
           database.DeleteOneParcours(widget.document.id, context, data);
         },
-        backgroundColor: Color.fromARGB(255, 187, 1, 1),
+        backgroundColor: Color.fromARGB(255, 190, 69, 69),
         elevation: 8,
         label: Text(
           'Supprimer',

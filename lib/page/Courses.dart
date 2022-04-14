@@ -64,7 +64,7 @@ class _CoursesState extends State<Courses> {
                           snapshot.data.docs.map((DocumentSnapshot document) {
                         Map<String, dynamic> data =
                             document.data() as Map<String, dynamic>;
-
+                        print(DateFormat('yMMMEd', 'fr').parse(data["date"]));
                         return SingleChildScrollView(
                           child: Column(
                             mainAxisSize: MainAxisSize.max,
@@ -111,12 +111,6 @@ class _CoursesState extends State<Courses> {
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             8),
-                                                    // child: Image.asset(
-                                                    //   'assets/images/imageList@2x.png',
-                                                    //   width: 74,
-                                                    //   height: 74,
-                                                    //   fit: BoxFit.cover,
-                                                    // ),
                                                   ),
                                                 ),
                                               ],

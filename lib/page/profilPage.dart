@@ -7,10 +7,7 @@ import 'package:projet_developement_nesquik/auth/auth_util.dart';
 import 'package:intl/intl.dart';
 import 'package:projet_developement_nesquik/page/Amis.dart';
 import 'package:projet_developement_nesquik/page/Courses.dart';
-import 'package:projet_developement_nesquik/page/Favorite.dart';
 import 'package:projet_developement_nesquik/page/Params.dart';
-import 'package:projet_developement_nesquik/page/Statistiques.dart';
-
 import '../home_page/home_page_widget.dart';
 
 class ProfilOverlay extends ModalRoute<void> {

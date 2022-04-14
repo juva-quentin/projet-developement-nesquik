@@ -29,6 +29,7 @@ void main() async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await FlutterFlowTheme.initialize();
+
   runApp(MyApp());
 }
 
