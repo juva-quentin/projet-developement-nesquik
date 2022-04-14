@@ -79,14 +79,14 @@ class _CourseDetailsState extends State<CourseDetails> {
                     alignment: AlignmentDirectional(-0.95, -0.7),
                     children: [
                       GoogleMap(
-                        // rotateGesturesEnabled: false,
+                        rotateGesturesEnabled: false,
                         // scrollGesturesEnabled: false,
-                        // zoomGesturesEnabled: false,
+                        zoomGesturesEnabled: false,
                         // zoomControlsEnabled: false,
                         mapType: MapType.normal,
                         // myLocationEnabled: false,
                         // myLocationButtonEnabled: false,
-                        // mapToolbarEnabled: false,
+                        mapToolbarEnabled: false,
                         initialCameraPosition: CameraPosition(
                             target: LatLng(
                                 positions[0].latitude, positions[0].longitude),
@@ -467,6 +467,7 @@ class _CourseDetailsState extends State<CourseDetails> {
   }
 
   getListPositions() async {
+    positions.clear();
     String url = widget.data['address'];
     var response = await http.get(Uri.parse(url));
     if (response.statusCode == 200) {
