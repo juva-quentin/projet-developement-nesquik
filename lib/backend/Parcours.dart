@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:intl/intl.dart';
 
 class Parcours {
@@ -52,4 +53,5 @@ class AddParcours {
   double vitesse = 0.0;
   String date = "";
   List<double> startPoint = [];
+  var creationDate;
 }

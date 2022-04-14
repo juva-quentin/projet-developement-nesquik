@@ -624,6 +624,8 @@ class _AddParcour extends State<AddParcour> {
                           .format(DateTime.now());
                       parcours.startPoint.add(widget.dataLocation[0].latitude);
                       parcours.startPoint.add(widget.dataLocation[0].longitude);
+                      parcours.creationDate =
+                          new DateTime.now().microsecondsSinceEpoch;
                       DatabaseService database = DatabaseService();
                       database.UploadToStorage("parcours${type}",
                           parcours.title, widget.jsonData, parcours, context);

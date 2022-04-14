@@ -15,7 +15,7 @@ Future<User> signInOrCreateAccount(
   } on FirebaseAuthException catch (e) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error: ${e.message}')),
+      SnackBar(content: Text('Erreur: ${e.message}')),
     );
     return null;
   }
@@ -41,7 +41,7 @@ Future deleteUser(BuildContext context) async {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
             content: Text(
-                'Too long since most recent sign in. Sign in again before deleting your account.')),
+                'Cela fait trop longtemps que vous êtes connécté, reconnectez-vous')),
       );
     }
   }
@@ -53,12 +53,12 @@ Future resetPassword(String email, BuildContext context) async {
   } on FirebaseAuthException catch (e) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text('Error: ${e.message}')),
+      SnackBar(content: Text('Erreur: ${e.message}')),
     );
     return null;
   }
   ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(content: Text('Password reset email sent')),
+    SnackBar(content: Text('Un mail de réinitialisation vous à été envoyé ')),
   );
 }
 
