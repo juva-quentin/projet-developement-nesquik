@@ -47,6 +47,7 @@ class _AddParcour extends State<AddParcour> {
     lines.add(
       setPolyline("polID", parcourCreat, Color.fromARGB(255, 204, 32, 190)),
     );
+
     points.add(
       setMarker(
         MarkerId(
