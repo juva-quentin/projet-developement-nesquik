@@ -1,5 +1,7 @@
 // ignore_for_file: deprecated_member_use
-
+import '../flutter_flow/flutter_flow_choice_chips.dart';
+import '../flutter_flow/flutter_flow_theme.dart';
+import '../flutter_flow/flutter_flow_widgets.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -25,7 +27,9 @@ class AddParcour extends StatefulWidget {
 }
 
 class _AddParcour extends State<AddParcour> {
+  String choiceChipsValue;
   final formKey = GlobalKey<FormState>();
+  final scaffoldKey = GlobalKey<ScaffoldState>();
   GoogleMapController _controller;
   TextEditingController titleController;
   TextEditingController descriptionController;
@@ -68,389 +72,580 @@ class _AddParcour extends State<AddParcour> {
 
   @override
   Widget build(BuildContext context) {
-    setState(() {
-      parcours.distance = calculDistance(widget.dataLocation);
-    });
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
         backgroundColor: Color(0xFF72B0EA),
-        title: Text("Enregistrement Parcours"),
+        automaticallyImplyLeading: false,
+        title: Text(
+          'Votre Parcours',
+          style: FlutterFlowTheme.of(context).title2.override(
+                fontFamily: 'Lexend Deca',
+                color: Colors.white,
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+              ),
+        ),
+        actions: [
+          Padding(
+            padding: EdgeInsetsDirectional.fromSTEB(0, 0, 12, 0),
+            child: IconButton(
+              iconSize: 48,
+              icon: Icon(
+                Icons.close_rounded,
+                color: Colors.white,
+                size: 30,
+              ),
+              onPressed: () async {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+        ],
+        centerTitle: false,
+        elevation: 0,
       ),
+      backgroundColor: Colors.white,
       body: Form(
         key: formKey,
-        autovalidateMode: AutovalidateMode.disabled,
-        child: ListView(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.30,
-                  width: MediaQuery.of(context).size.width,
-                  decoration:
-                      BoxDecoration(color: Color.fromARGB(255, 82, 82, 82)),
-                  child: Center(
-                    child: _buildGoogleMap(context),
-                  ),
-                ),
-                SizedBox(height: 10),
-                Container(
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: TextFormField(
-                    controller: titleController,
-                    decoration: InputDecoration(labelText: "Titre"),
-                    onChanged: (val) => setState(() {
-                      parcours.title = titleController.text;
-                    }),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Entrer un titre';
-                      }
-                      return null;
-                    },
-                  ),
-                ),
-                Container(
-                    color: Color.fromRGBO(114, 176, 234, 1),
-                    alignment: Alignment.center,
-                    child: Column(children: [
-                      Text("Le résumé de votre Parcours",
-                          style: GoogleFonts.sen(
-                              textStyle: TextStyle(
-                            color: Color.fromARGB(255, 255, 255, 255),
-                            fontSize: 17,
-                            fontWeight: FontWeight.normal,
-                          ))),
-                      SizedBox(height: 20),
-                      Container(
-                          width: MediaQuery.of(context).size.width,
-                          child: Column(children: [
-                            Wrap(
-                              spacing: 20,
-                              children: [
-                                Container(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  width: 170,
-                                  height: 51,
-                                  child: Column(
-                                    children: [
-                                      Text("Temps"),
-                                      Text(formatTime(bouuuuu)),
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  width: 170,
-                                  height: 51,
-                                  child: Column(
-                                    children: [
-                                      Text("Distance"),
-                                      Text(
-                                          "${parcours.distance.toStringAsFixed(2)} Km")
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                            SizedBox(height: 20),
-                            Wrap(
-                              spacing: 20,
-                              children: [
-                                Container(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  width: 170,
-                                  height: 51,
-                                  child: Column(
-                                    children: [
-                                      Text("Dénivelé"),
-                                      Text(
-                                          "D+ = ${calculEle(widget.dataElevation)[0].toStringAsFixed(2)}\nD- = ${calculEle(widget.dataElevation)[1].toStringAsFixed(2)}")
-                                    ],
-                                  ),
-                                ),
-                                Container(
-                                  color: Color.fromARGB(255, 255, 255, 255),
-                                  width: 170,
-                                  height: 51,
-                                  child: Column(
-                                    children: [
-                                      Text("Vitesse moyenne"),
-                                      Text(
-                                          "${((parcours.distance / bouuuuu) * 3.6e+6).toStringAsFixed(2)}Km/h")
-                                    ],
-                                  ),
-                                )
-                              ],
-                            ),
-                          ])),
-                      Padding(
-                        padding: EdgeInsetsDirectional.fromSTEB(60, 30, 0, 0),
-                        child: FlutterFlowChoiceChips(
-                          initiallySelected: ["Privée"],
-                          options: [
-                            ChipData('Privée'),
-                            ChipData('Protégée'),
-                            ChipData('Public')
-                          ],
-                          onChanged: (val) {
-                            switch (val.first) {
-                              case 'Privée':
-                                setState(() => parcours.type = "private");
-                                setState(() => protected = false);
-                                setState(() => parcours.shareTo.clear());
-                                break;
-                              case 'Protégée':
-                                setState(() => parcours.type = "protected");
-                                setState(() => protected = true);
-                                break;
-                              case 'Public':
-                                setState(() => parcours.type = "public");
-                                setState(() => protected = false);
-                                setState(() => parcours.shareTo.clear());
-                                break;
-                            }
-                          },
-                          selectedChipStyle: ChipStyle(
-                            backgroundColor: Color(0xFF487DAE),
-                            textStyle:
-                                FlutterFlowTheme.of(context).bodyText1.override(
-                                      fontFamily: 'Poppins',
-                                      color: Colors.white,
-                                    ),
-                            iconColor: Colors.white,
-                            iconSize: 20,
-                            elevation: 4,
-                          ),
-                          unselectedChipStyle: ChipStyle(
-                            backgroundColor: Colors.white,
-                            textStyle:
-                                FlutterFlowTheme.of(context).bodyText2.override(
-                                      fontFamily: 'Poppins',
-                                      color: Color(0xFF262D34),
-                                    ),
-                            iconColor: Color(0xFF487DAE),
-                            iconSize: 18,
-                            elevation: 4,
-                          ),
-                          chipSpacing: 20,
-                          multiselect: false,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                width: MediaQuery.of(context).size.width,
+                height: MediaQuery.of(context).size.height * 0.3,
+                child: _buildGoogleMap(context),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(40, 0, 40, 0),
+                child: TextFormField(
+                  controller: titleController,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    hintText: 'Titre',
+                    hintStyle: FlutterFlowTheme.of(context).title2.override(
+                          fontFamily: 'Poppins',
+                          color: Color.fromARGB(133, 97, 97, 97),
                         ),
+                    enabledBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0x2472B0EA),
+                        width: 1,
                       ),
-                    ])),
-                Visibility(
-                  maintainSize: protected,
-                  maintainAnimation: protected,
-                  maintainState: protected,
-                  visible: protected,
-                  child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 130,
-                      child: StreamBuilder<QuerySnapshot>(
-                          stream: _usersStream,
-                          builder: (BuildContext context,
-                              AsyncSnapshot<QuerySnapshot> snapshot) {
-                            if (snapshot.hasError) {
-                              return Text('Something went wrong');
-                            }
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(4.0),
+                        topRight: Radius.circular(4.0),
+                      ),
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0x2472B0EA),
+                        width: 1,
+                      ),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(4.0),
+                        topRight: Radius.circular(4.0),
+                      ),
+                    ),
+                  ),
+                  style: FlutterFlowTheme.of(context).title2.override(
+                        fontFamily: 'Poppins',
+                        color: Color.fromARGB(200, 0, 0, 0),
+                      ),
+                  textAlign: TextAlign.start,
+                  onChanged: (val) => setState(() {
+                    parcours.title = titleController.text;
+                  }),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Entrer un titre';
+                    }
+                    return null;
+                  },
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 10, 0, 0),
+                child: Container(
+                  width: 350,
+                  height: 250,
+                  decoration: BoxDecoration(
+                    color: Color(0xFF72B0EA),
+                    boxShadow: [
+                      BoxShadow(
+                        blurRadius: 15,
+                        color: Color(0x8757636C),
+                        offset: Offset(0, 1),
+                      )
+                    ],
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.max,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(15, 10, 10, 0),
+                            width: 150,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Temps",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 176, 176, 176),
+                                    )),
+                                SizedBox(height: 3),
+                                Text(
+                                  formatTime(bouuuuu),
+                                  style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        letterSpacing: .5,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Container(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(15, 10, 10, 0),
+                            width: 150,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("Distance",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 176, 176, 176),
+                                    )),
+                                SizedBox(height: 3),
+                                Text(
+                                  "${parcours.distance.toStringAsFixed(2)} Km",
+                                  style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        letterSpacing: .5,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      Row(
+                        mainAxisSize: MainAxisSize.max,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.end,
+                        children: [
+                          Column(children: [
+                            Container(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                              width: 150,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text("D+",
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 176, 176, 176),
+                                      )),
+                                  Text(
+                                    "${calculEle(widget.dataElevation)[0].toStringAsFixed(2)}m",
+                                    style: GoogleFonts.inter(
+                                      textStyle: TextStyle(
+                                          letterSpacing: .5,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            SizedBox(height: 4),
+                            Container(
+                              padding:
+                                  EdgeInsetsDirectional.fromSTEB(10, 0, 10, 0),
+                              width: 150,
+                              height: 36,
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              child: Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Text("D-",
+                                      style: TextStyle(
+                                        color:
+                                            Color.fromARGB(255, 176, 176, 176),
+                                      )),
+                                  Text(
+                                    "${calculEle(widget.dataElevation)[1].toStringAsFixed(2)}m",
+                                    style: GoogleFonts.inter(
+                                      textStyle: TextStyle(
+                                          letterSpacing: .5,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w500),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          ]),
+                          Container(
+                            padding:
+                                EdgeInsetsDirectional.fromSTEB(15, 10, 10, 0),
+                            width: 150,
+                            height: 80,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(15),
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text("V/Moyenne",
+                                    style: TextStyle(
+                                      color: Color.fromARGB(255, 176, 176, 176),
+                                    )),
+                                SizedBox(height: 3),
+                                Text(
+                                  "${((parcours.distance / bouuuuu) * 3.6e+6).toStringAsFixed(2)} Km/h",
+                                  style: GoogleFonts.inter(
+                                    textStyle: TextStyle(
+                                        letterSpacing: .5,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w500),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsetsDirectional.fromSTEB(28, 35, 0, 20),
+                child: FlutterFlowChoiceChips(
+                  initiallySelected: ["Privé"],
+                  options: [
+                    ChipData('Privé', Icons.privacy_tip),
+                    ChipData('Protégé', Icons.shield),
+                    ChipData('Public', Icons.public)
+                  ],
+                  onChanged: (val) {
+                    switch (val.first) {
+                      case 'Privé':
+                        setState(() => parcours.type = "private");
+                        setState(() => protected = false);
+                        setState(() => parcours.shareTo.clear());
+                        break;
+                      case 'Protégé':
+                        setState(() => parcours.type = "protected");
+                        setState(() => protected = true);
+                        break;
+                      case 'Public':
+                        setState(() => parcours.type = "public");
+                        setState(() => protected = false);
+                        setState(() => parcours.shareTo.clear());
+                        break;
+                    }
+                  },
+                  selectedChipStyle: ChipStyle(
+                    backgroundColor: Color(0xFF487DAE),
+                    textStyle: FlutterFlowTheme.of(context).bodyText1.override(
+                          fontFamily: 'Poppins',
+                          color: Colors.white,
+                        ),
+                    iconColor: Colors.white,
+                    iconSize: 20,
+                    elevation: 4,
+                  ),
+                  unselectedChipStyle: ChipStyle(
+                    backgroundColor: Colors.white,
+                    textStyle: FlutterFlowTheme.of(context).bodyText2.override(
+                          fontFamily: 'Poppins',
+                          color: Color(0xFF262D34),
+                        ),
+                    iconColor: Color(0xFF487DAE),
+                    iconSize: 18,
+                    elevation: 4,
+                  ),
+                  chipSpacing: 20,
+                  multiselect: false,
+                ),
+              ),
+              Visibility(
+                maintainSize: protected,
+                maintainAnimation: protected,
+                maintainState: protected,
+                visible: protected,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 80,
+                  child: StreamBuilder<QuerySnapshot>(
+                    stream: _usersStream,
+                    builder: (BuildContext context,
+                        AsyncSnapshot<QuerySnapshot> snapshot) {
+                      if (snapshot.hasError) {
+                        return Text('Something went wrong');
+                      }
 
-                            if (snapshot.connectionState ==
-                                ConnectionState.waiting) {
-                              return ColorLoader(
-                                  [Colors.black, Colors.white, Colors.blue],
-                                  Duration(seconds: 3));
-                            }
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return ColorLoader(
+                            [Colors.black, Colors.white, Colors.blue],
+                            Duration(seconds: 3));
+                      }
 
-                            return ListView(
-                              children: snapshot.data.docs
-                                  .map((DocumentSnapshot document) {
-                                Map<String, dynamic> data =
-                                    document.data() as Map<String, dynamic>;
+                      return ListView(
+                        children:
+                            snapshot.data.docs.map((DocumentSnapshot document) {
+                          Map<String, dynamic> data =
+                              document.data() as Map<String, dynamic>;
 
-                                return Container(
-                                  child: Row(
+                          return Container(
+                            child: Row(
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      8, 0, 8, 0),
+                                  child: Column(
                                     mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            8, 0, 8, 0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Container(
-                                                width: 60,
-                                                height: 60,
-                                                clipBehavior: Clip.antiAlias,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
+                                      Container(
+                                          width: 60,
+                                          height: 60,
+                                          clipBehavior: Clip.antiAlias,
+                                          decoration: BoxDecoration(
+                                            shape: BoxShape.circle,
+                                          ),
+                                          child: Icon(
+                                            Icons.account_circle,
+                                            size: 40,
+                                            color: Color(0xFF72B0EA),
+                                          )),
+                                    ],
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Text(
+                                            data['pseudo'],
+                                            style: FlutterFlowTheme.of(context)
+                                                .subtitle1
+                                                .override(
+                                                  fontFamily: 'Lexend Deca',
+                                                  color: Color(0xFF15212B),
+                                                  fontSize: 18,
+                                                  fontWeight: FontWeight.w500,
                                                 ),
-                                                child: Icon(
-                                                  Icons.account_circle,
-                                                  size: 40,
-                                                  color: Color(0xFF72B0EA),
-                                                )),
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
-                                      Expanded(
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Text(
-                                                  data['pseudo'],
-                                                  style: FlutterFlowTheme.of(
-                                                          context)
-                                                      .subtitle1
-                                                      .override(
-                                                        fontFamily:
-                                                            'Lexend Deca',
-                                                        color:
-                                                            Color(0xFF15212B),
-                                                        fontSize: 18,
-                                                        fontWeight:
-                                                            FontWeight.w500,
-                                                      ),
-                                                ),
-                                              ],
-                                            ),
-                                            Row(
-                                              mainAxisSize: MainAxisSize.max,
-                                              children: [
-                                                Expanded(
-                                                  child: Padding(
-                                                    padding:
-                                                        EdgeInsetsDirectional
-                                                            .fromSTEB(
-                                                                0, 4, 4, 0),
-                                                    child: Text(
-                                                      data['email'],
-                                                      style: FlutterFlowTheme
-                                                              .of(context)
-                                                          .bodyText2
-                                                          .override(
-                                                            fontFamily:
-                                                                'Lexend Deca',
-                                                            color: Color(
-                                                                0xFF72B0EA),
-                                                            fontSize: 12,
-                                                            fontWeight:
-                                                                FontWeight.w500,
-                                                          ),
+                                      Row(
+                                        mainAxisSize: MainAxisSize.max,
+                                        children: [
+                                          Expanded(
+                                            child: Padding(
+                                              padding: EdgeInsetsDirectional
+                                                  .fromSTEB(0, 4, 4, 0),
+                                              child: Text(
+                                                data['email'],
+                                                style: FlutterFlowTheme.of(
+                                                        context)
+                                                    .bodyText2
+                                                    .override(
+                                                      fontFamily: 'Lexend Deca',
+                                                      color: Color(0xFF72B0EA),
+                                                      fontSize: 12,
+                                                      fontWeight:
+                                                          FontWeight.w500,
                                                     ),
-                                                  ),
-                                                ),
-                                              ],
+                                              ),
                                             ),
-                                          ],
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: EdgeInsetsDirectional.fromSTEB(
-                                            0, 0, 8, 0),
-                                        child: Column(
-                                          mainAxisSize: MainAxisSize.max,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Checkbox(
-                                              checkColor: Colors.white,
-                                              fillColor: MaterialStateProperty
-                                                  .resolveWith(getColor),
-                                              value: parcours.shareTo
-                                                  .contains(document.id),
-                                              onChanged: (bool value) {
-                                                setState(() {
-                                                  parcours.shareTo
-                                                          .contains(document.id)
-                                                      ? parcours.shareTo
-                                                          .remove(document.id)
-                                                      : parcours.shareTo
-                                                          .add(document.id);
-                                                  print(parcours.shareTo
-                                                      .contains(document.id));
-                                                  print(parcours.shareTo);
-                                                });
-                                              },
-                                            )
-                                          ],
-                                        ),
+                                          ),
+                                        ],
                                       ),
                                     ],
                                   ),
-                                );
-                              }).toList(),
-                            );
-                          })),
-                ),
-                Card(
-                    color: Colors.grey,
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: TextFormField(
-                        controller: descriptionController,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 8,
-                        decoration: InputDecoration.collapsed(
-                            hintText: "Entrer votre decription"),
-                        onChanged: (val) => setState(() {
-                          parcours.description = descriptionController.text;
-                        }),
-                      ),
-                    )),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16.0),
-                  child: RaisedButton(
-                    onPressed: () {
-                      if (formKey.currentState.validate()) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Enregistrement ...')),
-                        );
-
-                        var type;
-                        switch (parcours.type) {
-                          case "public":
-                            type = "Public";
-                            break;
-                          case "protected":
-                            type = "Protected";
-                            break;
-                          case "private":
-                            type = "Private";
-                            break;
-                        }
-                        print(type);
-                        parcours.temps = formatTime(bouuuuu);
-                        parcours.vitesse =
-                            (parcours.distance / bouuuuu) * 3.6e+6;
-                        parcours.denivele
-                            .add(calculEle(widget.dataElevation)[0]);
-                        parcours.denivele
-                            .add(calculEle(widget.dataElevation)[1]);
-                        parcours.date =
-                            DateFormat.yMMMEd().add_jm().format(DateTime.now());
-                        DatabaseService database = DatabaseService();
-                        database.UploadToStorage("parcours${type}",
-                            parcours.title, widget.jsonData, parcours, context);
-
-                        // Retourne true si le formulaire est valide, sinon false}
-                      }
+                                ),
+                                Padding(
+                                  padding: EdgeInsetsDirectional.fromSTEB(
+                                      0, 0, 8, 0),
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.max,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Checkbox(
+                                        checkColor: Colors.white,
+                                        fillColor:
+                                            MaterialStateProperty.resolveWith(
+                                                getColor),
+                                        value: parcours.shareTo
+                                            .contains(document.id),
+                                        onChanged: (bool value) {
+                                          setState(() {
+                                            parcours.shareTo
+                                                    .contains(document.id)
+                                                ? parcours.shareTo
+                                                    .remove(document.id)
+                                                : parcours.shareTo
+                                                    .add(document.id);
+                                            print(parcours.shareTo
+                                                .contains(document.id));
+                                            print(parcours.shareTo);
+                                          });
+                                        },
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }).toList(),
+                      );
                     },
-                    child: Text('Enregistrer'),
                   ),
                 ),
-              ],
-            ),
-          ],
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(20, 0, 20, 20),
+                child: TextFormField(
+                  controller: descriptionController,
+                  obscureText: false,
+                  decoration: InputDecoration(
+                    hintText: 'Description...',
+                    hintStyle: FlutterFlowTheme.of(context).bodyText2.override(
+                          fontFamily: 'Lexend Deca',
+                          color: Color(0xFF8B97A2),
+                          fontSize: 14,
+                          fontWeight: FontWeight.normal,
+                        ),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBE2E7),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Color(0xFFDBE2E7),
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    contentPadding:
+                        EdgeInsetsDirectional.fromSTEB(20, 32, 20, 12),
+                  ),
+                  style: FlutterFlowTheme.of(context).bodyText1.override(
+                        fontFamily: 'Lexend Deca',
+                        color: Color(0xFF090F13),
+                        fontSize: 14,
+                        fontWeight: FontWeight.normal,
+                      ),
+                  textAlign: TextAlign.start,
+                  maxLines: 4,
+                  onChanged: (val) => setState(() {
+                    parcours.description = descriptionController.text;
+                  }),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsetsDirectional.fromSTEB(0, 0, 0, 30),
+                child: FFButtonWidget(
+                  onPressed: () {
+                    if (formKey.currentState.validate()) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(content: Text('Enregistrement ...')),
+                      );
+
+                      var type;
+                      switch (parcours.type) {
+                        case "public":
+                          type = "Public";
+                          break;
+                        case "protected":
+                          type = "Protected";
+                          break;
+                        case "private":
+                          type = "Private";
+                          break;
+                      }
+                      print(type);
+                      parcours.temps = formatTime(bouuuuu);
+                      parcours.vitesse = (parcours.distance / bouuuuu) * 3.6e+6;
+                      parcours.denivele.add(calculEle(widget.dataElevation)[0]);
+                      parcours.denivele.add(calculEle(widget.dataElevation)[1]);
+                      parcours.date =
+                          DateFormat.yMMMEd().add_jm().format(DateTime.now());
+                      DatabaseService database = DatabaseService();
+                      database.UploadToStorage("parcours${type}",
+                          parcours.title, widget.jsonData, parcours, context);
+
+                      // Retourne true si le formulaire est valide, sinon false}
+                    }
+                  },
+                  text: 'Enregistrer',
+                  options: FFButtonOptions(
+                    width: 200,
+                    height: 50,
+                    color: Color(0xFF72B0EA),
+                    textStyle: FlutterFlowTheme.of(context).subtitle2.override(
+                          fontFamily: 'Lexend Deca',
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                        ),
+                    elevation: 3,
+                    borderSide: BorderSide(
+                      color: Colors.transparent,
+                      width: 1,
+                    ),
+                    borderRadius: 20,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

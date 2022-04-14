@@ -125,7 +125,13 @@ class _CommunityState extends State<Community> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 IconButton(
-                                  icon: Icon(Icons.person_add, size: 24),
+                                  icon: data["friends"] != null
+                                      ? data["friends"]
+                                              .contains(currentUser.user.uid)
+                                          ? Icon(Icons.person_off_rounded,
+                                              size: 24)
+                                          : Icon(Icons.person_add, size: 24)
+                                      : Icon(Icons.person_add, size: 24),
                                   color: data["friends"] != null
                                       ? data["friends"]
                                               .contains(currentUser.user.uid)
