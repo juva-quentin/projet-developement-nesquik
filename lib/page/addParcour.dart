@@ -72,6 +72,9 @@ class _AddParcour extends State<AddParcour> {
 
   @override
   Widget build(BuildContext context) {
+    setState(() {
+      parcours.distance = calculDistance(widget.dataLocation);
+    });
     return Scaffold(
       key: scaffoldKey,
       appBar: AppBar(

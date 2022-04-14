@@ -231,7 +231,7 @@ class MapSampleState extends State<MapSample> {
                         }
                       }
                     },
-                    label: !activitie ? Text("Vélo") : Text("Moto"),
+                    label: !activitie ? Text("Velo") : Text("Moto"),
                     icon: !activitie
                         ? Icon(Icons.pedal_bike)
                         : Icon(Icons.motorcycle_rounded),
@@ -666,11 +666,12 @@ class MapSampleState extends State<MapSample> {
   void getCoordoFromPos() async {
     if (isRec == false) {
       _locationForRecord.cancel();
+
       Parcour jean = new Parcour(
         new Gpx(
           new Trk(
             "alain",
-            !activitie ? "Vélo" : "Moto",
+            !activitie ? "Velo" : "Moto",
             new Trkseg(albert.last),
           ),
         ),
@@ -723,7 +724,7 @@ class MapSampleState extends State<MapSample> {
           InfoWindow(
             title: "New Traject",
             snippet:
-                "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+                "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
           ),
           BitmapDescriptor.defaultMarker,
           LatLng(ff[0].latitude, ff[0].longitude),
@@ -735,7 +736,7 @@ class MapSampleState extends State<MapSample> {
           InfoWindow(
             title: "New Traject",
             snippet:
-                "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+                "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
           ),
           BitmapDescriptor.defaultMarker,
           LatLng(ff[0].latitude, ff[0].longitude),
@@ -747,7 +748,7 @@ class MapSampleState extends State<MapSample> {
           InfoWindow(
             title: "Nouveau trajet",
             snippet:
-                "${!boxeeeeee ? "Vélo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+                "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
           ),
           BitmapDescriptor.defaultMarker,
           LatLng(ff[0].latitude, ff[0].longitude),
