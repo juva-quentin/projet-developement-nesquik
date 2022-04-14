@@ -18,7 +18,6 @@ import 'package:projet_developement_nesquik/page/addParcour.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import 'package:location/location.dart' as loc;
 import 'package:projet_developement_nesquik/page/profilPage.dart';
-import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class MapSample extends StatefulWidget {
   @override
@@ -45,6 +44,7 @@ class MapSampleState extends State<MapSample> {
   Timer timer;
   int stopwatch = 0;
   DatabaseService database = DatabaseService();
+  BitmapDescriptor pinNewParcour;
 
   void _startTimer() async {
     if (!timerRunning) {
@@ -80,7 +80,15 @@ class MapSampleState extends State<MapSample> {
   void initState() {
     database.UpdateObjectif();
     getLinksStorageParcours();
+    setNewMapPin();
     super.initState();
+  }
+
+  setNewMapPin() async {
+    pinNewParcour = await BitmapDescriptor.fromAssetImage(
+        ImageConfiguration(devicePixelRatio: 30.0),
+        "assets/images/markerNew.png");
+    return pinNewParcour;
   }
 
   @override
@@ -726,7 +734,7 @@ class MapSampleState extends State<MapSample> {
             snippet:
                 "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
           ),
-          BitmapDescriptor.defaultMarker,
+          pinNewParcour,
           LatLng(ff[0].latitude, ff[0].longitude),
         ));
         listMarkerPublic.add(setMarker(
@@ -738,7 +746,7 @@ class MapSampleState extends State<MapSample> {
             snippet:
                 "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
           ),
-          BitmapDescriptor.defaultMarker,
+          pinNewParcour,
           LatLng(ff[0].latitude, ff[0].longitude),
         ));
         listMarkerProtected.add(setMarker(
@@ -750,7 +758,7 @@ class MapSampleState extends State<MapSample> {
             snippet:
                 "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
           ),
-          BitmapDescriptor.defaultMarker,
+          pinNewParcour,
           LatLng(ff[0].latitude, ff[0].longitude),
         ));
       }

@@ -128,6 +128,7 @@ Future getPrivateFromApi() async {
         positions.add(LatLng(lat, lng));
         eles.add(ele);
       }
+      BitmapDescriptor pinNewParcour;
       listMarkerPrivate.add(
         setMarker(
           MarkerId(i.toString()),
@@ -136,7 +137,9 @@ Future getPrivateFromApi() async {
             snippet:
                 "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
           ),
-          BitmapDescriptor.defaultMarker,
+          pinNewParcour = await BitmapDescriptor.fromAssetImage(
+              ImageConfiguration(devicePixelRatio: 30.0),
+              "assets/images/markerPrivate.png"),
           LatLng(positions.first.latitude, positions.first.longitude),
         ),
       );
@@ -168,6 +171,7 @@ Future getProtectedFromApi() async {
         eles.add(ele);
       }
 
+      BitmapDescriptor pinNewParcour;
       listMarkerProtected.add(setMarker(
         MarkerId((i + 2).toString()),
         InfoWindow(
@@ -175,7 +179,9 @@ Future getProtectedFromApi() async {
           snippet:
               "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
         ),
-        BitmapDescriptor.defaultMarker,
+        pinNewParcour = await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(devicePixelRatio: 30.0),
+            "assets/images/markerProtected.png"),
         LatLng(positions.first.latitude, positions.first.longitude),
       ));
       listEleProtected.add(eles);
@@ -200,6 +206,7 @@ Future getPublicFromApi() async {
         positions.add(LatLng(lat, lng));
         eles.add(ele);
       }
+      BitmapDescriptor pinNewParcour;
       listMarkerPublic.add(setMarker(
         MarkerId((i + 3).toString()),
         InfoWindow(
@@ -207,7 +214,9 @@ Future getPublicFromApi() async {
           snippet:
               "${parcours.gpx.trk.type} - ${calculDistance(positions).toStringAsFixed(2)} Km",
         ),
-        BitmapDescriptor.defaultMarker,
+        pinNewParcour = await BitmapDescriptor.fromAssetImage(
+            ImageConfiguration(devicePixelRatio: 30.0),
+            "assets/images/markerPublic.png"),
         LatLng(positions.first.latitude, positions.first.longitude),
       ));
       listElePublic.add(eles);
