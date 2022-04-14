@@ -618,8 +618,11 @@ class _AddParcour extends State<AddParcour> {
                       parcours.vitesse = (parcours.distance / bouuuuu) * 3.6e+6;
                       parcours.denivele.add(calculEle(widget.dataElevation)[0]);
                       parcours.denivele.add(calculEle(widget.dataElevation)[1]);
-                      parcours.date =
-                          DateFormat.yMMMEd().add_jm().format(DateTime.now());
+                      parcours.date = DateFormat.yMMMEd('fr')
+                          .add_jm()
+                          .format(DateTime.now());
+                      parcours.startPoint.add(widget.dataLocation[0].latitude);
+                      parcours.startPoint.add(widget.dataLocation[0].longitude);
                       DatabaseService database = DatabaseService();
                       database.UploadToStorage("parcours${type}",
                           parcours.title, widget.jsonData, parcours, context);

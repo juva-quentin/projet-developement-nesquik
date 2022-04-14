@@ -126,7 +126,7 @@ class _AmisState extends State<Amis> {
                                 color: data["friends"] != null
                                     ? data["friends"]
                                             .contains(currentUser.user.uid)
-                                        ? Color.fromARGB(255, 238, 74, 4)
+                                        ? Color.fromARGB(255, 190, 69, 69)
                                         : Color.fromARGB(255, 0, 117, 84)
                                     : Color.fromARGB(255, 0, 117, 84),
                                 onPressed: () {
