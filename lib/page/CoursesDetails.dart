@@ -88,12 +88,8 @@ class _CourseDetailsState extends State<CourseDetails> {
                     children: [
                       GoogleMap(
                         rotateGesturesEnabled: false,
-                        // scrollGesturesEnabled: false,
                         zoomGesturesEnabled: false,
-                        // zoomControlsEnabled: false,
                         mapType: MapType.normal,
-                        // myLocationEnabled: false,
-                        // myLocationButtonEnabled: false,
                         mapToolbarEnabled: false,
                         initialCameraPosition: CameraPosition(
                             target: LatLng(

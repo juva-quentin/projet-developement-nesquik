@@ -58,7 +58,7 @@ class _AddParcour extends State<AddParcour> {
           snippet:
               "${!boxeeeeee ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
         ),
-        BitmapDescriptor.defaultMarker,
+        BitmapDescriptor.defaultMarkerWithHue(240),
         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
       ),
     );
