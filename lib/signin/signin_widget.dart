@@ -3,6 +3,7 @@ import '../auth/auth_util.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
+import '../page/forgotPassword.dart';
 import '../signup/signup_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
@@ -369,6 +370,18 @@ class _SignInWidgetState extends State<SignInWidget> {
                                                   .fromSTEB(200, 100, 0, 0),
                                               child: FFButtonWidget(
                                                 onPressed: () {
+                                                  Navigator.push(
+                                                    context,
+                                                    PageTransition(
+                                                      type: PageTransitionType
+                                                          .bottomToTop,
+                                                      duration: Duration(
+                                                          milliseconds: 300),
+                                                      reverseDuration: Duration(
+                                                          milliseconds: 300),
+                                                      child: ForgotPassword(),
+                                                    ),
+                                                  );
                                                   print('Button pressed ...');
                                                 },
                                                 text: 'Mot de passe oublié',
