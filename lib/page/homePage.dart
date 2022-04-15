@@ -229,12 +229,12 @@ class MapSampleState extends State<MapSample> {
                         if (activitie == false) {
                           setState(() {
                             activitie = true;
-                            boxeeeeee = activitie;
+                            sportType = activitie;
                           });
                         } else {
                           setState(() {
                             activitie = false;
-                            boxeeeeee = activitie;
+                            sportType = activitie;
                           });
                         }
                       }
@@ -732,7 +732,7 @@ class MapSampleState extends State<MapSample> {
           InfoWindow(
             title: "New Traject",
             snippet:
-                "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+                "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
           ),
           pinNewParcour,
           LatLng(ff[0].latitude, ff[0].longitude),
@@ -744,7 +744,7 @@ class MapSampleState extends State<MapSample> {
           InfoWindow(
             title: "New Traject",
             snippet:
-                "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+                "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
           ),
           pinNewParcour,
           LatLng(ff[0].latitude, ff[0].longitude),
@@ -756,7 +756,7 @@ class MapSampleState extends State<MapSample> {
           InfoWindow(
             title: "Nouveau trajet",
             snippet:
-                "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+                "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
           ),
           pinNewParcour,
           LatLng(ff[0].latitude, ff[0].longitude),
