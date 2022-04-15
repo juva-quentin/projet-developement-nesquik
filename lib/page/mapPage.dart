@@ -696,7 +696,6 @@ class MapSampleState extends State<MapSample> {
     validateCoordo(jsonNewObjectParcour);
   }
 
-//ATTENTION VERIFIER QUE LE TRY CATCH FONCTIONNNE ENCORE
 //affichage nouveau parcours dans la maps et redirection vers la page de creation parcours
   void validateCoordo(String jsonNewObjectParcour) async {
     try {
@@ -710,7 +709,51 @@ class MapSampleState extends State<MapSample> {
         }
         listNewParcour.add(save);
       }
-      affichageNewParcoursInMap(listNewParcour);
+      for (var ff in listNewParcour) {
+        listPolylinePrivate
+            .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+        listPolylinePublic
+            .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+        listPolylineProtected
+            .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+
+        listMarkerPrivate.add(setMarker(
+          MarkerId(
+            ff.first.latitude.toString(),
+          ),
+          InfoWindow(
+            title: "New Traject",
+            snippet:
+                "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+          ),
+          pinNewParcour,
+          LatLng(ff[0].latitude, ff[0].longitude),
+        ));
+        listMarkerPublic.add(setMarker(
+          MarkerId(
+            ff.first.latitude.toString(),
+          ),
+          InfoWindow(
+            title: "New Traject",
+            snippet:
+                "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+          ),
+          pinNewParcour,
+          LatLng(ff[0].latitude, ff[0].longitude),
+        ));
+        listMarkerProtected.add(setMarker(
+          MarkerId(
+            ff.first.latitude.toString(),
+          ),
+          InfoWindow(
+            title: "Nouveau trajet",
+            snippet:
+                "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+          ),
+          pinNewParcour,
+          LatLng(ff[0].latitude, ff[0].longitude),
+        ));
+      }
 
       Navigator.push(
         context,
@@ -746,54 +789,6 @@ class MapSampleState extends State<MapSample> {
       }, onError: (error) {
         print("Error! " + error.toString());
       });
-    }
-  }
-
-  affichageNewParcoursInMap(List<List<LatLng>> listNewParcour) {
-    for (var ff in listNewParcour) {
-      listPolylinePrivate
-          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
-      listPolylinePublic
-          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
-      listPolylineProtected
-          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
-
-      listMarkerPrivate.add(setMarker(
-        MarkerId(
-          ff.first.latitude.toString(),
-        ),
-        InfoWindow(
-          title: "New Traject",
-          snippet:
-              "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
-        ),
-        pinNewParcour,
-        LatLng(ff[0].latitude, ff[0].longitude),
-      ));
-      listMarkerPublic.add(setMarker(
-        MarkerId(
-          ff.first.latitude.toString(),
-        ),
-        InfoWindow(
-          title: "New Traject",
-          snippet:
-              "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
-        ),
-        pinNewParcour,
-        LatLng(ff[0].latitude, ff[0].longitude),
-      ));
-      listMarkerProtected.add(setMarker(
-        MarkerId(
-          ff.first.latitude.toString(),
-        ),
-        InfoWindow(
-          title: "Nouveau trajet",
-          snippet:
-              "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
-        ),
-        pinNewParcour,
-        LatLng(ff[0].latitude, ff[0].longitude),
-      ));
     }
   }
 
