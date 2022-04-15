@@ -16,8 +16,8 @@ import 'package:google_fonts/google_fonts.dart';
 
 import 'Parcour.dart';
 
-Set<Polyline> lines2 = {};
-Set<Marker> points2 = {};
+Set<Polyline> lines = {};
+Set<Marker> points = {};
 List<LatLng> positions = [];
 BitmapDescriptor pinNewParcour;
 
@@ -33,12 +33,12 @@ class CourseDetails extends StatefulWidget {
 class _CourseDetailsState extends State<CourseDetails> {
   @override
   void initState() {
-    getListPositions();
-    setNewMapPin();
+    getDataFromUrl();
+    setPreviewMarkerAsset();
     super.initState();
   }
 
-  setNewMapPin() async {
+  setPreviewMarkerAsset() async {
     pinNewParcour = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(devicePixelRatio: 30.0),
         "assets/images/markerNew.png");
@@ -95,8 +95,8 @@ class _CourseDetailsState extends State<CourseDetails> {
                             target: LatLng(
                                 data["startPoint"][0], data["startPoint"][1]),
                             zoom: 10),
-                        markers: points2,
-                        polylines: lines2,
+                        markers: points,
+                        polylines: lines,
                         onMapCreated: (GoogleMapController controller) {
                           _controller.complete(controller);
                         },
@@ -470,7 +470,8 @@ class _CourseDetailsState extends State<CourseDetails> {
     );
   }
 
-  getListPositions() async {
+  //getter pour récupérer la liste de coordonnée du trajet
+  getDataFromUrl() async {
     positions.clear();
     String url = widget.data['address'];
     var response = await http.get(Uri.parse(url));
@@ -483,15 +484,20 @@ class _CourseDetailsState extends State<CourseDetails> {
         positions.add(LatLng(lat, lng));
       }
     }
+    printParcourOnPreview();
+  }
+
+//affichage du tracé sur la preview
+  printParcourOnPreview() {
     setState(() {
-      lines2.clear();
-      lines2.add(setPolyline(
+      lines.clear();
+      lines.add(setPolyline(
         widget.data["title"],
         positions,
         Color.fromARGB(255, 55, 55, 55),
       ));
-      points2.clear();
-      points2.add(
+      points.clear();
+      points.add(
         setMarker(
           MarkerId(widget.data['title']),
           InfoWindow(

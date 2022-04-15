@@ -35,6 +35,7 @@ class _AddParcour extends State<AddParcour> {
   TextEditingController descriptionController;
   AddParcours parcours = AddParcours();
   bool protected = false;
+
   final Stream<QuerySnapshot> _usersStream = FirebaseFirestore.instance
       .collection('users')
       .where('friends', arrayContains: currentUser.user.uid)
@@ -44,10 +45,13 @@ class _AddParcour extends State<AddParcour> {
   void initState() {
     titleController = TextEditingController();
     descriptionController = TextEditingController();
+
+    //affichage parcours sur preview
     lines.add(
       setPolyline("polID", parcourCreat, Color.fromARGB(255, 53, 53, 53)),
     );
 
+    //affichage marker sur preview
     points.add(
       setMarker(
         MarkerId(
@@ -73,6 +77,7 @@ class _AddParcour extends State<AddParcour> {
 
   @override
   Widget build(BuildContext context) {
+    //calcul et mise a jour de la distance du parcour
     setState(() {
       parcours.distance = calculDistance(widget.dataLocation);
     });
@@ -359,6 +364,7 @@ class _AddParcour extends State<AddParcour> {
               ),
               Container(
                 padding: EdgeInsetsDirectional.fromSTEB(28, 35, 0, 20),
+                //3 état du bt : private / protected / public
                 child: FlutterFlowChoiceChips(
                   initiallySelected: ["Privé"],
                   options: [
@@ -614,7 +620,6 @@ class _AddParcour extends State<AddParcour> {
                           type = "Private";
                           break;
                       }
-                      print(type);
                       parcours.temps = formatTime(bouuuuu);
                       parcours.vitesse = (parcours.distance / bouuuuu) * 3.6e+6;
                       parcours.denivele.add(calculEle(widget.dataElevation)[0]);

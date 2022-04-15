@@ -46,6 +46,7 @@ class MapSampleState extends State<MapSample> {
   DatabaseService database = DatabaseService();
   BitmapDescriptor pinNewParcour;
 
+  //timer pour l'enregistrement d'un parcour
   void _startTimer() async {
     if (!timerRunning) {
       timerRunning = true;
@@ -59,6 +60,7 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
+  //----
   void _incrementCounter() {
     setState(() {
       _counter++;
@@ -84,6 +86,7 @@ class MapSampleState extends State<MapSample> {
     super.initState();
   }
 
+  //ajout asset marker nouveau trajet
   setNewMapPin() async {
     pinNewParcour = await BitmapDescriptor.fromAssetImage(
         ImageConfiguration(devicePixelRatio: 30.0),
@@ -484,6 +487,7 @@ class MapSampleState extends State<MapSample> {
         ));
   }
 
+  //affichage parcours "private"
   void affichagePrivate() {
     if (lines.isNotEmpty) {
       lines.clear();
@@ -491,18 +495,18 @@ class MapSampleState extends State<MapSample> {
     }
 
     setState(() {
-      print(urls_Private.length);
       for (var item in listPolylinePrivate) {
         lines.add(item);
         print(item);
       }
-      print("${lines.length} --------------------");
+
       for (var item2 in listMarkerPrivate) {
         points.add(item2);
       }
     });
   }
 
+  //affichage parcours "protected"
   void affichageProtected() {
     if (lines.isNotEmpty) {
       lines.clear();
@@ -510,17 +514,17 @@ class MapSampleState extends State<MapSample> {
     }
 
     setState(() {
-      print(urls_Protected.length);
       for (var item in listPolylineProtected) {
         lines.add(item);
       }
-      print("${lines.length} --------------------");
+
       for (var item2 in listMarkerProtected) {
         points.add(item2);
       }
     });
   }
 
+  //affichage parcours "protected"
   void affichagePublic() {
     if (lines.isNotEmpty) {
       lines.clear();
@@ -528,11 +532,9 @@ class MapSampleState extends State<MapSample> {
     }
 
     setState(() {
-      print(urls_Public.length);
       for (var item in listPolylinePublic) {
         lines.add(item);
       }
-      print("${lines.length} --------------------");
       for (var item2 in listMarkerPublic) {
         points.add(item2);
       }
@@ -669,105 +671,68 @@ class MapSampleState extends State<MapSample> {
     }
   }
 
-  List<List<Trkpt>> albert = [];
+  List<List<Trkpt>> stackAllNewTraject = [];
 
+  //récupération de la géolocalisation du téléphone
   void getCoordoFromPos() async {
     if (isRec == false) {
-      _locationForRecord.cancel();
-
-      Parcour jean = new Parcour(
-        new Gpx(
-          new Trk(
-            "alain",
-            !activitie ? "Velo" : "Moto",
-            new Trkseg(albert.last),
-          ),
-        ),
-      );
-      String erve = jsonEncode(jean.toJson());
-      validateCoordo(erve);
+      //fin de la courses
+      setNewParcour();
     } else {
-      List<Trkpt> maurice = [];
+      //enregistrement liste de  Trkpt
+      List<Trkpt> newTraject = [];
       parcourCreat.clear();
       elevationCreat.clear();
       _locationForRecord =
           _locationTracker.onLocationChanged.listen((newLocalData) {
         parcourCreat.add(LatLng(newLocalData.latitude, newLocalData.longitude));
         elevationCreat.add(newLocalData.altitude);
-        Trkpt paul = new Trkpt(
+        Trkpt coordonee = new Trkpt(
             newLocalData.latitude.toString(),
             newLocalData.longitude.toString(),
             newLocalData.altitude.toString());
-        maurice.add(paul);
+        newTraject.add(coordonee);
       });
-      albert.add(maurice);
+      stackAllNewTraject.add(newTraject);
     }
   }
 
-  void validateCoordo(String erve) async {
-    try {
-      List<List<LatLng>> heheh = [];
+  setNewParcour() {
+    _locationForRecord.cancel();
+    Parcour newObjectParcour = new Parcour(
+      new Gpx(
+        new Trk(
+          "nouveau trajet",
+          !activitie ? "Velo" : "Moto",
+          new Trkseg(stackAllNewTraject.last),
+        ),
+      ),
+    );
+    String jsonNewObjectParcour = jsonEncode(newObjectParcour.toJson());
+    validateCoordo(jsonNewObjectParcour);
+  }
 
-      for (var item in albert) {
+//ATTENTION VERIFIER QUE LE TRY CATCH FONCTIONNNE ENCORE
+//affichage nouveau parcours dans la maps et redirection vers la page de creation parcours
+  void validateCoordo(String jsonNewObjectParcour) async {
+    try {
+      List<List<LatLng>> listNewParcour = [];
+
+      for (var item in stackAllNewTraject) {
         List<LatLng> save = [];
         for (var i = 0; i < item.length; i++) {
           save.add(
               LatLng(double.parse(item[i].lat), double.parse(item[i].lon)));
         }
-        heheh.add(save);
+        listNewParcour.add(save);
       }
-
-      for (var ff in heheh) {
-        listPolylinePrivate
-            .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
-        listPolylinePublic
-            .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
-        listPolylineProtected
-            .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
-
-        listMarkerPrivate.add(setMarker(
-          MarkerId(
-            ff.first.latitude.toString(),
-          ),
-          InfoWindow(
-            title: "New Traject",
-            snippet:
-                "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
-          ),
-          pinNewParcour,
-          LatLng(ff[0].latitude, ff[0].longitude),
-        ));
-        listMarkerPublic.add(setMarker(
-          MarkerId(
-            ff.first.latitude.toString(),
-          ),
-          InfoWindow(
-            title: "New Traject",
-            snippet:
-                "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
-          ),
-          pinNewParcour,
-          LatLng(ff[0].latitude, ff[0].longitude),
-        ));
-        listMarkerProtected.add(setMarker(
-          MarkerId(
-            ff.first.latitude.toString(),
-          ),
-          InfoWindow(
-            title: "Nouveau trajet",
-            snippet:
-                "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
-          ),
-          pinNewParcour,
-          LatLng(ff[0].latitude, ff[0].longitude),
-        ));
-      }
+      affichageNewParcoursInMap(listNewParcour);
 
       Navigator.push(
         context,
         MaterialPageRoute(
             builder: (context) => AddParcour(
-                  jsonData: erve,
+                  jsonData: jsonNewObjectParcour,
                   dataLocation: parcourCreat,
                   dataElevation: elevationCreat,
                 )),
@@ -797,6 +762,54 @@ class MapSampleState extends State<MapSample> {
       }, onError: (error) {
         print("Error! " + error.toString());
       });
+    }
+  }
+
+  affichageNewParcoursInMap(List<List<LatLng>> listNewParcour) {
+    for (var ff in listNewParcour) {
+      listPolylinePrivate
+          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+      listPolylinePublic
+          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+      listPolylineProtected
+          .add(setPolyline(ff.first.latitude.toString(), ff, Colors.black));
+
+      listMarkerPrivate.add(setMarker(
+        MarkerId(
+          ff.first.latitude.toString(),
+        ),
+        InfoWindow(
+          title: "New Traject",
+          snippet:
+              "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+        ),
+        pinNewParcour,
+        LatLng(ff[0].latitude, ff[0].longitude),
+      ));
+      listMarkerPublic.add(setMarker(
+        MarkerId(
+          ff.first.latitude.toString(),
+        ),
+        InfoWindow(
+          title: "New Traject",
+          snippet:
+              "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+        ),
+        pinNewParcour,
+        LatLng(ff[0].latitude, ff[0].longitude),
+      ));
+      listMarkerProtected.add(setMarker(
+        MarkerId(
+          ff.first.latitude.toString(),
+        ),
+        InfoWindow(
+          title: "Nouveau trajet",
+          snippet:
+              "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+        ),
+        pinNewParcour,
+        LatLng(ff[0].latitude, ff[0].longitude),
+      ));
     }
   }
 
