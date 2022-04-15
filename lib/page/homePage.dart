@@ -708,8 +708,11 @@ class MapSampleState extends State<MapSample> {
       for (var item in albert) {
         List<LatLng> save = [];
         for (var i = 0; i < item.length; i++) {
-          save.add(
-              LatLng(double.parse(item[i].lat), double.parse(item[i].lon)));
+          if (!double.parse(item[i].lat).isNaN ||
+              !double.parse(item[i].lon).isNaN) {
+            save.add(
+                LatLng(double.parse(item[i].lat), double.parse(item[i].lon)));
+          }
         }
         heheh.add(save);
       }
