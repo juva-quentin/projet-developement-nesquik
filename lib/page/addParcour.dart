@@ -1,4 +1,3 @@
-// ignore_for_file: deprecated_member_use
 import '../flutter_flow/flutter_flow_choice_chips.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
@@ -12,8 +11,6 @@ import 'package:projet_developement_nesquik/backend/Parcours.dart';
 import 'package:projet_developement_nesquik/backend/database.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import '../backend/loader.dart';
-import '../flutter_flow/flutter_flow_choice_chips.dart';
-import '../flutter_flow/flutter_flow_theme.dart';
 
 class AddParcour extends StatefulWidget {
   AddParcour({Key key, this.dataLocation, this.dataElevation, this.jsonData})
@@ -217,7 +214,7 @@ class _AddParcour extends State<AddParcour> {
                                     )),
                                 SizedBox(height: 3),
                                 Text(
-                                  formatTime(bouuuuu),
+                                  formatTime(chrono),
                                   style: GoogleFonts.inter(
                                     textStyle: TextStyle(
                                         letterSpacing: .5,
@@ -345,7 +342,7 @@ class _AddParcour extends State<AddParcour> {
                                     )),
                                 SizedBox(height: 3),
                                 Text(
-                                  "${((parcours.distance / bouuuuu) * 3.6e+6).toStringAsFixed(2)} Km/h",
+                                  "${((parcours.distance / chrono) * 3.6e+6).toStringAsFixed(2)} Km/h",
                                   style: GoogleFonts.inter(
                                     textStyle: TextStyle(
                                         letterSpacing: .5,
@@ -620,8 +617,9 @@ class _AddParcour extends State<AddParcour> {
                           type = "Private";
                           break;
                       }
-                      parcours.temps = formatTime(bouuuuu);
-                      parcours.vitesse = (parcours.distance / bouuuuu) * 3.6e+6;
+                      print(type);
+                      parcours.temps = formatTime(chrono);
+                      parcours.vitesse = (parcours.distance / chrono) * 3.6e+6;
                       parcours.denivele.add(calculEle(widget.dataElevation)[0]);
                       parcours.denivele.add(calculEle(widget.dataElevation)[1]);
                       parcours.date = DateFormat.yMMMEd('fr')
@@ -634,8 +632,6 @@ class _AddParcour extends State<AddParcour> {
                       DatabaseService database = DatabaseService();
                       database.UploadToStorage("parcours${type}",
                           parcours.title, widget.jsonData, parcours, context);
-
-                      // Retourne true si le formulaire est valide, sinon false}
                     }
                   },
                   text: 'Enregistrer',
