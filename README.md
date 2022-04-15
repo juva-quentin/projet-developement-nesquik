@@ -2,7 +2,7 @@
 
 Bienvenue sur le github de notre projet de développement.
 
-Notre projet est une application codé en flutter. Elle permet de générer des parcours fait en vélo ou à moto, puis de les publier sous plu(public/)
+Notre projet est une application codé en flutter. Elle permet de générer des parcours fait en vélo ou à moto, puis de les partager sous différentes portés (public/protégé/privé). Il est possible de pouvoir ajouter et supprimer des amis. Vous pouvez consulter les details de vos parcours passé. A tout moment dans vos paramètres vous pouvez modifier votre pseudo/mot de passe/email/et objectif. En effet un objectif hebdomadaire est present pour chaque utilisateur et un classement est établie en fonction de l'utilisateur qui à parcouru le plus de km dans la semaine.
 
 ### IMPORTANT:
 
