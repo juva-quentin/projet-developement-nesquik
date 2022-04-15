@@ -95,7 +95,7 @@ class ForgotPassword extends StatelessWidget {
                   ),
                 ),
                 FlatButton(
-                  child: Text('Sign In',
+                  child: Text('Se connecter',
                       style: TextStyle(
                         color: Color.fromARGB(255, 85, 85, 85),
                       )),
