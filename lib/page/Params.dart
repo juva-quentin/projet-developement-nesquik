@@ -50,7 +50,6 @@ class _UserInformationState extends State<UserInformation> {
     super.initState();
   }
 
-  @override
   Widget buildTextField(String labelText, String placeholder,
       bool isPasswordTextField, TextEditingController controller) {
     return Padding(

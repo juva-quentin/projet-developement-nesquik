@@ -1,18 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
 import 'package:projet_developement_nesquik/backend/database.dart';
 import 'package:projet_developement_nesquik/page/map.dart';
 import 'package:http/http.dart' as http;
-
 import '../flutter_flow/flutter_flow_theme.dart';
-import '../flutter_flow/flutter_flow_util.dart' as fltflow;
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import 'Parcour.dart';
 

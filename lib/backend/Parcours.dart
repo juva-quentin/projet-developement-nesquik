@@ -1,6 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:intl/intl.dart';
-
 //Class parcours pour l'envois et la reception avec firebase
 class Parcours {
   String owner = "";

@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projet_developement_nesquik/auth/firebase_user_provider.dart';
 import 'package:projet_developement_nesquik/backend/loader.dart';
 import 'package:projet_developement_nesquik/backend/database.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
