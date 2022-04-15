@@ -7,6 +7,10 @@
 .DS_Store
 .atom/
 .buildlog/
+<<<<<<< HEAD
+=======
+pubspec.lock
+>>>>>>> 8a932a4b24db431d642d34c44f3e82fc1bd33bfb
 .history
 .svn/
 
@@ -34,7 +38,10 @@
 /dev/docs/doc/
 /dev/docs/flutter.docs.zip
 /dev/docs/lib/
+<<<<<<< HEAD
 /dev/docs/pubspec.yaml
+=======
+>>>>>>> 8a932a4b24db431d642d34c44f3e82fc1bd33bfb
 /dev/integration_tests/**/xcuserdata
 /dev/integration_tests/**/Pods
 /packages/flutter/coverage/
@@ -117,3 +124,4 @@ app.*.symbols
 !**/ios/**/default.perspectivev3
 !/packages/flutter_tools/test/data/dart_dependencies_test/**/.packages
 !/dev/ci/**/Gemfile.lock
+

@@ -1,15 +1,16 @@
 {
   "project_info": {
     "project_number": "344615134676",
+    "firebase_url": "https://projet-dev-neskique-default-rtdb.europe-west1.firebasedatabase.app",
     "project_id": "projet-dev-neskique",
     "storage_bucket": "projet-dev-neskique.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:344615134676:android:b7e103811b8e7b78652241",
+        "mobilesdk_app_id": "1:344615134676:android:7e14db766193519d652241",
         "android_client_info": {
-          "package_name": "com.nesquik.com.projet_developement_nesquik"
+          "package_name": "com.nesquik.projet_developement_nesquik"
         }
       },
       "oauth_client": [
@@ -31,10 +32,10 @@
               "client_type": 3
             },
             {
-              "client_id": "344615134676-57llaok21bi8sj1hpnsklp4m18ampd5j.apps.googleusercontent.com",
+              "client_id": "344615134676-000led2ehrsomqld6q8td1c9vnnk9f1h.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.example.flutterApplication1"
+                "bundle_id": "com.nesquik.com.projetDevelopementNesquik"
               }
             }
           ]
