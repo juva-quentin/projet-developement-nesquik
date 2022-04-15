@@ -76,7 +76,15 @@ class _AddParcour extends State<AddParcour> {
   Widget build(BuildContext context) {
     //calcul et mise a jour de la distance du parcour
     setState(() {
-      parcours.distance = calculDistance(widget.dataLocation);
+      if (calculDistance(widget.dataLocation).isNaN) {
+        parcours.distance = 0.0;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Une erreure est survenue')),
+        );
+      }
+      {
+        parcours.distance = calculDistance(widget.dataLocation);
+      }
     });
     return Scaffold(
       key: scaffoldKey,
@@ -616,7 +624,12 @@ class _AddParcour extends State<AddParcour> {
                       }
                       print(type);
                       parcours.temps = formatTime(chrono);
-                      parcours.vitesse = (parcours.distance / chrono) * 3.6e+6;
+                      if (((parcours.distance / chrono) * 3.6e+6).isNaN) {
+                        parcours.vitesse = 0.0;
+                      } else {
+                        parcours.vitesse =
+                            (parcours.distance / chrono) * 3.6e+6;
+                      }
                       parcours.denivele.add(calculEle(widget.dataElevation)[0]);
                       parcours.denivele.add(calculEle(widget.dataElevation)[1]);
                       parcours.date = DateFormat.yMMMEd('fr')

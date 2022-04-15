@@ -330,7 +330,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     Padding(
                       padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                       child: Text(
-                        "${data['denivele'][0].toString()}m",
+                        "${data['denivele'][0].toStringAsFixed(2)}m",
                         textAlign: TextAlign.start,
                         style: FlutterFlowTheme.of(context).subtitle1.override(
                               fontFamily: 'Lexend Deca',
@@ -349,7 +349,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Dénivelé Positif',
+                        'Dénivelé Négatif',
                         style: FlutterFlowTheme.of(context).bodyText2.override(
                               fontFamily: 'Lexend Deca',
                               color: Color(0xFF8B97A2),
@@ -360,7 +360,7 @@ class _CourseDetailsState extends State<CourseDetails> {
                       Padding(
                         padding: EdgeInsetsDirectional.fromSTEB(0, 4, 0, 0),
                         child: Text(
-                          "${data['denivele'][1].toString()}m",
+                          "${data['denivele'][1].toStringAsFixed(2)}m",
                           textAlign: TextAlign.start,
                           style:
                               FlutterFlowTheme.of(context).subtitle1.override(

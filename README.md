@@ -1,10 +1,8 @@
 # Projet Dev
 
-A new Flutter project.
+Bienvenue sur le github de notre projet de développement.
 
-## Getting Started
-
-FlutterFlow projects are built to run on the Flutter _stable_ release.
+Notre projet est une application codé en flutter. Elle permet de générer des parcours fait en vélo ou à moto, puis de les publier sous plu(public/)
 
 ### IMPORTANT:
 
