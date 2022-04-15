@@ -1,11 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
-import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as google;
 import 'package:page_transition/page_transition.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:location/location.dart';
 import 'package:projet_developement_nesquik/backend/database.dart';
 import 'package:projet_developement_nesquik/page/Community.dart';
@@ -55,7 +52,7 @@ class MapSampleState extends State<MapSample> {
       });
     } else {
       print("startTimer $stopwatch");
-      bouuuuu = stopwatch;
+      chrono = stopwatch;
       timer.cancel();
     }
   }

@@ -9,6 +9,7 @@ import 'package:projet_developement_nesquik/backend/Parcours.dart';
 import 'package:projet_developement_nesquik/model/user.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 
+//Classe avec les fonctions principales firebase
 class DatabaseService {
   final storageRef = FirebaseStorage.instance.ref();
   UploadToStorage(String ref, String name, String data, AddParcours parcours,
@@ -43,6 +44,7 @@ class DatabaseService {
     });
   }
 
+//ajout de l'objet parcours à firebase
   UploadParcours(
       Reference ref, AddParcours parcours, BuildContext context) async {
     print("debug1");
@@ -71,6 +73,7 @@ class DatabaseService {
     }).catchError((error) => print("Failed to add user: $error"));
   }
 
+//Mais a jours l'objectif de la semaine
   UpdateObjectif([double distance]) async {
     await FirebaseFirestore.instance
         .collection('users')
@@ -97,6 +100,7 @@ class DatabaseService {
     });
   }
 
+//Vérifie si on est en fin de semaine ou au debut
   Verifday(bool reset) async {
     if (reset == false && nbrDays() > 0) {
       await FirebaseFirestore.instance
@@ -120,6 +124,7 @@ class DatabaseService {
     }
   }
 
+//Ajout un id dans la section friends d'un utilisateur
   AddFriend(String uid) async {
     await FirebaseFirestore.instance
         .collection("users")
@@ -136,6 +141,7 @@ class DatabaseService {
     });
   }
 
+//Enlève un id dans la section friends d'un utilisateur
   RemoveFriend(String uid) async {
     await FirebaseFirestore.instance
         .collection("users")
@@ -152,6 +158,7 @@ class DatabaseService {
     });
   }
 
+//Met à jours les données de l'utilisateur
   UpdateProfile(String pseudo, String email, String objectif,
       BuildContext context) async {
     await FirebaseFirestore.instance
@@ -174,6 +181,7 @@ class DatabaseService {
     });
   }
 
+//Mais à jour l'email
   Future<void> changeEmail(
     String newEmail,
   ) async {
@@ -205,6 +213,7 @@ class DatabaseService {
     }
   }
 
+//Supprime l'utilisateur coter DataBase
   DeleteUser(BuildContext context) async {
     await FirebaseFirestore.instance
         .collection("users")
@@ -217,6 +226,7 @@ class DatabaseService {
     });
   }
 
+//Détecte les amis de l'utilisateur
   DetectUserInFriendsList() async {
     final storageRef = FirebaseStorage.instance.ref();
     final courses = FirebaseFirestore.instance
@@ -231,6 +241,7 @@ class DatabaseService {
     });
   }
 
+//Supprime l'id de l'utilisateur dans la friends list des autres utilisateurs
   DeleteUserInFriendsList(String id) async {
     await FirebaseFirestore.instance.collection("users").doc(id).update({
       "friends": FieldValue.arrayRemove([currentUser.user.uid])
@@ -239,6 +250,7 @@ class DatabaseService {
     });
   }
 
+//Supprime tout les parcours dans le storage firebase de l'utilsateur
   DeleteUserParcoursStorage(BuildContext context) async {
     final storageRef = FirebaseStorage.instance.ref();
     final courses = FirebaseFirestore.instance
@@ -286,10 +298,12 @@ class DatabaseService {
     }).then((_) => deleteUser(context));
   }
 
+//Supprime les pourcours coter DataBase
   DeleteUserParcoursData(String id) async {
     await FirebaseFirestore.instance.collection('parcours').doc(id).delete();
   }
 
+//Supprime un seul parcours utilisateur
   DeleteOneParcours(
       String id, BuildContext context, Map<String, dynamic> data) async {
     final storageRef = FirebaseStorage.instance.ref();
@@ -334,6 +348,7 @@ class DatabaseService {
     }
   }
 
+//Calcul le nombre de jour avant la fin de la semaine
   int nbrDays() {
     var date = DateFormat.EEEE().format(DateTime.now());
     List<String> days = [

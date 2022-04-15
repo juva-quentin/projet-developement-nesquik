@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'auth_util.dart';
 
+//Connect l'uitilisateur avec un email
 Future<User> signInWithEmail(
     BuildContext context, String email, String password) async {
   final signInFunc = () => FirebaseAuth.instance
@@ -11,6 +12,7 @@ Future<User> signInWithEmail(
   return signInOrCreateAccount(context, signInFunc);
 }
 
+//Création d'un compte utilisateur
 Future<User> createAccountWithEmail(
     BuildContext context, String email, String password) async {
   final createAccountFunc = () => FirebaseAuth.instance
@@ -19,6 +21,7 @@ Future<User> createAccountWithEmail(
   return signInOrCreateAccount(context, createAccountFunc);
 }
 
+//Ajout des données utilisateur coter DataBase
 Future<void> addNewUsertoDataBase(
     User user, String email, String pseudo, String genre) async {
   CollectionReference users = FirebaseFirestore.instance.collection('users');

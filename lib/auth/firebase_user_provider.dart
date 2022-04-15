@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:rxdart/rxdart.dart';
 
+//Class utilisateur
 class ProjetDevFirebaseUser {
   ProjetDevFirebaseUser(this.user);
   User user;

@@ -5,8 +5,8 @@ import 'firebase_user_provider.dart';
 
 export 'email_auth.dart';
 
-/// Tries to sign in or create an account using Firebase Auth.
-/// Returns the User object if sign in was successful.
+/// Essaye de connecter l'utilisateur ou de creer un compte
+/// Retour si l'utilisateur c'est bien connecté
 Future<User> signInOrCreateAccount(
     BuildContext context, Future<UserCredential> Function() signInFunc) async {
   try {
@@ -21,11 +21,13 @@ Future<User> signInOrCreateAccount(
   }
 }
 
+//Déconnecte l'utilisateur
 Future<void> signOut() async {
   _currentJwtToken = '';
   FirebaseAuth.instance.signOut();
 }
 
+//Supprime l'utilisateur connecté
 Future deleteUser(BuildContext context) async {
   try {
     if (currentUser?.user == null) {
@@ -47,6 +49,7 @@ Future deleteUser(BuildContext context) async {
   }
 }
 
+//Envoi d'un mail de réinitialisation du mot de passe
 Future resetPassword(String email, BuildContext context) async {
   try {
     await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
@@ -80,6 +83,3 @@ String get currentPhoneNumber => currentUser?.user?.phoneNumber ?? '';
 String get currentJwtToken => _currentJwtToken ?? '';
 
 bool get currentUserEmailVerified => currentUser?.user?.emailVerified ?? false;
-
-// Set when using phone verification (after phone number is provided).
-// Set when using phone sign in in web mode (ignored otherwise).
