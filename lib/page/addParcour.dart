@@ -57,7 +57,7 @@ class _AddParcour extends State<AddParcour> {
         InfoWindow(
           title: parcours.title,
           snippet:
-              "${!boxeeeeee ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
+              "${!sportType ? "Bike" : "Motorbike"} - ${calculDistance(parcourCreat).toStringAsFixed(2)} Km",
         ),
         BitmapDescriptor.defaultMarkerWithHue(240),
         LatLng(parcourCreat[0].latitude, parcourCreat[0].longitude),
@@ -535,9 +535,6 @@ class _AddParcour extends State<AddParcour> {
                                                     .remove(document.id)
                                                 : parcours.shareTo
                                                     .add(document.id);
-                                            print(parcours.shareTo
-                                                .contains(document.id));
-                                            print(parcours.shareTo);
                                           });
                                         },
                                       )

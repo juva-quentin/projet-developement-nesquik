@@ -32,8 +32,7 @@ class _Classement extends State<Classement> {
             builder:
                 (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
               if (snapshot.hasError) {
-                print(snapshot.error);
-                return Text('Something went wrong');
+                return Text('Il y a eu un problème');
               }
 
               if (snapshot.connectionState == ConnectionState.waiting) {

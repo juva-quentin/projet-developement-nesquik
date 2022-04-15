@@ -51,7 +51,6 @@ class MapSampleState extends State<MapSample> {
         stopwatch = timer.tick;
       });
     } else {
-      print("startTimer $stopwatch");
       chrono = stopwatch;
       timer.cancel();
     }
@@ -141,8 +140,6 @@ class MapSampleState extends State<MapSample> {
         child: FloatingActionButton.extended(
           heroTag: "CommunityBtn",
           onPressed: () {
-            print(listPolylinePrivate.length);
-
             Navigator.push(
                 context,
                 PageTransition(
@@ -225,16 +222,15 @@ class MapSampleState extends State<MapSample> {
                         });
                         showMyAlertDialog(context);
                       } else {
-                        print("pressBt1");
                         if (activitie == false) {
                           setState(() {
                             activitie = true;
-                            boxeeeeee = activitie;
+                            sportType = activitie;
                           });
                         } else {
                           setState(() {
                             activitie = false;
-                            boxeeeeee = activitie;
+                            sportType = activitie;
                           });
                         }
                       }
@@ -276,26 +272,20 @@ class MapSampleState extends State<MapSample> {
                       } else {
                         if (_protection == 3) {
                           affichagePublic();
-                          print("affichagePublic()");
 
                           setState(() {
                             _protection = 1;
                           });
-                          print(_protection);
                         } else if (_protection == 1) {
                           affichageProtected();
-                          print("affichageProtected()");
                           setState(() {
                             _protection = 2;
                           });
-                          print(_protection);
                         } else if (_protection == 2) {
                           affichagePrivate();
-                          print("affichagePrivate()");
                           setState(() {
                             _protection = 3;
                           });
-                          print(_protection);
                         }
                       }
                     },
@@ -424,7 +414,6 @@ class MapSampleState extends State<MapSample> {
               _startCooldownIndicator(kCooldownLong_ms);
 
               _incrementCounter();
-              print("pressGO");
               _startTimer();
               if (isRec == false) {
                 setState(() {
@@ -432,7 +421,6 @@ class MapSampleState extends State<MapSample> {
                 });
                 getCoordoFromPos();
               } else {
-                print("object");
                 setState(() {
                   isRec = false;
                 });
@@ -494,7 +482,6 @@ class MapSampleState extends State<MapSample> {
     setState(() {
       for (var item in listPolylinePrivate) {
         lines.add(item);
-        print(item);
       }
 
       for (var item2 in listMarkerPrivate) {
@@ -778,7 +765,7 @@ class MapSampleState extends State<MapSample> {
         InfoWindow(
           title: "New Traject",
           snippet:
-              "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+              "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
         ),
         pinNewParcour,
         LatLng(ff[0].latitude, ff[0].longitude),
@@ -790,7 +777,7 @@ class MapSampleState extends State<MapSample> {
         InfoWindow(
           title: "New Traject",
           snippet:
-              "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+              "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
         ),
         pinNewParcour,
         LatLng(ff[0].latitude, ff[0].longitude),
@@ -802,7 +789,7 @@ class MapSampleState extends State<MapSample> {
         InfoWindow(
           title: "Nouveau trajet",
           snippet:
-              "${!boxeeeeee ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
+              "${!sportType ? "Velo" : "Moto"} - ${calculDistance(ff).toStringAsFixed(2)} Km",
         ),
         pinNewParcour,
         LatLng(ff[0].latitude, ff[0].longitude),

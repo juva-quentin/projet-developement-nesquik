@@ -27,7 +27,7 @@ List<List<double>> listElePrivate = [];
 List<List<double>> listEleProtected = [];
 List<List<double>> listElePublic = [];
 int chrono;
-bool boxeeeeee = false;
+bool sportType = false;
 
 final courses = FirebaseFirestore.instance.collection('parcours');
 
@@ -44,7 +44,6 @@ getLinksStorageParcours() async {
   await courses.get().then((QuerySnapshot snapshot) {
     snapshot.docs.forEach((DocumentSnapshot doc) {
       var mapCourseFireBase = Map<String, dynamic>.from(doc.data());
-      print(mapCourseFireBase['type'].runtimeType);
       switch (mapCourseFireBase['type']) {
         case "public":
           {
@@ -59,14 +58,12 @@ getLinksStorageParcours() async {
                 mapCourseFireBase['vitesse'],
                 mapCourseFireBase['date']);
             urls_Public.add(parcours);
-            print(urls_Public);
             break;
           }
         case "protected":
           {
             if (mapCourseFireBase['shareTo'].contains(currentUser.user.uid) ||
                 mapCourseFireBase['owner'] == currentUser.user.uid) {
-              print("primary_text");
               Parcours parcours = new Parcours(
                   mapCourseFireBase['owner'],
                   mapCourseFireBase['title'],
@@ -78,16 +75,12 @@ getLinksStorageParcours() async {
                   mapCourseFireBase['vitesse'],
                   mapCourseFireBase['date']);
               urls_Protected.add(parcours);
-              print(urls_Public);
             }
             break;
           }
         case "private":
           {
-            print(mapCourseFireBase['owner']);
-            print(currentUser.user.uid);
             if (mapCourseFireBase['owner'] == currentUser.user.uid) {
-              print("ok2");
               Parcours parcours = new Parcours(
                   mapCourseFireBase['owner'],
                   mapCourseFireBase['title'],
@@ -99,7 +92,6 @@ getLinksStorageParcours() async {
                   mapCourseFireBase['vitesse'],
                   mapCourseFireBase['date']);
               urls_Private.add(parcours);
-              print(urls_Public);
             }
             break;
           }

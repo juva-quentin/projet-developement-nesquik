@@ -159,7 +159,6 @@ class _UserInformationState extends State<UserInformation> {
                             password = pseudoController.text;
                             objectif = objectifController.text;
                           });
-                          print("ok" + pseudo + email + password + objectif);
                           if (pseudo == "") {
                             pseudo = snapshot.data["pseudo"];
                           }

@@ -382,7 +382,6 @@ class _SignInWidgetState extends State<SignInWidget> {
                                                       child: ForgotPassword(),
                                                     ),
                                                   );
-                                                  print('Button pressed ...');
                                                 },
                                                 text: 'Mot de passe oublié',
                                                 options: FFButtonOptions(

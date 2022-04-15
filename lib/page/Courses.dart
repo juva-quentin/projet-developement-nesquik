@@ -59,7 +59,6 @@ class _CoursesState extends State<Courses> {
                           [Colors.black, Colors.white, Colors.blue],
                           Duration(seconds: 3));
                     }
-                    print(snapshot.data.docs);
                     return ListView(
                       children:
                           snapshot.data.docs.map((DocumentSnapshot document) {
