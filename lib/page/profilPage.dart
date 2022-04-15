@@ -142,11 +142,11 @@ Widget _buildNameOverlay() {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text("Something went wrong");
+          return Text("Problème réseau");
         }
 
         if (snapshot.hasData && !snapshot.data.exists) {
-          return Text("Document does not exist");
+          return Text("Le document n'existe pas");
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
@@ -221,11 +221,11 @@ Widget _buildObjectifOverlay(BuildContext context) {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasError) {
-          return Text("Something went wrong");
+          return Text("Problème réseau");
         }
 
         if (snapshot.hasData && !snapshot.data.exists) {
-          return Text("Document does not exist");
+          return Text("Le document n'exsite pas");
         }
 
         if (snapshot.connectionState == ConnectionState.done) {
