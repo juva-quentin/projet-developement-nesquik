@@ -7,7 +7,7 @@ import 'auth/firebase_user_provider.dart';
 import 'flutter_flow/flutter_flow_theme.dart';
 import 'flutter_flow/internationalization.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'onboard/onboard_widget.dart';
+import 'splashscreen/onboard_widget.dart';
 
 void main() async {
   // ErrorWidget.builder = (FlutterErrorDetails details) {

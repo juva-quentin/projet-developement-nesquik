@@ -9,7 +9,7 @@ import 'package:projet_developement_nesquik/page/Amis.dart';
 import 'package:projet_developement_nesquik/page/Classement.dart';
 import 'package:projet_developement_nesquik/page/Courses.dart';
 import 'package:projet_developement_nesquik/page/Params.dart';
-import '../home_page/home_page_widget.dart';
+import '../signin/signin_widget.dart';
 
 class ProfilOverlay extends ModalRoute<void> {
   @override
@@ -98,7 +98,7 @@ Widget _buildFinalTopOverlayContent(BuildContext context) {
                   type: PageTransitionType.bottomToTop,
                   duration: Duration(milliseconds: 300),
                   reverseDuration: Duration(milliseconds: 300),
-                  child: HomePageWidget(),
+                  child: SignInWidget(),
                 ));
           }),
     ),

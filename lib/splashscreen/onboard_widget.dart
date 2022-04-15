@@ -1,7 +1,7 @@
 import '../flutter_flow/flutter_flow_animations.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
-import '../home_page/home_page_widget.dart';
+import '../signin/signin_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -113,7 +113,7 @@ class _OnboardWidgetState extends State<OnboardWidget>
           type: PageTransitionType.bottomToTop,
           duration: Duration(milliseconds: 300),
           reverseDuration: Duration(milliseconds: 300),
-          child: HomePageWidget(),
+          child: SignInWidget(),
         ),
       );
     });

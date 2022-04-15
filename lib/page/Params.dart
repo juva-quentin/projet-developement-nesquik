@@ -5,7 +5,7 @@ import 'package:projet_developement_nesquik/auth/auth_util.dart';
 import 'package:projet_developement_nesquik/backend/database.dart';
 
 import '../auth/firebase_user_provider.dart';
-import '../home_page/home_page_widget.dart';
+import '../signin/signin_widget.dart';
 
 class Params extends StatefulWidget {
   const Params({Key key}) : super(key: key);
@@ -213,7 +213,7 @@ class _UserInformationState extends State<UserInformation> {
                                 type: PageTransitionType.bottomToTop,
                                 duration: Duration(milliseconds: 300),
                                 reverseDuration: Duration(milliseconds: 300),
-                                child: HomePageWidget(),
+                                child: SignInWidget(),
                               ));
                         },
                         style: ElevatedButton.styleFrom(

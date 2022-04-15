@@ -7,14 +7,14 @@ import '../signup/signup_widget.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
-class HomePageWidget extends StatefulWidget {
-  const HomePageWidget({Key key}) : super(key: key);
+class SignInWidget extends StatefulWidget {
+  const SignInWidget({Key key}) : super(key: key);
 
   @override
-  _HomePageWidgetState createState() => _HomePageWidgetState();
+  _SignInWidgetState createState() => _SignInWidgetState();
 }
 
-class _HomePageWidgetState extends State<HomePageWidget> {
+class _SignInWidgetState extends State<SignInWidget> {
   TextEditingController emailAddressController;
   TextEditingController passwordController;
   bool passwordVisibility;

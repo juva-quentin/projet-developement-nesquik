@@ -3,7 +3,7 @@ import '../flutter_flow/flutter_flow_choice_chips.dart';
 import '../flutter_flow/flutter_flow_theme.dart';
 import '../flutter_flow/flutter_flow_util.dart';
 import '../flutter_flow/flutter_flow_widgets.dart';
-import '../home_page/home_page_widget.dart';
+import '../signin/signin_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -584,7 +584,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                 Duration(milliseconds: 300),
                                             reverseDuration:
                                                 Duration(milliseconds: 300),
-                                            child: HomePageWidget(),
+                                            child: SignInWidget(),
                                           ),
                                         );
                                       },
@@ -634,7 +634,7 @@ class _SignupWidgetState extends State<SignupWidget> {
                                                   Duration(milliseconds: 300),
                                               reverseDuration:
                                                   Duration(milliseconds: 300),
-                                              child: HomePageWidget(),
+                                              child: SignInWidget(),
                                             ),
                                           );
                                         },
