@@ -44,6 +44,6 @@ flutter run
 ```
 Dans le terminal de votre projet
 
-## Droit
+## DROIT
 
 Aucune modification et réappropriation de l'application n'est autorisé sans l'accord des créateurs
